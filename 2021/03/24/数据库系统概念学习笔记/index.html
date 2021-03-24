@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="数据库系统概念——中文第六版学习笔记引言 数据库管理系统由一个互相关联的数据的集合和一组用以访问这些数据的程序组成。 文件处理系统中存储组织信息的主要弊端包括：  数据的冗余和不一致（data redundancy and inconsistency） 数据访问困难（data access） 数据孤立（data isolation） 完整性问题（integrity），存储的数据值必须满足某些特定的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="数据库系统概念——中文第六版学习笔记引言 数据库管理系统由一个互相关联的数据的集合和一组用以访问这些数据的程序组成。 文件处理系统中存储组织信息的主要弊端包括：  数据的冗余和不一致（data redundancy and inconsistency） 数据访问困难（data access） 数据孤立（data isolation） 完整性问题（integrity），存储的数据值必须满足某些特定的">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.668Z">
+<meta property="article:modified_time" content="2020-10-17T02:27:05.373Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据库系统概念学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.668Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库系统概念——中文第六版学习笔记"><a href="#数据库系统概念——中文第六版学习笔记" class="headerlink" title="数据库系统概念——中文第六版学习笔记"></a>数据库系统概念——中文第六版学习笔记</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p> 数据库管理系统由一个互相关联的数据的集合和一组用以访问这些数据的程序组成。</p>
+<p>文件处理系统中存储组织信息的主要弊端包括：</p>
+<ol>
+<li>数据的冗余和不一致（data redundancy and inconsistency）</li>
+<li>数据访问困难（data access）</li>
+<li>数据孤立（data isolation）</li>
+<li>完整性问题（integrity），存储的数据值必须满足某些特定的一致性约束（consistency constraint）。</li>
+<li>原子性问题（atomicity）</li>
+<li>并发访问异常</li>
+<li>安全性问题 </li>
+</ol>
+<p>数据库系统进行了以下几个层次上的抽象：</p>
+<ol>
+<li>物理层：描述数据的结构和存储方式。</li>
+<li>逻辑层：描述数据库中的数据及数据间的关系。</li>
+<li>视图层：描述数据库的某个部分。</li>
+</ol>
+<p>一个数据库系统具有一个物理层，一个逻辑层，若干个视图层。</p>
+<p>特定时刻存储在数据库中的信息的集合称作为数据库的一个实例（instance），数据库的总体设计称作数据库模式（schema）。</p>
+<p>数据模型是一个描述数据、数据联系、数据语义以及一致性约束的概念工具的集合体，可以分为四类：</p>
+<ol>
+<li>关系模型。关系模型用表的集合来表示数据和数据间的联系，是基于记录的模型的一种。数据库是由若干种固定格式的记录来构成，每个表包含某种特定类型的记录，每个记录类型定义了固定数目的字段（属性），表的列对应于记录类型的属性。</li>
+<li>实体-联系模型（Entity-Relationship model，E-R）。</li>
+<li>基于对象的数据模型</li>
+<li>半结构化数据模型</li>
+</ol>
+<p>数据库定义语言DDL来定义数据库模式，数据操纵语言DML来表达数据库的查询和更新。</p>
+<p>存储在数据库中的数据值必须满足某些一致性约束：</p>
+<ol>
+<li>域约束（domain constraint)。每个属性都必须对应于一个所有可能的取值构成的域，例如整数、字符型、日期/时间型。</li>
+<li>参照完整性(referential integrity)。一个关系中给定属性集上的取值需要在另一关系的某一属性集的取值中出现。</li>
+<li>断言(assertion)。断言是指数据库需要时刻满足的某一条件，域约束和参照完整性约束是断言的一种。</li>
+<li>授权(authorization)。确定不同用户在数据库中的不同数据值上允许的不同访问类型，包括读、插入、更新、删除。</li>
+</ol>
+<h2 id="关系模型"><a href="#关系模型" class="headerlink" title="关系模型"></a>关系模型</h2><p>关系数据库由表(Table)的集合构成，表中的一行代表了一组值之间的一种联系。数学术语中元组(tuple)是一组值的序列，n元组是具有n个值得元组，对应于表中得一行。</p>
+<p>在关系模型中，关系(relation)用来指代表，元组指代表中的行，属性(attribute)指代表中的列。</p>
+<p>关系的每个属性都存在一个允许取值的集合，称为该属性的域(domain)。如果域中的元素被看作是不可再分的单元，则域是原子的(atomic)。</p>
+<p>一个关系中没有两个元组在所有属性上地取值都相同。</p>
+<p>超码(superkey)是一个或多个属性的集合，这些属性的集合可以在一个关系中唯一地标识一个元组。一个超码地任意超集也是超码，包含最小数量属性的超码称为候选码(candidate key)，即候选码的任意真子集都不能成为超码。</p>
+<p>主码(primary key)表示被数据库设计者选中的，用来在一个关系中区分不同元组的候选码。</p>
+<p>一个关系模式r<del>1</del>可能在它的属性中包括另一个关系模式r<del>2</del>的主码，这个属性在r<del>1</del>上被称作参照r<del>2</del>的外码(foreign key)，关系r<del>1</del>被成为外码以来的参照关系，r<del>2</del>称作外码的被参照关系。</p>
+<p>关系代数：</p>
+<ol>
+<li>选择：返回输出关系中满足条件的行。</li>
+<li>投影：对输入关系的所有行输出指定的属性，并去除重复元组。</li>
+<li>自然连接：从两个输入关系中输出在具有相同名字的所有属性（共同属性）上取值相同的元组对。</li>
+<li>笛卡尔积：从两个输入关系中输出所有元组对，无论它们在共同属性上的取值是否相同。</li>
+<li>并：输出两个输入关系中元组的并。</li>
+</ol>
+<h2 id="SQL语言"><a href="#SQL语言" class="headerlink" title="SQL语言"></a>SQL语言</h2><p>SQL包括以下几个部分：</p>
+<ol>
+<li>数据定义语言：提供定义关系模式、删除关系、修改关系模式的命令</li>
+<li>数据操纵语言：提供从数据库中查询、删除、插入、更新元组的命令。</li>
+<li>完整性：DDL包括定义完整性约束的命令，插入或更新的数据不允许破坏完整性约束。</li>
+<li>视图定义</li>
+<li>事务控制</li>
+<li>嵌入式SQL和动态SQL</li>
+<li>授权</li>
+</ol>
+<p>SQL的DDL功能：</p>
+<ol>
+<li>定义一组关系</li>
+<li>每个关系的模式</li>
+<li>每个属性的取值类型</li>
+<li>完整性约束</li>
+<li>每个关系维护的索引集合</li>
+<li>每个关系的安全性和权限信息</li>
+<li>每个关系在磁盘上的物理存储结构</li>
+</ol>
+<p>SQL支持的固有数据类型：</p>
+<ol>
+<li>char(n)：长度为n的固定长度的字符串</li>
+<li>varchar(n)：最大长度为n的可变长度的字符串。</li>
+<li>int：整数类型</li>
+<li>smallint：小整数类型。</li>
+<li>numeric(p,d)：定点数，共有p位数字（加上符号位），其中d位在在小数点右边。</li>
+<li>real,double precision：浮点数与双精度浮点数。</li>
+<li>float：精度至少为 n位的浮点数。</li>
+</ol>
+<p>定义SQL关系：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> r</span><br><span class="line">	(A1 D1,</span><br><span class="line">   A2 D2,</span><br><span class="line">   ...,</span><br><span class="line">   <span class="operator">&lt;</span>完整性约束<span class="number">1</span><span class="operator">&gt;</span>，</span><br><span class="line">   <span class="operator">&lt;</span>完整性约束<span class="number">2</span><span class="operator">&gt;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>其中r为关系名，每个A是关系r模式中的一个属性名，D是属性A的域，即D指定了A的类型以及可选的约束。</p>
+<p>完整性约束包括以下几个：</p>
+<ol>
+<li>primary key(A1, A2, …, An)：表示属性A1、A2、…、An构成关系的主码，主码属性必须非空且唯一。</li>
+<li>foreign key(A1, A2, …, An) references S：表示关系中任意元组在属性A1、A2、…、An上的取值必须对应于关系S中某元组在主码属性上的取值。</li>
+<li>not null：表示该属性上不允许空值。</li>
+</ol>
+<p>使用<code>drop table r</code>从数据库中删除一个关系r。</p>
+<p>使用<code>delete from r</code>删除关系r中的所有元组。</p>
+<p>使用<code>alter table r</code>更改已有关系的属性。</p>
+<p>SQL单关系查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> A </span><br><span class="line"><span class="keyword">from</span> r</span><br><span class="line"><span class="keyword">where</span> c</span><br></pre></td></tr></table></figure>
+
+<p><strong>select</strong>子句表示列出的查询结果中所需要的一个或多个属性。可以使用<strong>distinct</strong>删除重复元组（select distinct A），使用<strong>all</strong>保留重复元组（默认）。可以包含算术表达式。</p>
+<p><strong>from</strong>表示需要访问的一个或多个关系列表。from子句定义了一个在该子句中所列出关系上的笛卡尔积。</p>
+<p><strong>where</strong>子句表示查询的数据需要满足的条件，可以使用逻辑连词and、or和not，逻辑连词的运算对象可以包含比较运算符。该条件用于筛选from子句定义的笛卡尔积中的元组。</p>
+<p>自然连接（**r<del>1</del> natural join r<del>2</del>**）：输出两个关系模式中所有共同属性取值相同的元素对。</p>
+<p><strong>r<del>1</del> join r<del>2</del>  using （A<del>1</del>. A<del>2</del>)</strong> 输出两个关系模式中指定共同属性A<del>1</del>\A<del>2</del>上取值相同的元素对。</p>
+<p><strong>r<del>1</del> join r<del>2</del> on CONDITION</strong> 输出两个关系中满足CONDITION的元素对，on CONDITION与where CONDITION一致。</p>
+<p>左外连接（**r<del>1</del> left outer join r<del>2</del>**）：以第一个关系r<del>1</del>为主，即只保留r<del>1</del>中的元组，在第二个关系r2中找到满足条件（natural/on/ using）的元素，并把他们连接起来，如果r2没有对应的元素，则在r1相应位置上的值为null。</p>
+<p>右外连接（**r<del>1</del> right outer join r<del>2</del>**）：以第二个关系为主，在第一个关系中找到满足条件的元素，并把他们连接起来，如果没有对应的元素，则在相应位置上的值为null。</p>
+<p>全外连接（full outer join）是左外连接和右外连接的组合。</p>
+<p>更名运算<strong>as</strong>可用在select和from子句中，用于为表或属性设置别名，例如select T.salary as s from Teacher as T。</p>
+<p>不同数据库系统提供不同的字符串处理函数集。</p>
+<p>like操作符用来实现模式匹配，%用于匹配任意子串，_用于匹配任意一个字符，模式大小写敏感。使用escape定义转义字符，转义字符用于将之后的特殊字符当成普通字符。</p>
+<p>使用星号*表示所有属性。</p>
+<p>order by子句用于将查询结果中的元组按排列顺寻显示，使用desc表示降序，asc表示升序，例如order by salary desc。</p>
+<p>where子句中可以使用A between a and b表示一个值是否在[a,b]中，等价于A &gt;= a and A &lt;= b。</p>
+<p>SQL可以使用记号(a1,a2,…,an)表示一个分量值为a1,a2,…,an的n维元组，并按顺序进行比较运算，例如(a1,a2) &lt;= (b1,b2)等价于 a1 &lt;= b1 and a2&lt;=b2。</p>
+<p>使用<strong>union</strong>求两个集合的并运算，union all保留所有重复。</p>
+<p>使用<strong>intersect</strong>求两个集合的交运算，使用all保留所有重复。</p>
+<p>使用<strong>except</strong>从第一个集合中输出不出现在第二个集合中的元组，即差运算，使用all保留所有重复。</p>
+<p>聚集函数是以值得一个集合为输入，返回单个值得函数，又avg\min\max\sum\count，分别表示求平均值、最小值、最大值、总和和计数。</p>
+<p>使用distinct可以删除重复元组，例如<code>select count (distinct ID)</code>。</p>
+<p><strong>group by</strong>子句用于构造分组，该子句中得所有属性上取值相同得元组将被分在一个组中。任何出现在group by子句中的属性如果出现在select子句中的话，它只能出现在聚集函数内部，否则是错误的，即select子句中没有被聚集的属性只能是group by子句中的属性。</p>
+<p><strong>having</strong>子句中的条件用于筛选group by子句构成的分组，与select子句类似，having子句没有被聚集的属性只能是group by子句中的属性。</p>
+<p>SQL提供嵌套子查询机制，子查询是嵌套在另一个查询的where子句中的select-from-where表达式，通常用于对集合的成员资格、集合的比较以及集合的基数进行检查。</p>
+<p>连接词in用于测试元组是否是集合中的成员，集合是由select子句产生的一组值。not in则测试元组是否不是集合中的成员。</p>
+<p>集合的比较可以在where子句中使用&gt; some(slect A from r) 表示至少比关系r的属性A中的某一个值要大，&gt; all表示比所有的都大，其中比较符可以使用 &lt;、&lt;=、&gt;=、=、&lt;&gt;，some等价于any。</p>
+<p>exists用于测试一个子查询的结果中是否存在元组，非空时返回true。</p>
+<p>SQL中来自外层查询的一个相关名称可以用在子句的子查询中，使用了来自外层查询相关名称的子查询被称作相关子查询。</p>
+<p>相关名称的作用域规则类似于编程语言中的变量作用域规则，子查询只能使用本身定义的，或者包含此子查询的任何查询（父查询）中定义的相关名称，如果一个名称在子查询和父查询都有定义，则子查询中的定义有效。</p>
+<p>not exists可以模拟集合包含（即超集）操作，可以将关系A包含关系B写成<code>not exists(B except A)</code>。</p>
+<p>unique用于测试一个子查询的结果中是否存在重复元素，不存在重复元素时返回true。</p>
+<p>from子句中可以使用子查询表达式，并使用as子句为子查询的结果（包括关系和属性）命名，形如<code>as r(a1,a2,…,a3)</code>.</p>
+<p>with子句可以定义一个或多个临时关系，例如，<code>with r1(a11,a12,…,a1n) as (select a from r),r2(a21,a22,…,a2n) as (select a from r) </code>定义了r1和r2两个临时关系，分别具有属性a11,a12,…,a1n和a21,a22,…,a2n。</p>
+<p>SQL的标量子查询允许返回单个属性的单个元组的子查询出现在返回单个值的表达式能够出现的任何地方。</p>
+<p><code>delete from r where P</code>用于从r中删除满足关系P的元组，SQL只能删除整个元组，不能只删除元组某些属性的值。如果忽略where子句则删除r中的所有元组。</p>
+<p><code>insert into r values(a1,a2,…,an)</code>用于插入values中指定数值的单个元组。values中属性值的排列顺序需要和关系模式中属性排列顺序一致，可以在关系r后面指定属性顺序，类似于python中的参数传递，<code>insert into r(A1,A2,…,An) values (a1,a2,…,an)</code>。其中，values部分可以使用select选出的元组集合。</p>
+<p><code>update r set A = A_new where P</code>用于改变满足条件P的元组的部分属性的值，其中A_new可以使用case子句<code>case when p1 then a1 when p2 then a2 ... else a0 end</code>，还可以使用标量子查询。</p>
+<h2 id="视图view"><a href="#视图view" class="headerlink" title="视图view"></a>视图view</h2><p>SQL允许通过查询定义“虚关系”，即视图，视图在概念上包含查询结果，但并不预先计算和存储，而是在使用时通过查询进行计算。在某些场景中对用户可见的数据可能是某个关系的一部分，若将这一部分通过查询重新保存为另一个关系，则另存为的关系与原关系不再保持一致，且需要占据额外的存储空间。</p>
+<p><code>create view v as &lt;query expression&gt;</code>创建视图，v是视图名。数据库系统存储与视图相关联的查询表达式，而不是创建视图时的查询结果，只有在视图被访问时，其中的元组才通过计算查询关系而被创建出来。视图在使用时与关系等价，可以用于定义另一个视图，但使用视图进行 更新、插入或删除时存在问题。</p>
+<p>特定数据库允许存储创建视图时的查询结果，并且当定义视图的实际关系改变时，视图也随之修改，这种视图为物化视图，保持物化视图一直处于最新状态的过程称为物化视图维护，或简称视图维护。视图维护可以在：构成视图定义的任何关系被更新时，视图被访问时，或周期性。物化视图可以使频繁使用视图的应用或需要快速响应基于大关系聚集计算的特定查询具有更快的查询响应速度，避免了读取大的底层关系，但增加了存储和更新开销。</p>
+<h2 id="事务transaction"><a href="#事务transaction" class="headerlink" title="事务transaction"></a>事务transaction</h2><p>事务由查询和/或更新语句的序列组成，执行一条SQL语句时隐式地开始了一个事务，下列语句会结束一个事务：</p>
+<ol>
+<li>commit work：提交当前事务，将该事务所做地更新在数据库中持久保存，事务被提交后，一个新的事务自动开始。</li>
+<li>rollback work：回滚当前事务，即撤销该事务中所有SQL语句对数据的更新，数据库恢复到执行该事务第一条语句之前地状态。</li>
+</ol>
+<p>数据库系统保证在发生诸如SQL语句错误、系统崩溃、断电等故障情况下，如果一个事务还没commit，其影响将被回滚。</p>
+<p>事务具有原子性，即不可再分割，必须作为一个整体执行。</p>
+<p>SQL允许将多条SQL语句包含在关键词begin atomic … end之间，构成一个单一事务。</p>
+<h2 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h2><p>在create table和alter table中使用完整性约束</p>
+<ol>
+<li><p>not null：禁止在该属性上插入空值，在属性定义时声明varchar(20) not null。</p>
+</li>
+<li><p>unique：禁止两个元组在所列出地属性上取值相同，在表的定义中声明unique(A1,A2,…,An)。</p>
+</li>
+<li><p>check：指定属性值应该满足地条件，在表的定义中声明check (CONDITION)。</p>
+</li>
+<li><p>references：参照完整性约束/子集依赖，一个关系中给定属性集上的取值必须在另一个关系地特定属性集中出现。可以在表的定义中声明外码foreign key A reference r2，或者则属性定义使声明reference r2。</p>
+<p>当违反参照完整性约束时，通常的处理是拒绝执行，但是在foreign key子句中可以指定如果被参照关系上的删除或更新违反了约束，系统需要执行的操作，而不是拒绝执行，指定方式为使用on子句：foreign key A reference r2 on delete cascade/set null/set default on update cascade/set null/set default，on delete/update表示在被参照关系中执行删除/更新操作时，cascade表示级联，在参照关系中执行相同操作，set null/default表示设置为空值或默认值。</p>
+<p>约束声明中添加initially deferred子句可以使完整性约束在事务结束时检查，而不是中间步骤上。对于可延迟的约束，在事务中添加set constraints CONSTRAINT-LIST deferred语句，会使指定约束延迟到事务结束时检查。</p>
+</li>
+<li><p>assertion：断言assertion表示数据库需要始终满足的条件，create assertion NAME check CONDITION，CONDITION可以包含子查询。</p>
+<p>关系定义中声明的约束前可以使用constraint NAME为约束命名。</p>
+</li>
+</ol>
+<h2 id="SQL数据类型和模式"><a href="#SQL数据类型和模式" class="headerlink" title="SQL数据类型和模式"></a>SQL数据类型和模式</h2><ol>
+<li><p>SQL支持如下日期/时间数据类型：</p>
+<ul>
+<li><p>date：日历日期，‘2001-04-25’。</p>
+</li>
+<li><p>time：时间，‘09:30:00.45’，变量time(p)表示秒的小数点后的数字位数，time with timezone 同时存储时区信息。</p>
+</li>
+<li><p>timestamp：date和time的组合，‘2001-04-25 10：29：01.45’</p>
+</li>
+</ul>
+<p>使用cast e as t可以将字符串e转换为类型t，t为date、time、timestamp中的一种。</p>
+<p>使用extract(field from d)可以从date或time值d中提取单独的域field，field可以使year month day hour minute second中的任意一种，时区信息还可以用timezone_hour timezone_minute。</p>
+<p>SQL提供一些用户获取当前日期和时间的函数，current_date\current_time\localtime\localtimestamp\current_timestamp。</p>
+<p>SQL可以在日期/时间类型上进行算术运算和比较，支持interval数据类型，用以表示计算得到的间隔。</p>
+</li>
+<li><p>SQL在属性定义时使用default定义默认值。</p>
+</li>
+<li><p>使用create index NAME on r(A)创建在关系r中属性A的索引，使用索引可以在查询时不读取所有元组，加快查询速度。</p>
+</li>
+<li><p>SQL支持字符数据的大对象数据行clob和二进制数据的大对象数据类型blob，在属性定义时声明cblob/blob (SIZE)。</p>
+</li>
+<li><p>SQL支持用户定义数据类型，称为独特类型distinct type。使用create type NAME as basic_type final定义新类型，新类型可以用作关系属性的类型。不同独特类型数据不能做运算，即使他们基本类型相同，需使用cast强制类型转换。可以使用drop type和alter type来删除和修改创建过的独特类型。</p>
+<p>域domain可以在基本类型上施加完整性约束，create domain NAME as basic_type CONSTRAINT。域可以设置默认值，两个基本类型相容的域类型的值可以相互赋值。</p>
+</li>
+<li><p>create table r1 like r2可以创建一个与r2具有相同模式的新表r1。</p>
+</li>
+<li><p>create table r as (子查询) with data可以将子查询的结果存储为一个新表，省略with data则仅创建表，不载入数据。</p>
+</li>
+</ol>
+<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p>SQL包括select insert update delete权限。grant语句用来授予权限：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="operator">&lt;</span>权限列表<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">on</span> <span class="operator">&lt;</span>关系名或视图名<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">to</span> <span class="operator">&lt;</span>用户<span class="operator">/</span>角色列表<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>select权限用于读取关系中的元组，update权限用于修改关系中的元组，update权限后面可以使用括号指定允许修改的属性列表，默认所有属性，insert权限用于插入元组，同理可以指定允许插入的属性列表，对于没有权限的属性，系统自动赋予默认值（如果属性定义了默认值）或null。delete权限用于删除元组。</p>
+<p>用户名public指系统的所有当前和将来的用户。</p>
+<p>使用revoke收回权限，revoke &lt;权限列表&gt; on &lt;关系名或视图名&gt; from &lt;用户/角色列表&gt;。</p>
+<p>SQL为角色指定权限，并表示数据用户的角色，从而确定每个用户的角色。创建角色create role NAME，指定用户角色grant NAME to USER。用户的权限包括直接授予的或通过角色简介授予的。</p>
+<p>SQL提供了references权限，用于允许用户创建关系时声明外码。</p>
+<p>在授权时允许接受者把得到的权限在授予其他用户，需要在grant命令最后附加with grant option子句。</p>
+<p>一个对象（关系/视图/角色）的创建者拥有该对象上的所有权限，包括给其他用户授权的权限。</p>
+<p>权限收回时默认采用级联收回，即不仅收回该用户的权限，同时收回该用户授予其他用户的权限。可以使用在revoke子句中使用restrict子句防止级联回收，如果存在级联回收，系统返回错误，并不执行权限回收。</p>
+<p>SQL允许权限由角色授予，SQL有一个与会话所关联的当前角色，默认为空，通过set role NAME来设置，NAME角色必须以及授予当前用户，否则执行失败。授予权限时如果当前角色不为空的话，可以在授权语句后面添加granted by current_role子句来将授权人设置为当前角色而不是用户。</p>
+<h2 id="E-R模型"><a href="#E-R模型" class="headerlink" title="E-R模型"></a>E-R模型</h2><p>实体entity是现实世界中可区别于所有其他对象的一个事物和对象。实体集是相同类型即巨响相同性质或属性的实体的集合。实体通过一组属性来表示，属性是实体集中每个成员所拥有的描述性性质。</p>
+<p>联系relationship是指多个实体间的相互联系，联系集是相同类型联系的集合。实体在联系中扮演的功能称为实体的角色，联系可以具有描述性属性。</p>
+<p>每个属性都有一个可取值的集合，称为该属性的域domain或者值集。每个实体可以用一组属性/数据值对来表示，一个实体的属性的值必须能唯一标识该实体。简单/复合属性，单值/多值属性，派生属性。</p>
+<p>映射基数表示一个实体通过一个联系集能够关联的实体个数。</p>
+<p> E-R图中分成两部分的矩形代表实体集，上部分为名字，下部分为所有属性，主码属性标注下划线，菱形代表联系集，矩形表示联系集的属性，主码属性标注下划线，线段连接实体集和联系集，虚线连接联系集属性和联系集，双线表示实体在联系集中为全参与（如果实体集中的每个实体都参与到联系集中的至少一个联系中，则称实体集在联系集中为全参与，若只有部分实体参与，则为部分参与），双菱形表示连接到弱实体集的标志性联系集。</p>
+<p>E-R图中二元联系集一侧标有箭头的为一，没有标记箭头的为多，从而有一对一、一对多，多对多。</p>
+<p>E-R图中的实体集和二元联系集的边上可以以l..h的形式标注最小和最大的映射基数，l为最小，h为最大。最大值*代表没有限制。</p>
+<p>没有足够的属性以形成主码的实体集称为弱实体集，弱实体集必须与另一个称作标识或属主实体集的实体集关联才有意义，称弱实体集存在依赖于标识实体集，标识实体集拥有它所标识的弱实体集，弱实体集与其标识实体集相连的联系称为标识性联系。弱实体集的分辨符与标识实体集的主码构成该弱实体集的主码，弱实体集的分辨符以虚下划线标注，弱实体集到标志性联系集为全参与。</p>
+<p>可以将一个符合E-R数据库模式的数据库表示为一些关系模式的集合，关系模式名即为相应的实体集或联系集的名称。</p>
+<p>强实体集的属性构成转换成的关系模式的属性，强实体集的主码就是生成的关系模式的主码，模式中的每个元组对应实体集中的一个实体。复杂属性需要拆分为多个简单属性。多值属性需要创建新的关系模式，新的关系模式包含实体集的主码和多值属性的子属性，并共同构成主码，同时需要建立外码约束，约束包含的实体集的主码参照实体集关系模式。</p>
+<p>弱实体集的属性和所依赖的强实体集的主码构成弱实体集转换成的关系模式的属性，该关系模式的主码由弱实体集的分辨符和所依赖强实体集的主码构成，并建立外码约束，约束包含的强实体集的主码参考强实体集生成的关系模式。</p>
+<p>所有参与联系集的实体集的主码与联系集的描述性属性构成转换成的关系模式的属性，所有相关实体集中主码可以共同构成主码，但存在冗余，故选用：多对多的二元联系中所有参与实体集的主码属性共同构成主码，一对一的二元联系中任一实体集的主码都选作主码，多对一或一对多的二元联系集中多的一方的实体集的主码选作主码。关系模式中还需要建立外码约束，关系中来自相关实体集关系主码属性的属性参照相关实体集关系的主码。</p>
+<p>不应该用一个实体集的主码作为另一个实体集的属性，而应该用属性。</p>
+<p>实体集可能包含一些子集，子集中的实体在某些方面区别于实体集中的其他实体，这种在实体集内进行分组的过程称为特化specialization。重叠特化是指一个实体集可以同时属于多个特化实体集，不相交特化是指一个实体集最多属于一个特化实体集。</p>
+<p>特化代表自顶向下的设计过程，自底向上设计时用概化generalization表达，概化是指高层实体集与一个或多个底层实体集间的包含关系。高层与底层实体集也可以分别称作超类和子类。高层实体集的属性被底层实体集继承inherit。</p>
+<p>数据库系统效率的主要度量方法：</p>
+<ol>
+<li>吞吐量：单位时间里能够处理的查询或更新（通常指事务）的平均数量。</li>
+<li>响应时间：单个事务从开始到结束所需的平均时间或最长时间。</li>
+</ol>
+<h2 id="关系数据库设计"><a href="#关系数据库设计" class="headerlink" title="关系数据库设计"></a>关系数据库设计</h2><p>数据库设计时的规则称为函数依赖。</p>
+<p>如果一个域的元素被认为是不可分的单元，则这个域是原子的。如果一个关系模式的所有属性的的域都是原子的，则称这个关系模式属于第一范式First Normal Form，1NF</p>
+<p>给定关系模式r的一个实例，如果实例中所有元组对t1和t2，若t1[a]=t2[a],则t1[b]=t2[b]，其中t1 t2为r的属性集R的子集，则称这个实例满足函数依赖a$\rightarrow$b。如果r的每个合法实例都满足函数依赖a$\rightarrow$b，则称函数依赖a$\rightarrow$b在模式r上成立，一个关系实例可能满足某些函数依赖，但这些依赖并不一定在关系模式上成立。多个函数依赖构成函数依赖集。</p>
+<p>在所有关系中都满足的函数依赖称为平凡的。一般的，如果$b \subseteq a$，则形如$a\rightarrow b$的函数依赖是平凡的。</p>
+<p>从一个函数依赖集F推导出的所有函数依赖的集合称为该函数依赖集的闭包closure F^+^。</p>
+<p>如果函数依赖闭包F^+^中所有形如$a\rightarrow b$的函数依赖满足，1. $a\rightarrow b$是平凡的函数依赖，2. a是模式R的一个超码，则称具有该函数依赖集F的关系模式R属于BCNF（Boyce-Codd）范式。构成一个数据库设计的关系模式集中的每个模式都属于BCNF，则该设计属于BCNF。</p>
+<p>设模式R不属于BCNF，则存在至少一个非平凡的函数依赖$a\rightarrow b$，其中a不是R的超码，设计时可以用$a\cup b$和$R-(b-a)$两个模式取代R。</p>
+<p>如果函数依赖闭包F^+^中所有形如$a\rightarrow b$的函数依赖满足1. $a\rightarrow b$是平凡的函数依赖，2. a是模式R的一个超码，3. $b-a$中的每个属性都包含于R的一个候选码中，则称具有该函数依赖集F的关系模式R属于第三范式3NF。</p>
+<p>可以采用以下几个方法得到模式r(R)：</p>
+<ol>
+<li>由E-R图向关系模式集转换生成。</li>
+<li>由一个包含所有由意义的属性的单个关系，并进行规范化将R分解成一些更小的模式。</li>
+</ol>
+<p>唯一角色假设：每个属性名在数据库中只有唯一的含义，不能使用同一个属性在不同的模式中表示不同的东西。</p>
+<p>把一个规范化的模式编程非规范化的过程称为去规范化，去规范化用于调整系统的性能以支持响应时间苛刻的操作。可以使用物化视图额外存储，避免去规范化，保证数据一致性。</p>
+<p>关系数据模型建立在严格的数学基础上。</p>
+<h2 id="应用设计和开发"><a href="#应用设计和开发" class="headerlink" title="应用设计和开发"></a>应用设计和开发</h2><p>HTTP协议是无连接的，使用cookie保存会话信息，以跟踪用户会话。服务器与客户端建立会话时会在双方创建一个包含会话标识符的cookie，后续当服务器接收到一个新请求时，会向客户端请求cookie，如果客户端没有存储cookie或返回的值不是服务器记录的有效标识符时，服务器就认为该请求不是当前会话。</p>
+<p>服务器在传送web页面之前会执行嵌入在HTML页面内容中的服务器端脚本，脚本会对页面做修改，页面不包含脚本源码。流行的脚本语言有jsp asp asp.net php等。</p>
+<p>web页面中可以嵌入在客户端运行的代码，即客户端脚本，避免了每次与用户的交换都发送给服务器端处理，加快了交互速度，流行的脚本语言有JavaScript等，JavaScript广泛用于创建动态网页，使用统称为Ajax的几种技术，其编写的程序与服务器异步通信（即在后台，不阻断用户和web浏览器的交互），并能够获取数据并显示。</p>
+<p>浏览器将HTML代码解析为内存中的一个树结构，称为文档对象模型Document Object Model，DOM。</p>
+<p>大型应用通常分为若干层：</p>
+<ol>
+<li><p>展示层或用户界面层，用于处理用户交互。</p>
+</li>
+<li><p>业务逻辑层，提供对数据和数据操作的高级视图。</p>
+</li>
+<li><p>数据访问层，提供业务逻辑层和底层数据库之间的接口。</p>
+<p>对象-关系映射是指建立从关系数据库中的数据到应用中的对象之间的映射及反向映射。Hibernate系统广泛用于将Java对象映射到关系。</p>
+</li>
+</ol>
+<p>很多实现都基于模型-视图-控制器（Model-View-Controller，MVC）结构，模型对应于业务逻辑层，视图定义数据的显示，单个底层模式根据用于访问应用所指定的软件/设备可以具有不同的视图，控制器接收事件（用户操作），在模型上执行操作，并返回一个视图给用户。</p>
+<p>代表性状态传输REpresentation State Transfer,REST：在应用服务器对URL的标准HTTP请求执行web服务函数调用，参数作为标准HTTP请求的参数发送，应用服务器执行该请求，生成结果并对其编码，然后将结果作为HTTP请求的结果返回。</p>
+<p>多种Web应用开发框架都提供一些常用的特性：</p>
+<ol>
+<li>一个包含对象-关系映射的面向对象模式，用于在关系数据库中保存数据。</li>
+<li>一个模板脚本系统。</li>
+<li>一个控制器，将用户交互事件映射到处理该事件的适当函数上，管理身份验证和会话。</li>
+<li>一种声明式的方式，说明一个表单在用户输入上的验证约束，系统据此生成HTML和Javascript/Ajax代码以实现表单。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </li>
+</ol>
+<p>报表生成器是从数据生成人们可读的概要报告的工具，它将生成格式化文本和概要图标（例如条形图和饼状图）与查询数据库集成在一起。</p>
+<p>利用多种手段提高应用程序性能，确保对请求的服务有较短的响应时间：</p>
+<ol>
+<li>利用缓存减少开销，例如创建连接池、缓存查询结果或最终的web页面。</li>
+<li>并行处理，使用多台应用服务器处理大量请求。</li>
+</ol>
+<p>应用程序必须对用户进行身份验证，确保用户只允许完成授权的任务，除此之外还有另外几种安全漏洞：</p>
+<ol>
+<li>SQL注入injection，恶意用户在应用程序构建的查询语句中先插入分号，再构建任意SQL语句，以绕过应用程序在数据库上执行任意操作。为了避免这种攻击，最好使用预设语句执行SQL查询，此时JDBC将自动添加转义字符，在在输入字符串上添加转义字符。</li>
+<li>跨站点脚本攻击Cross-Site scripting，恶意用户不输入有效的文本，而输入诸如JavaScript或Flash的客户端脚本语言编写的脚本，当其他用户阅览输入的文本时，浏览器会执行该脚本，例如获取被攻击者的cookie，恶意用户获取被攻击者的cookie后，构成HTTP请求以执行攻击操作，此时Web服务器认为该请求来自原用户，从而执行攻击操作，这种漏洞又称为跨站点请求伪造。</li>
+<li>密码泄露，将密码明文保存在JSP等脚本程序中，而该程序源码能被Web服务器访问，从而攻击用户能获取数据库账号的密码。为了避免这种攻击，可以对密码执行加密，或在数据库系统设置允许访问数据的网络地址集合。</li>
+<li>应用程序认证，认证是指验证连接到应用程序的人/软件的身份，最简单的形式由一个密码构成，但密码容易通过试猜、嗅探网络数据包等手段泄露，因此需要采用双因素认证，即使用两个独立的不具有相同弱点的因素来识别一个用户，以及在传输过程中对密码进行加密。采用双因素认证仍可能受到中间人攻击，可以采用HTTPS协议对数据加密并防止中间人攻击。进行认证时可以采用使用LDAP等协议的中央认证服务器和单点登录系统，用于在多个网站和应用中使用同一个认证。安全断言标记语言（security assertion markup language，SAML）是一个在不同安全域间交换认证和授权信息的标准，以提供跨机构单点登录，OpenID是另一种跨机构单点登录的标准，应用程序可以使用认证提供方来认证用户，认证成功后被透明地重定向回应用程序，例如在许多网站中可以使用qq、google等账号登录。</li>
+<li>应用级授权，由于数据库访问主要来自web应用服务器，最终用户在数据库本身上没有个人用户标识，因此SQL的授权规范无法使用，同时SQL缺乏单条记录级别的细粒度授权。因此需要在应用程序中执行授权，容易导致权限漏洞。</li>
+<li>审计追踪是关于应用程序数据的所有更改的日志，以及一些操作信息，可以用于查找错误或欺骗性更新，探查安全漏洞。可以在关系更新操作上定义适当的触发器来创建一个数据库级审计追踪，或使用数据库系统的内置机制创建审计追踪。由于数据库级审计追踪只能记录元组级别，不能追踪业务逻辑级别，无法追踪应用程序的最终用户，因此在应用程序中通常创建一个较高级别的审计追踪，需要防止审计追踪本身被恶意用户修改或删除。</li>
+<li>隐私。</li>
+</ol>
+<p>好的加密技术应具有如下性质：</p>
+<ol>
+<li>对于授权用户，加密数据和解密数据相对简单。</li>
+<li>加密模式不依赖于算法的保密，而应依赖于加密密钥的算法参数，对称加密中使用同一个密钥加密/解密数据，非对称加密中使用公钥和私钥分解加密和解密数据。</li>
+<li>入侵者即使获得加密数据，但难以破解加密密钥。</li>
+</ol>
+<p>拓展加密标准AES是一种对称加密算法，其加密密钥传输需要更高的安全机制。公钥加密模式是一种非对称加密，使用公开的公钥对数据进行加密，而只能由公钥拥有者的私钥解密（或者使用私钥加密利用公钥解密），保证了信息安全传输，但需要较高的计算代价。混合加密模式使用公钥加密模式加密对称加密密钥，然后使用该密钥对数据进行对称密钥加密。</p>
+<p>字典攻击，当加密密钥公开时，对加密之前的数据的所有组合进行加密，找出与加密后的数据一致的组合，从而找出加密之前的数据。对加密密钥未公开时，可以利用数据分布的统计信息找出加密值表示的含义。可以在加密之前的数据的末尾添加额外随机位来防止字典攻击。</p>
+<p>数据库系统的加密可以是对包含数据库数据的磁盘块加密，或者对关系中的属性值以加密形式存储。还可以是由应用程序在讲数据发送至数据库之前对其进行加密。</p>
+<p>对称加密可以应用于数字签名，用来验证数据的真实性，私钥对数据进行签名，即加密，加密后的数据可以公开，所有人可以通过公钥解密数据来验证签名，但没有私钥的人无法生成签名的数据，则可以认证authenticate该数据。</p>
+<p>数字证书，web站点的公钥由一个公钥公开的认证机构签名，使用公开的公钥来验证签署的证书，从而验证web站点的真实性。HTTPS协议使用数字证书技术加密数据。数字证书也可以用来认证用户。</p>
+<p>询问-回答机制可以确保没有密码在网络上传输。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckmn1ijii000on8a8c4ch2q5b" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/ClassLoader%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

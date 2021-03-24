@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="java中的每个对象都可以作为synchronized的锁，对于实例方法，锁就是实例对象，对于静态方法，锁就是类的class对象，对于代码块，锁就是括号中指定的对象。synchronized的锁标识存储在对象头中。 单例模式中的变量为什么要使用volatile修饰？ 创建一个对象实际分为三步，1. 为对象分配空间， 2. 初始化对象， 3. 将引用变量指向分配的空间。 在运行过程中可能存在指令重排">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/java%E5%B9%B6%E5%8F%91%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="java中的每个对象都可以作为synchronized的锁，对于实例方法，锁就是实例对象，对于静态方法，锁就是类的class对象，对于代码块，锁就是括号中指定的对象。synchronized的锁标识存储在对象头中。 单例模式中的变量为什么要使用volatile修饰？ 创建一个对象实际分为三步，1. 为对象分配空间， 2. 初始化对象， 3. 将引用变量指向分配的空间。 在运行过程中可能存在指令重排">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.548Z">
+<meta property="article:modified_time" content="2021-03-20T11:52:54.648Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-java并发笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/java%E5%B9%B6%E5%8F%91%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.548Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>java中的每个对象都可以作为synchronized的锁，对于实例方法，锁就是实例对象，对于静态方法，锁就是类的class对象，对于代码块，锁就是括号中指定的对象。synchronized的锁标识存储在对象头中。</p>
+<p>单例模式中的变量为什么要使用volatile修饰？</p>
+<p>创建一个对象实际分为三步，1. 为对象分配空间， 2. 初始化对象， 3. 将引用变量指向分配的空间。 在运行过程中可能存在指令重排序，例如将先将引用变量指向分配的空间再执行初始化，此时引用变量不为null但为初始化，如果直接返回则可能存在问题，因此使用volatile禁止指令重排序。</p>
+<p>notify/notifyAll：唤醒等待在锁对象上的某个/全部线程，使其从等待队列进入同步队列,状态由WAITING变为BLOCKED，获得锁后才从wait()方法中返回。</p>
+<p>wait()：线程通过该方法进入等待队列，并释放锁，状态变为WAITING，等待被中断或唤醒。</p>
+<p>上述方法在调用前都需要先获得锁。wait/notify的经典范式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 等待方</span></span><br><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">    <span class="keyword">while</span> (!flag) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        obj.wait();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 处理逻辑</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通知方</span></span><br><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">    <span class="comment">// 改变条件</span></span><br><span class="line">    obj.notify() <span class="comment">// obj.notifyAll()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Thread.join()方法会调用线程对象的wait()方法，线程退出前会调用notifyAll()方法。</p>
+<p>ThreadLocal：线程本地变量，每个线程都维护了一个ThreadLocalMap，Map的key就是ThreadLocal变量，value就是变量的副本，通过ThreadLocal变量的set/get方法可以设置或获取线程本地变量的值。在线程使用get方法前需要先使用set方法，否则报空指针错误，或者在定义ThreadLocal变量时重写ThreadLocal类的initialValue()方法。</p>
+<p>synchronized原理：</p>
+<p>JVM通过进入和退出监视器Monitor来实现方法同步和代码块同步，在同步代码块开始处插入monitorenter，在退出处插入monitorexit，而方法是利用编译成的class文件中的方法修饰符来标识。两者的本质都是获取锁对象的监视器。获取监视器成功的线程进入同步块，获取失败的线程被阻塞，进入同步队列，状态变为BLOCKED。</p>
+<p>被synchronized修饰的同步块对于同一个线程而言是可重入的。</p>
+<p>被synchronized修饰的同步块在被持有锁的线程执行完并释放锁之前，会无条件阻塞其他线程进入。不能强制已获取锁的线程释放锁，也不能强制等待锁的线程退出或超时推出。</p>
+<p>J.U.C下的Lock接口能够在类库层面上实现同步，ReentrantLock是Lock接口的一种实现。ReentrantLock支持</p>
+<ol>
+<li>超时退出，线程在等待持有锁的线程释放锁时，可超时退出。</li>
+<li>非阻塞获取锁：可以尝试性地获取锁，而不用被阻塞。</li>
+<li>可中断：获取到的锁可以响应中断，抛出中断异常，并释放锁。</li>
+<li>支持公平锁，公平锁是指按多个线程在等待同一个锁，必须按申请时间依次获得锁，非公平锁则是每个线程都有机会获得锁。synchronized锁是非公平锁，ReentrantLock默认是非公平锁。使用公平锁会导致性能下降。</li>
+<li>支持多个条件，synchronized中锁对象的wait和notify方法配合可以实现一个隐含的条件，ReentrantLocak可以通过newCondition绑定多个条件。</li>
+</ol>
+<p>ReentrantLock是排他锁，在同一个时刻只允许一个线程进行访问。读写锁ReadWriteLock内部维护了两把锁，一把读锁和一把写锁，同一个时刻允许多个读线程访问，但只允许一个写线程访问，读线程和写线程不能同时访问，写锁能降级为读锁（线程先获取写锁，再获取读锁，再释放写锁，此时线程依旧拥有读锁）。ReentrantReadWriteLock是读写锁的实现。</p>
+<p>JUC.LockSupport.park/unpark可以阻塞和唤醒线程。</p>
+<p>Lock.newCondition().await/signal/signalAll可以实现等待/通知模式，一个Lock对象可以绑定多个condition。</p>
+<p>Condition在内部维护了一个等待队列，每个执行await()方法的线程都会释放锁，加入到等待队列进入等待状态。synchronized具有一个等待队列和一个同步队列，由于Lock支持绑定多个条件，因此有多个等待队列和一个同步队列。</p>
+<p>signal会唤醒等待时间最长的线程，将其从等待队列移入同步队列，signalAll则是依次唤醒等待队列中的所有线程。</p>
+<p>Lock最好是使用try/catch，并在finally中使用Lock.unlock()。</p>
+<p>CPU实现原子操作：1. 锁总线，当一个CPU锁住总线时，其他CPU不能操作内存。 2. 锁缓存，如果数据在一个缓存行中，则直接操作缓存行，并通过缓存一致性机制来保证原子性。</p>
+<p>Java实现原子操作：</p>
+<ol>
+<li><p>使用自旋CAS，即循环执行CAS操作直到成功为止。java并发包中的一些类（AtomicInteger、AtomicLong）支持原子操作）。</p>
+<p>使用CAS会产生1. ABA问题，CAS需要检测值是否发生变化，没有变化则更新。如果一个值A，变成了B，又变成了A，CAS在检查时会认为值没有改变，可以通过添加版本号解决。2. 自旋时间长开销大。</p>
+</li>
+<li><p>使用锁机制实现原子操作，锁机制保证了只有获得锁的线程才能操作锁定的内存区域。</p>
+</li>
+</ol>
+<p>同步是指控制不同线程执行操作的相对顺序，JAVA同步采用的是共享内存模型。只有在线程之间共享的堆内存才会有内存可见性即同步问题，而局部变量等线程私有的不会。</p>
+<p>AQS（Abstract Queued Synchronizer）队列同步器，是实现锁和其他同步组件的基础框架，AQS使用一个int类型的变量state来表示同步状态，</p>
+<p>同步器是基于模板方法模式的，使用者需要继承同步器并重写指定的方法（tryAcquire/tryRelease,tryAcquireShared/tryReleaseShared)，然后将同步器子类组合在自定义同步组件的实现中（即将同步器子类作为自定义同步组件的静态内部类），并调用同步器提供的模板方法，这些模板方法又调用使用者重写的方法，同步器支持独占和共享模式。</p>
+<p>AQS内部维护了一个双向FIFO队列，当线程获取锁失败时，同步器会将其加入同步队列的尾部，然后阻塞该线程。当锁被释放时，会唤醒首节点，使其再次尝试获取锁。</p>
+<p>java内存模型：</p>
+<p>线程之间的共享变量存储在主内存中，每个线程都有一个本地内存，本地内存中存储了该线程已读写共享变量的副本。本地内存是一个抽象概念，包括缓存、缓冲区、寄存器等。</p>
+<p>为了保证内存可见性（一个线程对共享变量进行修改，能立刻被其他操作观察到，即两个操作的happens-befor关系，实现原理是将该线程的本地内存中的共享变量刷新到主内存，并使其他线程的本地内存中的该共享变量失效，其他线程再使用该共享变量时需要从主内存读取），java编译器可以插入内存屏障指令来禁止指令重排序。</p>
+<p>happens-before：一个操作执行的结果对另一个操作可见，并不意味着前一个操作一定在后一个操作之前执行。</p>
+<p>重排序：编译器或处理器为了优化程序性能而对指令序列进行重新排序。重排序可能会影响多线程的执行结果，需用使用同步机制来保证程序的顺序执行，包括synchronized、volatile和final。</p>
+<p>锁保证了临界区内代码的执行具有原子性，锁的加锁和解锁具有happens-before关系，即加锁happens-before解锁。</p>
+<p>volatile相当于对单个变量的单个读写操作加锁，可以保证：1. 可见性，由于volatile相当于是对单个变量的单个读写操作加锁，而加锁是happens-before解锁的，因此对volatile变量的读，总能看到任意线程对该变量最后的写。 2. 原子性， 锁保证了临界区内的代码执行具有原子性，因此对任意volatile变量的单个读写操作具有原子性，符合操作例如++没有，++相当于是先读再写。</p>
+<p>volatile是轻量级的synchronized，volatile修饰的变量在所有线程中都是一致的。</p>
+<p>volatile原理：</p>
+<p>对volatile变量进行赋值的java语句编译成汇编代码后会多一条使用lock指令修饰的汇编代码，lock指令会将当前CPU的缓存行（CPU缓存的最小存储单位，每次读写缓存时都读写整个缓冲行）写回系统内存（对应JAVA内存模型，即将本地内存中的共享变量刷新到主内存），并使其他CPU缓存的该内存地址数据失效（缓存一致性协议，CPU通过嗅探总线上的数据来检查自己缓存的值是否过期，如果发现自己缓冲行对应的内存地址的数据被修改，则将该缓存行设置为失效，再次访问或修改这个数据时需要重新从系统内存中读取到缓存中来）。同时，volatile通过插入内存屏障来禁止指令重排序。</p>
+<p>synchronized内存语义：</p>
+<p>释放锁时会将线程对应的本地内存中的共享变量刷新到主内存中，获取锁时会将线程对应的本地内存中的共享变量设置为无效，从而使得临界区内的代码必须从主内存中读取共享变量。</p>
+<p>juc中的包是以volatile读写和CAS来实现线程间的通信同步的，</p>
+<p>final变量可以禁止重排序，保证在对象的引用变量被其他线程可见时，该对象的final变量已在构造函数中正确初始化。要求在构造函数中不能使对象引用溢出（即在构造函数中将对象引用this传递出去，被其他线程可见）。</p>
+<p>final变量的可见性：如果在构造器中对象的引用this没有逸出，那么在对象引用被其他线程可见时，该对象的final类型变量已正确完成初始化。</p>
+<p>有序性：volatile本身就有禁止指令重排序，synchronized保证同一个时刻只有一个线程获得对象的锁，决定了持有同一个锁的两个线程只能串行进入同步块。</p>
+<p>每秒事务处理总数Transaction per second TPS表示一秒内服务端平均能响应的请求总数。</p>
+<p>CPU的计算速度远大于存储与通信速度，可以使用高速缓存，</p>
+<p>为什么要使用多线程：</p>
+<ol>
+<li><p>现在计算机的CPU几乎都是多核多线程的，部分服务器还含有多个CPU，使用多线程能充分利用CPU核心。</p>
+</li>
+<li><p>大多数线程的大部分时候都处于阻塞状态，尤其是IO密集型线程，使用多线程能提高CPU利用率。</p>
+</li>
+<li><p>现在的系统经常需要应对非常高的并发量，使用多线程能提高系统的并发能力。</p>
+</li>
+</ol>
+<p>为什么不使用多进程：</p>
+<p>进程创建、销毁、切换和调度需要的开销相比线程而言更大，并且进程间通信比线程间通信更复杂。</p>
+<p>使用多线程可能会存在什么问题：</p>
+<ol>
+<li>同步：多个线程如果没有正确地同步，则执行结果有可能是错误的。</li>
+<li>死锁，多个线程互相等待对方持有的锁而形成死锁，解决方法是破坏死锁形成的4个条件：互斥、占用且等待、不可抢占、循环等待。</li>
+<li>线程上下文切换，线程进行频繁的上下文切换会产生较大的开销，CPU通过时间片轮转算法来进行线程调度，切换到下一个线程前需要保存当前线程的状态，以便下次切换回时再加载这个状态。切换线程时从保存当前线程状态到加载下一线程的状态的过程就是一次上下文切换。可以通过无锁编程（对数据进行分段）、使用CAS算法、避免创建不需要的线程、使用协程来减少上下文切换。</li>
+<li>内存泄露：每个线程都需要占用一定的内存空间，创建线程数量过多时可能会产生内存泄漏问题。</li>
+</ol>
+<p>线程的实现有两种：1. 内核线程， 直接由操作系统内核支持的线程，由内核负责线程的调度和将线程分配的CPU，这样即使进程的一个线程阻塞了，也不影响整个进程工作，但是，各种线程操作，例如创建、同步、调度等都需要使用系统调用，需要在用户态和内核态之间转换，代价相对较高，而且会消耗内核资源，容纳的线程数量有限。</p>
+<p>内核线程的调度成本主要是模式转换，模式转换的开销主要是要响应中断、保护和恢复执行现场，即线程上下文。</p>
+<p>Hotspot的每一个java线程都直接映射到一个操作系统原生线程，线程的调度都是由操作系统处理。缺点是：切换、调度的成本较高，容纳的线程数量有限。</p>
+<p>线程调度主要有两种方式：</p>
+<ol>
+<li>协同式线程调度，线程的执行时间由自己决定，由线程通知操作系统切换线程。实现简单，但执行时间不可控。</li>
+<li>抢占式线程调度，线程的执行时间由操作系统分配，不会出现一个线程阻塞整个系统。主流方式。</li>
+</ol>
+<p>CPU的一个核心在一个时刻只能执行一个线程，为了并发支持多个线程，操作系统采用的是时间片轮转的方式，将CPU时间划分为多个时间片，每个线程只能在分配的时间片内执行，CPU快速地在多个时间片间轮转，宏观上就是多个线程并发进行。为了使线程切换回后能恢复到切换前的状态，操作系统需要在切换前保存线程状态，然后在切换回后加载线程状态，这个过程就是线程上下文切换。概括来说就是操作系统在进行线程切换时，保存当前线程状态再加载下一个线程状态的过程。</p>
+<p>线程上下文：方法调用过程中的局部变量和资源，即方法调用栈中存储的各种信息。</p>
+<p>协程：采用协同式调度的用户线程，用户线程是指在用户空间内实现的多线程。由于是在用户空间内实现，不用进行系统调用和模式转换，不占用内核资源，比较轻量。</p>
+<p>线程安全：在多线程并发的情况下，调用对象的任何行为都能得到正确的结果，则称这个对象是线程安全的，例如不变量、hashtable、vector的juc中的同步包装类，例如synchronizedList\synchronizedSet。</p>
+<p>线程安全的实现方式：</p>
+<ol>
+<li><p>使用synchronized进行互斥同步，</p>
+</li>
+<li><p>使用J.U.C下的Lock接口进行互斥同步，</p>
+</li>
+<li><p>使用非阻塞同步CAS</p>
+<p>互斥同步是一种悲观锁策略，即认为如果不加锁则肯定出现问题，因此在执行操作前都会加锁。乐观锁策略是指，不管风险，不加锁而直接执行操作，如果检测到冲突回就采取补救措施，通常是重试。这也称之为无锁编程。</p>
+</li>
+</ol>
+<p>CAS Compare And Set，比较并设置，需要三个操作数，分别是内存地址、旧值、新值。如果内存地址的值与旧值相等，则就其设置为新值。这也一个原子操作。</p>
+<p>锁优化：</p>
+<ol>
+<li><p>自旋锁/自适应自旋锁，如果一个线程锁定临界资源的时间很短，为了这么短的时间去暂停和恢复线程不值得，因此可以让等待锁的线程在原地等待而不放弃CPU时间，即自旋，避免了暂停和唤醒线程带来的开销。为了避免长时间自旋浪费CPU时间，可以采用自适应自旋，即自旋的时长是自适应的，如果超时还没有获得锁，则用传统方式暂停线程。</p>
+</li>
+<li><p>轻量级锁/偏向锁，使用CAS方式实现，在没有多线程竞争的情况下，减少互斥同步的开销。依据是：对于绝大部分的锁，在整个同步周期内都是不存在竞争的，而且几乎都是由一个线程获得。这是一个经验法则。</p>
+</li>
+</ol>
+<p>锁升级：锁有四种状态，从低至高分别是无锁、偏向锁、轻量级锁、重量级锁。偏向锁和轻量级锁都不需要进行系统调用，加锁和解锁的开销较小。</p>
+<ol>
+<li>偏向锁：锁在大部分情况下都不存在竞争，而且几乎都是由一个线程获得。因此可以当一个线程获得锁后，在锁对象的对象头中记录下线程ID，以后该线程再次进入或退出同步块时都不需要执行加锁和解锁操作，只需要判断偏向线程ID是否是自己。如果出现竞争，则撤销偏向锁。</li>
+<li>轻量级锁：使用CAS+自旋来获取锁。</li>
+<li>重量级锁：由于java采用的是内核线程的方式，会将每一个java线程映射到操作系统的原生线程之上，因此要阻塞和唤醒一个线程需要进行系统调用，在内核态和用户态之间进行模式转换，开销较大，因此synchronized被称为重量级锁。</li>
+</ol>
+<p>deamon线程：当不存在非deamon进程时，deamon进程就会推出。</p>
+<p>可以通过调用线程对象的interrupt()方法对线程进行中断，线程可以通过isInterrupt()方法来检测是否被中断。</p>
+<p>suspend、resume、stop不建议使用，因为suspend暂停线程时不会释放资源，可能造成死锁，stop停止线程时可能来不及释放资源。</p>
+<p>阻塞队列：插入元素时如果队列已满，则阻塞线程，直到队列不满，获取元素时如果队列已空，则阻塞线程，直到队列不空。</p>
+<p>阻塞队列支持：抛出异常的add/remove、返回特殊值的offer/poll、阻塞线程的put/take。</p>
+<p>java中的阻塞队列有：</p>
+<ol>
+<li>LinkedBlockingQueue：链表实现，FIFO队列，默认大小和最大大小是Integer.MAX_VALUE。</li>
+<li>LinkedBlockingDeque：链表实现的双向队列。</li>
+<li>PriorityBlockingQueue：支持按优先级排序，调用的是自定义类的CompareTo方法，或定义队列时传入的Comparator。</li>
+<li>ArrayBlockingQueue：数组实现，FIFO队列，默认是非公平的。</li>
+<li>SynchronousQueue：不存储元素，每一个put操作必须必须等待一个take操作，</li>
+<li>LinkedTransferQueue：</li>
+<li>DelayQueue：延时获取元素，在创建元素时需要指定何时才能获取到当前元素。</li>
+</ol>
+<p>阻塞队列的实现原理：使用的是等待/通知模式，定义了两个Condition：notfull和notempty，如果生产者添加元素时队列已满，则调用notfull.await进入等待，消费者消费了一个元素，则调用notfull.signal通知生产者。如果消费者消费元素时队列已空，则调用notempty.await进入等待，生产者生产一个元素，则调用notempty.signal通知消费者。</p>
+<p>Fork/Join框架是一个并发执行任务的框架，通过把大任务分割成多个小任务并发执行（Fork），再合并多个小任务的执行结果得到大任务的执行结果（Join）。</p>
+<p>J.U.C包下的Atomic包提供了多个原子操作类，能够线程安全且性能高效地更新一个变量，这个变量可以是基本数据类型、数组、引用和对象属性。</p>
+<p>CountDownLatch：允许一个或多个线程等待其他线程完成操作，创建CountDownLatch对象时，需要传入一个整数类型的计数器初始值，线程可以调用该对象的countDown方法使计数器值减一，当值为0时，阻塞在该对象上的线程（调用了该对象的await方法的线程）被唤醒，恢复执行。不可循环使用</p>
+<p>可循环使用的同步屏障CyclicBarrier：线程执行到屏障处时会被阻塞（调用该对象的await()），直到阻塞的线程数达到指定的数量，被屏障拦截的线程才能恢复执行。</p>
+<p>信号量Semaphore：控制并发执行的线程数量，每个线程都需要获取许可证才能继续执行，执行完毕后需要释放许可证，许可证数量就是允许的并发数。</p>
+<p>线程池的好处：</p>
+<ol>
+<li>减少资源消耗，避免频繁创建和销毁线程带来的资源消耗。</li>
+<li>提高响应速度，收到任务时能立即利用创建好的线程响应。</li>
+<li>方便线程管理，使用线程池能对创建的线程进行统一管理。</li>
+</ol>
+<p>ThreadPoolExecutor执行execute()方法的流程：</p>
+<ol>
+<li>如果当前工作线程数小于核心线程池大小corePoolSize，则创建新的线程。</li>
+<li>否则加入到阻塞队列BlockingQueue。</li>
+<li>如果阻塞队列已满，且当前工作线程数小于最大线程池大小MaximunPoolSize，则创建新的线程。</li>
+<li>否则执行饱和策略的操作。</li>
+</ol>
+<p>创建新线程时需要获取全局锁。</p>
+<p>创建线程池：new ThreadPoolExecutor()的参数有：</p>
+<ol>
+<li>corePoolSize：核心线程池大小。</li>
+<li>MaximumPoolSize：最大线程池大小。</li>
+<li>keepAliveTime：线程空闲后的存活时间。</li>
+<li>workQueue：BlockingQueue类型，用于保存等待执行的任务的阻塞队列，可以选用ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue、PriorityBlockingQueue。</li>
+<li>RejectedExecutionHandler：饱和策略，当队列和线程池都饱和时，用于处理新提交任务的策略，可以选用：直接抛出异常、直接丢弃、丢弃队列中最老的任务并执行当前任务、使用调用者线程处理任务。还可以通过实现RejectedExecutionHandler接口来自定义策略。</li>
+<li>threadFactory：用于创建线程的工厂。</li>
+</ol>
+<p>可使用execute()方法提交不需要返回值的任务，无法判断线程是否执行成功。submit()方法提交需要返回值的任务，submit方法会返回一个Future对象，可以根据该对象判断线程是否执行成功，并通过get方法来获取返回值，get方法会阻塞调用线程，直到结果返回或超时返回。</p>
+<p>可使用线程池对象的shutdown和shutdownNow方法关闭线程池，shutdownNow方法会尝试停止所有正在执行或暂停的线程，而shutdown不会。</p>
+<p>如何配置线程池：</p>
+<ol>
+<li>CPU密集型任务应配置尽可能小的线程，IO密集型可以配置尽可能多的线程。</li>
+<li>任务有优先级时使用PriorityBlockingQueue。</li>
+<li>使用无界队列，避免内存溢出。</li>
+</ol>
+<p>Executor框架用于将任务分配到线程，由操作系统负责将线程映射到CPU。</p>
+<p>Executor框架包括：</p>
+<ol>
+<li>任务，实现了Runnable接口的run方法或Callable接口的call方法的类。Runnable不会抛出异常和返回结果，Callable接口可以。</li>
+<li>任务执行，创建立即执行任务的线程池ThreadPoolExecutor和创建执行计划或周期任务的线程池ScheduledThreadPoolExecutor。</li>
+<li>计算结果，实现了Future接口的FutureTask类。</li>
+</ol>
+<p>创建线程池：</p>
+<ol>
+<li>直接创建ThreadPoolExecutor类的对象。</li>
+<li>使用Executors工厂类的静态方法。<ol>
+<li>Executors.newFixedThreadPool：创建固定线程数量的线程池。核心线程池大小和最大线程池大小都是设定的线程数量，阻塞队列使用的是LinkedBlockingQueue，这是一个无界队列。</li>
+<li>Executors.newSingleThreadExcutor：创建单个线程的线程池，用于顺序执行各个任务。核心线程池大小和最大线程池大小都是1，阻塞队列使用的是LinkedBlockingQueue，相当于线程数量为1的固定线程数量线程池。</li>
+<li>Executors.newCacheThreadPool:创建大小无界的线程池，用于执行很多短期小任务。核心线程池大小为1，最大线程池大小为Integer.MAX_VALUE，keepAliveTime不为0，阻塞队列使用的是不存储元素的SynchronousQueue，意味着只要任务的提交速度大于线程池处理速度，就会一直创建线程，最终耗尽CPU和内存资源。</li>
+</ol>
+</li>
+</ol>
+<p>推荐直接创建而不是使用Executors工厂类，目的是明确线程池运行规则，避免耗尽资源。</p>
+<p> 定位故障：</p>
+<p>查看虚拟机运行日志、垃圾收集器日志、异常堆栈、线程快照、堆转存快照。</p>
+<p>jps 查看虚拟机进程状况</p>
+<p>jstat 查看虚拟机统计信息，包括类加载、内存、垃圾收集等运行数据。</p>
+<p>jinfo 查看和调整虚拟机的各项参数。</p>
+<p>jmap 生成堆转存快照，分析内存。</p>
+<p>jstack 生产线程快照，即当前时刻jvm每一条线程正在执行的方法栈集合。</p>
+<p>可视化的工具有visualVM、JMC(JAVA MISSION CONTROL，基于JMX，作为JMX的控制台，显示来自JMX的数据和调整JVM参数，也可以显示来自JFR的数据)、JFR(JAVA FLIGHT RECORDER，用于收集数据)、JConsole(基于JMX（JAVA Management Extension），JMX可以对JVM进行信息收集和参数动态调整，从而实现管理与监控）</p>
+<p> [<a href="#_msoanchor_4">博4]</a>笔记: 触发条件：</p>
+<p>Young GC：Eden区分配满时。</p>
+<p>Full GC：Old区或Perm区（如果有的话）的剩余空间小于新生代的历次晋升的平均大小（除CMS外，其余收集器对老年代做gc时会同时收集新生代，即对全堆做gc），或调用System.gc()时。</p>
+<p> [<a href="#_msoanchor_5">博5]</a>笔记: GC Roots：</p>
+<p>\1. 虚拟机栈中（局部变量、参数、临时变量）中引用的对象。</p>
+<p>\2. 类的静态变量、常量引用的对象。</p>
+<p>\3. java虚拟机的引用，比如基本数据类型对应的Class对象，一些常驻内存的异常（Nullpoint、stackoverflow）。</p>
+<p>\4. 同步锁（Synchronized）持有的对象。</p>
+<p>\5. 做partial gc时， 其他区域内含有指向收集区域的引用的对象。</p>
+<p> [<a href="#_msoanchor_6">博6]</a>笔记: 虚引用的作用仅仅是在对象被回收时收到系统通知。</p>
+<p>不能通过虚引用来获得对象实例。</p>
+<p> [<a href="#_msoanchor_7">博7]</a>笔记: 将新生代空间分为较大的eden区和两块较小的from/to survivor区（默认大小比例是8:1），在eden区和from survivor区分配内存，每次gc时将eden区和from survivor区中的存活对象复制至to survivor区，然后再直接清理掉eden区和from survivor区，原from/to survivor区成为下次gc时新的to/survivor区，即to survivor区始终是未使用的空间。这样做的原因是，依据弱分代理论，新生代中每次gc能继续存活的对象非常少，相比于直接将新生代对半分（空用空间只有50%），这样划分下，新生代可用空间占新生代总内存空间的90%。如果to survivor空间不足以容纳一次gc后存活的对象，则通过分配担保的方式，将对象直接保存至老年代。</p>
+<p> [<a href="#_msoanchor_8">博8]</a>笔记: 分代收集理论的三个假说：</p>
+<p>\1. 弱分代假说：大部分对象的生存周期都很短。（新生代中的对象经过一次gc后的存活概率很低）</p>
+<p>2.强分代假说：熬过多次gc的对象更难以消灭。（老年代中的对象经过多次gc后存活的概率较高）</p>
+<p>3.跨代引用假说：跨代引用相比于同代引用而言仅占极少数。</p>
+<p>基于分代理论，应该将堆分成不同区域，然后根据对象的年龄（年龄即经历过的gc次数），将对象放置在不同区域，然后根据年龄特点选择不同的gc策略，以提高回收效率。</p>
+<p> [<a href="#_msoanchor_9">博9]</a>笔记: 标记-清除算法是非移动式的，每次gc时不需要进行复制操作和更新引用关系，因此停顿时间较短，即每次gc的延迟较低，关注延迟的CMS收集器是基于该算法的。但是该算法会产生大量的内存碎片，这就需要更复杂的内存分配和访问机制。</p>
+<p>标记-复制算法是移动式的，需要移动存活的对象，并更新这些对象的所有引用，尤其是老年代存活的对象比较多，移动和更新操作开销较大，因此总体延迟较高。</p>
+<p>但是，内存分配和访问比垃圾收集的频率要高得多，这个环节的负担会直接影响程序的吞吐量，因此关注吞吐量的parallel scavenge收集器是基于标记-整理算法的。</p>
+<p> [<a href="#_msoanchor_10">博10]</a>笔记: 标记-清除算法效率不稳定，会产生大量内存碎片，因此一般不适用。</p>
+<p>标记-复制和标记-整理算法能提供规整的内存空间。</p>
+<p>新生代中的对象存活率较低，可以使用标记复制算法，老年代的对象存活率较高，如果使用标记复制算法则需要进行较多的赋值操作，效率降低，而且eden区和survivor区的比例要1:1，以应对所有对象都存活的极端情况。否则要使用额外的担保空间，这样空间利用率较低。</p>
+<p> [<a href="#_msoanchor_11">博11]</a>笔记: 为什么老年代不使用标记复制算法？</p>
+<p>这是不同分代下对象的特点决定的，新生代对象经过一次gc后存活的概率较低，因此可以使用较小的空间来保存每次gc后存活的对象，而老年代对象经过一次gc后存活的概率较高，这样就需要一块较大的空间来保存每次gc后存活的对象，这样空间利用率较低，而且会产生大量的复制操作。</p>
+<p> [<a href="#_msoanchor_12">博12]</a>笔记: 垃圾收集区域内的对象可能被其他区域所引用，这就是跨代引用或跨收集区域引用。记忆集就是一种记录从非收集区域指向收集区域的指针集合的抽象收据结构，卡表是记忆集的一种实现，卡表的每一个元素表示一个内存区域（卡页），如果该区域存在包含指向收集区域的引用的对象，则该元素变脏，在进行gc时只需要将变脏的卡页加入gc root中一起扫描，避免了将整个非收集区域加入gc roots扫描范围，减少了扫描区域就提高了效率。</p>
+<p>Hotspot虚拟机通过写屏障维护卡表，写屏障可以看成是虚拟机在进行引用类型字段复制的AOP切面，在引用类型变量赋值时，虚拟机会在前后执行额外操作（赋值前的操作称为写前屏障，赋值后的操作称为写后屏障）。</p>
+<p>AOP切面：程序在执行到某个点时的前后可以执行程序之外的其他操作，这个点就是横切关注点，程序本身是对这些点无感知的。这样做减少了对程序的侵入，使程序可以专注于自身的业务逻辑，同时可以集中管理散布于系统各处的横切关注点。</p>
+<p> [<a href="#_msoanchor_13">博13]</a>笔记: 并发可达性：</p>
+<p>将对象分为三种状态：</p>
+<p>黑色：该对象及其所有引用的已完成访问。</p>
+<p>灰色：该对象已经访问，但至少存在一个引用还没有被访问。</p>
+<p>白色：该对象还未被访问。</p>
+<p>在收集器工作时，用户线程可能会修改引用关系，导致问题：1. 将原本消亡的对象标记为存活，该错误可以容忍，产生的浮动垃圾可在下次gc时清理掉。 2. 将存活的对象标记为消亡，产生对象消失问题，该问题是致命的。出现条件：插入了从黑色对象到白色对象的引用，并且删除了灰色对象到该白色对象的所有直接或间接引用。</p>
+<p>解决方法：破坏出现条件其一即可。</p>
+<p>\1. 增量更新：在插入从黑色对象到白色对象的引用时，记录该引用关系，在扫描完成后，再次以记录的引用关系中的黑色对象为根，重新扫描一次，即黑色对象一旦插入指向白色对象的引用，它就成为黑色。</p>
+<p>\2. 原始快照：灰色对象删除指向白色对象的引用时，记录该引用关系，在扫描结束后，以记录的引用关系的灰色对象为根，重新扫描，即无论删除与否，都按照扫描开始时的引用关系扫描。</p>
+<p> [<a href="#_msoanchor_14">博14]</a>笔记: 额外消耗内存最小，没有线程交互开销。</p>
+<p>客户端模式下的默认新生代垃圾收集器。</p>
+<p> [<a href="#_msoanchor_15">博15]</a>笔记: 初始标记：暂停用户线程，标记与gc roots直接相连的对象，停顿很短。</p>
+<p>并发标记：与用户线程并发进行，从gc roots出发遍历整个对象图。</p>
+<p>重新标记：并发标记过程中，用户线程改变了部分引用关系，需要暂停用户线程，使用增量更新，对部分对象重新标记。用时比初始标记长，但远短于并发标记。</p>
+<p>并发清除：与用户线程并发进行，清楚标记的已消亡的对象。</p>
+<p> [<a href="#_msoanchor_16">博16]</a>笔记: CMS的缺点：</p>
+<p>\1. 对CPU资源敏感，在并发阶段，收集器会占用一部分CPU资源，导致用户线程可使用的CPU资源减少。</p>
+<p>\2. 无法处理浮动垃圾，可能导致并发失败，而需要暂停用户线程，使用serial old收集器对老年代重新进行垃圾收集。</p>
+<p>\3. 标记-清除算法容易导致产生大量内存碎片。</p>
+<p> [<a href="#_msoanchor_17">博17]</a>笔记: 用户端模式默认的收集器是serial+serial old。</p>
+<p>jdk 9之前，服务器端默认的收集器是parallel scavenge + parallel old，更早以前是parnew + CMS。jdk 9 之后是G1。</p>
+<p> [<a href="#_msoanchor_18">博18]</a>笔记: 初始标记：标记与gc roots直接相连的对象。</p>
+<p>并发标记：与用户线程并发进行，从gc roots出发遍历整个图，做可达性分析。</p>
+<p>最终标记：在并发标记过程中，使用原始快照的方式，记录发生改变的引用关系。在最终标记阶段，暂停用户线程，处理发生改变的引用关系。</p>
+<p>筛选回收：暂停用户线程，并行地更新region的统计数据，对各个region的回收成本和收益进行排序，根据用户所期望的停顿时间，选择任意多个region组成回收集，然后将回收集中的存活对象复制到空的region中去，再清理掉旧的region的全部空间。</p>
+<p>在并发阶段使用原始快照，如果内存回收速度小于内存回收速度，g1也会暂停用户线程，导致full gc。</p>
+<p> [<a href="#_msoanchor_19">博19]</a>笔记: 衡量垃圾收集器的重要指标是：内存占用、吞吐量、延迟。</p>
+<p> [<a href="#_msoanchor_20">博20]</a>笔记: G1收集器的特点：</p>
+<p>\1. 局部收集：先前的垃圾收集器进行垃圾收集的范围是整个新生代或整个老年代或整个堆，G1可以将堆内任意部分的region区域组成回收集，进行垃圾回收。</p>
+<p>\2. 基于region的堆内存布局：不再以固定大小和固定数量进行分代区域划分，而是将整个java堆划分成多个大小相等的独立区域，每个区域都可以按需扮演eden区、survivor区或老年区。为了解决跨region占用，g1使用了记忆集来避免全堆作为gc roots扫描，每个region都维护有自己的记忆集，而且结构更为复杂，因此g1有更高的内存占用。</p>
+<p>\3. 可预测的停顿时间模型：垃圾回收所需要的时间大概率不会超过N毫秒. g1收集器会根据每个region的统计数据，预测回收该region所获得的空间大小（收益）以及回收所需要的时间（成本），然后维护一个优先级列表，优先回收价值最大的region。由于需要统计和预测，因此会产生更高的负载。</p>
+<p>在小内存应用上CMS的表现大概率优于G1。</p>
+<p> [<a href="#_msoanchor_21">博21]</a>笔记: ZGC中的z没有特殊含义，</p>
+<p>zgc的只有初始标记和最终标记阶段需要暂停用户线程，其余阶段都是并发执行，而初始、最终标记的停顿时间基本是固定的，与堆容量、堆中对象数量不存在正比例关系，因此zgc可以在任意堆大小下将垃圾收集停顿时间控制在10ms以下。</p>
+<p>zgc基于region内存布局、使用了染色指针和内存多重映射等技术实现可并发的标记-整理算法，</p>
+<p>染色指针技术：将对象的标记信息直接记录在引用对象的指针上。这是因为64位地址总线的寻址空间远远超过所需要的内存空间（Linux的高18位不能用于寻址），因此可以将其中几位用做标记，而不至于影响目前使用。</p>
+<p>以低延迟为首要目标。</p>
+<p> [<a href="#_msoanchor_22">博22]</a>笔记: 垃圾收集器更适合称为自动内存管理系统，其基本职责是堆内存的布局与管理、对象的分配与回收。</p>
+<p> [<a href="#_msoanchor_23">博23]</a>笔记: 选择垃圾收集器应该考虑的点：</p>
+<p>\1. 应用程序的关注点， 在意吞吐量（计算密集型应用）还是延迟（交互式应用）或者是内存占用（客户端应用或嵌入式应用）</p>
+<p>\2. 基础设施，包括硬件设施和操作系统。</p>
+<p>\3. jdk发行商和版本。</p>
+<p> [<a href="#_msoanchor_24">博24]</a>笔记: 对象分配的基本策略：</p>
+<p>\1. 对象在eden中分配，如果空间不够，则触发一次minor gc，如果survivor不足以容纳存活对象，则通过分配担保机制转移到老年代去。</p>
+<p>\2. 大对象（需要大量连续空间的对象，例如数组或字符串）直接进入老年代，避免产生大量内存复制操作。</p>
+<p>\3. 对象具有一个年龄计数器，一次gc进入survivor后年龄设置为1，每经过一次gc，年龄加一，年龄超过一个阈值后进入老年代。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/java%E5%B9%B6%E5%8F%91%E7%AC%94%E8%AE%B0/" data-id="ckmn1ijih000mn8a8bp1ug0nl" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

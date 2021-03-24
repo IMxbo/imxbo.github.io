@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ovs使用python中执行shell命令 1234import osos.system() #返回值表示命令的返回值，0表示执行成功。os.popen() #可以获取命令的执行结果os.popen().read()  ovs流表操作 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;wangjq19920210&#x2F;p&#x2F;11776824.html RYU提供了web ui，启动web ui 123#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/ovs%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="ovs使用python中执行shell命令 1234import osos.system() #返回值表示命令的返回值，0表示执行成功。os.popen() #可以获取命令的执行结果os.popen().read()  ovs流表操作 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;wangjq19920210&#x2F;p&#x2F;11776824.html RYU提供了web ui，启动web ui 123#">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.770Z">
+<meta property="article:modified_time" content="2020-05-30T03:17:13.492Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ovs使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/ovs%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.770Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ovs使用"><a href="#ovs使用" class="headerlink" title="ovs使用"></a>ovs使用</h1><p>python中执行shell命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.system() <span class="comment">#返回值表示命令的返回值，0表示执行成功。</span></span><br><span class="line">os.popen() <span class="comment">#可以获取命令的执行结果</span></span><br><span class="line">os.popen().read()</span><br></pre></td></tr></table></figure>
+
+<p>ovs流表操作</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wangjq19920210/p/11776824.html">https://www.cnblogs.com/wangjq19920210/p/11776824.html</a></p>
+<p>RYU提供了web ui，启动web ui</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 需要修改./bin/ryu第一行的python解释器</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 不能同时运行ryu-manager</span></span><br><span class="line">PYTHONPATH=. ./bin/ryu run --observe-links ryu/app/gui_topology/gui_topology.py</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl: OpenFlow switch management utility</span><br><span class="line">usage: ovs-ofctl [OPTIONS] COMMAND [ARG...]</span><br><span class="line"></span><br><span class="line">For OpenFlow switches:</span><br><span class="line">  show SWITCH                 show OpenFlow information</span><br><span class="line">  dump-desc SWITCH            print switch description</span><br><span class="line">  dump-tables SWITCH          print table stats</span><br><span class="line">  dump-table-features SWITCH  print table features</span><br><span class="line">  dump-table-desc SWITCH      print table description (OF1.4+)</span><br><span class="line">  mod-port SWITCH IFACE ACT   modify port behavior</span><br><span class="line">  mod-table SWITCH MOD        modify flow table behavior</span><br><span class="line">      OF1.1/1.2 MOD: controller, continue, drop</span><br><span class="line">      OF1.4+ MOD: evict, noevict, vacancy:low,high, novacancy</span><br><span class="line">  get-frags SWITCH            print fragment handling behavior</span><br><span class="line">  set-frags SWITCH FRAG_MODE  set fragment handling behavior</span><br><span class="line">      FRAG_MODE: normal, drop, reassemble, nx-match</span><br><span class="line">  dump-ports SWITCH [PORT]    print port statistics</span><br><span class="line">  dump-ports-desc SWITCH [PORT]  print port descriptions</span><br><span class="line">  dump-flows SWITCH           print all flow entries</span><br><span class="line">  dump-flows SWITCH FLOW      print matching FLOWs</span><br><span class="line">  dump-aggregate SWITCH       print aggregate flow statistics</span><br><span class="line">  dump-aggregate SWITCH FLOW  print aggregate stats for FLOWs</span><br><span class="line">  queue-stats SWITCH [PORT [QUEUE]]  dump queue stats</span><br><span class="line">  add-flow SWITCH FLOW        add flow described by FLOW</span><br><span class="line">  add-flows SWITCH FILE       add flows from FILE</span><br><span class="line">  mod-flows SWITCH FLOW       modify actions of matching FLOWs</span><br><span class="line">  del-flows SWITCH [FLOW]     delete matching FLOWs</span><br><span class="line">  replace-flows SWITCH FILE   replace flows with those in FILE</span><br><span class="line">  diff-flows SOURCE1 SOURCE2  compare flows from two sources</span><br><span class="line">  packet-out SWITCH IN_PORT ACTIONS PACKET...</span><br><span class="line">                              execute ACTIONS on PACKET</span><br><span class="line">  monitor SWITCH [MISSLEN] [invalid_ttl] [watch:[...]]</span><br><span class="line">                              print packets received from SWITCH</span><br><span class="line">  snoop SWITCH                snoop on SWITCH and its controller</span><br><span class="line">  add-group SWITCH GROUP      add group described by GROUP</span><br><span class="line">  add-groups SWITCH FILE      add group from FILE</span><br><span class="line">  mod-group SWITCH GROUP      modify specific group</span><br><span class="line">  del-groups SWITCH [GROUP]   delete matching GROUPs</span><br><span class="line">  insert-buckets SWITCH [GROUP] add buckets to GROUP</span><br><span class="line">  remove-buckets SWITCH [GROUP] remove buckets from GROUP</span><br><span class="line">  dump-group-features SWITCH  print group features</span><br><span class="line">  dump-groups SWITCH [GROUP]  print group description</span><br><span class="line">  dump-group-stats SWITCH [GROUP]  print group statistics</span><br><span class="line">  queue-get-config SWITCH PORT  print queue information for port</span><br><span class="line">  add-meter SWITCH METER      add meter described by METER</span><br><span class="line">  mod-meter SWITCH METER      modify specific METER</span><br><span class="line">  del-meter SWITCH METER      delete METER</span><br><span class="line">  del-meters SWITCH           delete all meters</span><br><span class="line">  dump-meter SWITCH METER     print METER configuration</span><br><span class="line">  dump-meters SWITCH          print all meter configuration</span><br><span class="line">  meter-stats SWITCH [METER]  print meter statistics</span><br><span class="line">  meter-features SWITCH       print meter features</span><br><span class="line">  add-tlv-map SWITCH MAP      add TLV option MAPpings</span><br><span class="line">  del-tlv-map SWITCH [MAP] delete TLV option MAPpings</span><br><span class="line">  dump-tlv-map SWITCH      print TLV option mappings</span><br><span class="line"></span><br><span class="line">For OpenFlow switches and controllers:</span><br><span class="line">  probe TARGET                probe whether TARGET is up</span><br><span class="line">  ping TARGET [N]             latency of N-byte echos</span><br><span class="line">  benchmark TARGET N COUNT    bandwidth of COUNT N-byte echos</span><br><span class="line">SWITCH or TARGET is an active OpenFlow connection method.</span><br><span class="line"></span><br><span class="line">Other commands:</span><br><span class="line">  ofp-parse FILE              print messages read from FILE</span><br><span class="line">  ofp-parse-pcap PCAP         print OpenFlow read from PCAP</span><br><span class="line"></span><br><span class="line">Active OpenFlow connection methods:</span><br><span class="line">  tcp:IP[:PORT]           PORT (default: 6653) at remote IP</span><br><span class="line">  ssl:IP[:PORT]           SSL PORT (default: 6653) at remote IP</span><br><span class="line">  unix:FILE               Unix domain socket named FILE</span><br><span class="line">PKI configuration (required to use SSL):</span><br><span class="line">  -p, --private-key=FILE  file with private key</span><br><span class="line">  -c, --certificate=FILE  file with certificate for private key</span><br><span class="line">  -C, --ca-cert=FILE      file with peer CA certificate</span><br><span class="line"></span><br><span class="line">Daemon options:</span><br><span class="line">  --detach                run in background as daemon</span><br><span class="line">  --no-chdir              do not chdir to &#x27;/&#x27;</span><br><span class="line">  --pidfile[=FILE]        create pidfile (default: /var/run/openvswitch/ovs-ofctl.pid)</span><br><span class="line">  --overwrite-pidfile     with --pidfile, start even if already running</span><br><span class="line"></span><br><span class="line">OpenFlow version options:</span><br><span class="line">  -V, --version           display version information</span><br><span class="line">  -O, --protocols         set allowed OpenFlow versions</span><br><span class="line">                          (default: OpenFlow10, OpenFlow11, OpenFlow12, OpenFlow13)</span><br><span class="line"></span><br><span class="line">Logging options:</span><br><span class="line">  -vSPEC, --verbose=SPEC   set logging levels</span><br><span class="line">  -v, --verbose            set maximum verbosity level</span><br><span class="line">  --log-file[=FILE]        enable logging to specified FILE</span><br><span class="line">                           (default: /var/log/openvswitch/ovs-ofctl.log)</span><br><span class="line">  --syslog-method=(libc|unix:file|udp:ip:port)</span><br><span class="line">                           specify how to send messages to syslog daemon</span><br><span class="line">  --syslog-target=HOST:PORT  also send syslog msgs to HOST:PORT via UDP</span><br><span class="line"></span><br><span class="line">Other options:</span><br><span class="line">  --strict                    use strict match for flow commands</span><br><span class="line">  --readd                     replace flows that haven&#x27;t changed</span><br><span class="line">  -F, --flow-format=FORMAT    force particular flow format</span><br><span class="line">  -P, --packet-in-format=FRMT force particular packet in format</span><br><span class="line">  -m, --more                  be more verbose printing OpenFlow</span><br><span class="line">  --timestamp                 (monitor, snoop) print timestamps</span><br><span class="line">  -t, --timeout=SECS          give up after SECS seconds</span><br><span class="line">  --sort[=field]              sort in ascending order</span><br><span class="line">  --rsort[=field]             sort in descending order</span><br><span class="line">  --unixctl=SOCKET            set control socket name</span><br><span class="line">  -h, --help                  display this help message</span><br><span class="line">  -V, --version               display version information</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="流表组成"><a href="#流表组成" class="headerlink" title="流表组成"></a>流表组成</h1><p>每条流表规则由一些列字段组成，可以分为**<code>基础字段</code><strong>、</strong><code>匹配字段</code><strong>和</strong><code>动作字段</code>**三部分。 在打印流表时，在流表中还存在一些显示字段，如<code>duration</code>,<code>idle_age</code>等，此处把这些字段也暂时归之于基础字段之中.</p>
+<h3 id="流表组成部分字段说明"><a href="#流表组成部分字段说明" class="headerlink" title="流表组成部分字段说明"></a>流表组成部分字段说明</h3><h4 id="基础字段："><a href="#基础字段：" class="headerlink" title="基础字段："></a>基础字段：</h4><ul>
+<li><code>cookie=value</code> 流表标识字段，cookie字段有两种书写方式：<code>cookie=value</code>和<code>cookie=value/mask</code>。<code>mask</code>中对应位为1时cookie中值相应的位须严格匹配，为0时cookie中值对应的位通配，当<code>mask</code>为-1时，必须严格匹配cookie值。</li>
+<li><code>duration=value</code> 流表生效时间，标识流表从下发到现在所持续的时间</li>
+<li><code>table=tableid</code> 流表所属表项，标识流表所属的表，默认为0</li>
+<li><code>priority=priority</code> 标识流表的优先级，范围为0-65535，值越大，优先级越高</li>
+<li><code>n_packets</code> 标识流表匹配包数</li>
+<li><code>n_bytes</code> 标识流表匹配字节数</li>
+<li><code>idle_timeout=sec</code> 流表空闲超时时间，流表会在空闲时间达到给定的时间时被删除。设置为0（默认值）时，流表不会因空闲时间被删除。</li>
+<li><code>hard_timeout=sec</code> 流表可存在的时间。设置此值后，流表会在到达给定时间后被删除。</li>
+<li><code>idle_age=sec</code> 流表空闲时间</li>
+<li><code>hard_age=sec</code> 流表存在时间。此字段与<code>duration</code>字段的区别在当流表被修改后，会重新设置<code>hard_timer</code>但是不会重置<code>duration</code></li>
+<li><code>ip_frag=frag_type</code> 当<code>dl_type</code>指定为IP或者IPv6，<code>frag_type</code>指定匹配的IP分片包或者非分片包的匹配 <code>frag_type</code>支持的值为： <code>no</code>: 仅匹配非分片报文 <code>yes</code>：匹配所有分片报文 <code>first</code>：仅匹配<code>offset</code>为0的分片报文 <code>later</code>： 仅匹配<code>offset</code>非0的分片报文 <code>not_later</code>：匹配非分片报文和offset为0的分片报文</li>
+</ul>
+<h4 id="匹配字段"><a href="#匹配字段" class="headerlink" title="匹配字段"></a>匹配字段</h4><ul>
+<li><code>in_port=port</code> 标识匹配接收数据包的端口号</li>
+<li><code>dl_type=ethertype</code> 匹配数据包的二层协议类型，IP数据包为<code>0x0800</code>，IPv6数据包为<code>0x86dd</code>，ARP数据包为<code>0x0806</code></li>
+<li><code>dl_src=xx:xx:xx:xx:xx:xx</code></li>
+<li><code>dl_dst=xx:xx:xx:xx:xx:xx</code> 匹配指定的链路层源或者目的MAC地址</li>
+<li><code>dl_src=xx:xx:xx:xx:xx:xx/xx:xx:xx:xx:xx:xx</code></li>
+<li><code>dl_dst=xx:xx:xx:xx:xx:xx/xx:xx:xx:xx:xx:xx</code> 匹配指定的链路层MAC地址，MAC地址格式为<code>ADDR/MASK</code>，当<code>MASK</code>值为<code>01:00:00:00:00:00</code>时，仅匹配多播位。当<code>dl_dst=01:00:00:00:00:00/01:00:00:00:00:00</code>时，匹配所有的组播报文和广播报文。<code>dl_dst=00:00:00:00:00:00/01:00:00:00:00:00</code>匹配所有的单播报文。</li>
+<li><code>nw_src=ip[/mask]</code></li>
+<li><code>nw_dst=ip[/mask]</code> 当<code>dl_type=0x0800</code>或指定<code>ip</code>时，匹配数据包的源、目的IP地址 当<code>dl_type=0x0806</code>或指定<code>arp</code>时，匹配ARP数据包的<code>ar_spa</code>或者<code>ar_tpa</code>字段</li>
+<li><code>dl_vlan=vlan</code> 匹配802.1Q类型（即vlan）数据包</li>
+<li><code>nw_proto=proto</code> 匹配数据包协议类型。当<code>dl_type=0x0800</code>时，匹配IP协议族的协议，例如<code>tcp</code>，<code>udp</code>，<code>icmp</code>等</li>
+<li><code>nw_tos=tos</code> 匹配<code>IP Tos/DSCP</code>或者IPv6的<code>tos</code>字段，值为<code>0-255</code></li>
+<li><code>nw_ecn=ecn</code> 匹配IP或者IPv6的<code>ecn</code>字段，值为<code>0~3</code></li>
+<li><code>nw_ttl=ttl</code> 匹配TTL值</li>
+<li><code>tp_src=port</code></li>
+<li><code>tp_dst=port</code> 若指定了<code>udp</code>或者<code>tcp</code>协议，则匹配udp/tcp的端口号</li>
+<li><code>icmp_type=type</code></li>
+<li><code>icmp_code=code</code> 若指定了<code>icmp</code>或者<code>icmpv6</code>协议，则匹配对应的icmp 类型或者code字段</li>
+<li><code>arp_sha=xx:xx:xx:xx:xx:xx</code></li>
+<li><code>arp_tha=xx:xx:xx:xx:xx:xx</code> 当设置<code>dl_type</code>为<code>ARP</code>或者<code>RARP</code>，则<code>arp_sha</code>和<code>arp_tha</code>匹配数据包的源、目的MAC地址</li>
+</ul>
+<h4 id="动作字段"><a href="#动作字段" class="headerlink" title="动作字段"></a>动作字段</h4><ul>
+<li><code>output:port</code> 将数据包从<code>port</code>接口发送</li>
+<li><code>enqueue:port:queue</code> 将数据包入队到指定端口的指定队列里</li>
+<li><code>normal</code> 将数据包按照设备上的正常L2/L3层处理方式进行处理</li>
+<li><code>flood</code> 将数据包发送到交换机上除接收接口和禁止flood的接口外的所有接口</li>
+<li><code>all</code> 将数据包发送到除接收接口外的所有接口</li>
+<li><code>controller(key=value…)</code> 将数据包作为<code>PACKET IN</code>消息发送到OpenFlow控制器。 支持的键值对： <code>max_len=nbytes</code>：限制发送到控制器的数据包长度字节数，默认情况是发送整个数据包；<code>reason=reason</code>：在<code>PACKET IN</code>消息中指明发送消息的原因，支持的<code>reason</code>为<code>action</code>(default)，<code>no_match</code>和<code>invalid_ttl</code>; <code>id=controller-id</code>：指明控制器ID</li>
+<li><code>in_port</code> 将数据包从接收的接口发送出去</li>
+<li><code>drop</code> 丢弃数据包</li>
+<li><code>mod_vlan_vid:vlan_vid</code> 修改数据包的vlan id</li>
+<li><code>mod_vlan_pcp:vlan_pcp</code> 修改数据包的vlan priority</li>
+<li><code>strip_vlan</code> 如果数据包中存在vlan tag，则剥离vlan tag</li>
+<li><code>push_vlan:ethertype</code> 为数据包添加新的vlan tag</li>
+<li><code>mod_dl_src:mac</code> 设置数据包的源MAC地址</li>
+<li><code>mod_dl_dst:mac</code> 设置数据包的目的MAC地址</li>
+<li><code>mod_nw_src:ip</code> 设置数据包的源IP地址</li>
+<li><code>mod_nw_dsp:ip</code> 设置数据包的目的IP地址</li>
+<li><code>mod_tp_src:port</code> 设置TCP或者UDP的源端口</li>
+<li><code>mod_tp_dst:port</code> 设置TCP或UDP的目的端口</li>
+</ul>
+<h2 id="下发流表"><a href="#下发流表" class="headerlink" title="下发流表"></a>下发流表</h2><h3 id="查询对应的网口序号"><a href="#查询对应的网口序号" class="headerlink" title="查询对应的网口序号"></a>查询对应的网口序号</h3><h4 id="对应网口名称已知"><a href="#对应网口名称已知" class="headerlink" title="对应网口名称已知"></a>对应网口名称已知</h4><p>如果明确的知道对应网口的名称，如<code>vnet1</code>，可以通过如下方式查询其对应的<code>OpenFlow</code>接口序号：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ ovs-vsctl get interface vnet1 ofport</span><br></pre></td></tr></table></figure>
+
+<h4 id="对应网口名称未知"><a href="#对应网口名称未知" class="headerlink" title="对应网口名称未知"></a>对应网口名称未知</h4><p>如果不知道对应网口的名称，但是知道其对应的MAC地址，则可以通过如下命令查找对应的网口序号：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ ovs-ofctl show ovsBusiness </span><br><span class="line">OFPT_FEATURES_REPLY (xid=0x2): dpid:000090e2ba0115e4</span><br><span class="line">n_tables:254, n_buffers:256</span><br><span class="line">capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP</span><br><span class="line">actions: output enqueue set_vlan_vid set_vlan_pcp strip_vlan mod_dl_src mod_dl_dst mod_nw_src mod_nw_dst mod_nw_tos mod_tp_src mod_tp_dst</span><br><span class="line"> 1(vnet1): addr:fe:ea:4a:e6:01:db</span><br><span class="line">     config:     0</span><br><span class="line">     state:      0</span><br><span class="line">     current:    10MB-FD COPPER</span><br><span class="line">     speed: 10 Mbps now, 0 Mbps max</span><br><span class="line"> 2(vnet2): addr:fe:ea:4a:e6:01:dc</span><br><span class="line">     config:     0</span><br><span class="line">     state:      0</span><br><span class="line">     current:    10MB-FD COPPER</span><br><span class="line">     speed: 10 Mbps now, 0 Mbps max</span><br><span class="line"> 3(vnet3): addr:fe:ea:4a:e6:01:5b</span><br><span class="line">     config:     0</span><br><span class="line">     state:      0</span><br><span class="line">     current:    10MB-FD COPPER</span><br><span class="line">     speed: 10 Mbps now, 0 Mbps max</span><br><span class="line"> 4(vnet4): addr:fe:ea:4a:e6:01:5c</span><br><span class="line">     config:     0</span><br><span class="line">     state:      0</span><br><span class="line">     current:    10MB-FD COPPER</span><br><span class="line">     speed: 10 Mbps now, 0 Mbps max</span><br><span class="line"> LOCAL(ovsBusiness): addr:90:e2:ba:01:15:e4</span><br><span class="line">     config:     0</span><br><span class="line">     state:      0</span><br><span class="line">     speed: 0 Mbps now, 0 Mbps max</span><br><span class="line">OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0</span><br></pre></td></tr></table></figure>
+
+<p>可以看到接口对应的MAC地址及接口对应的OpenFlow接口序号。</p>
+<h3 id="下发流表示例"><a href="#下发流表示例" class="headerlink" title="下发流表示例"></a>下发流表示例</h3><p>如上面<code>ovs-ofctl show ovsBusiness</code>命令所显示的接口信息，<code>vnet1</code>和<code>vnet2</code>对应OVS的入口和出口，分别连接着客户端和服务端，<code>vnet3</code>和<code>vnet4</code>对应虚拟机的入口和出口，下面就以以上四个网口来下发流表：</p>
+<h4 id="根据接收端口"><a href="#根据接收端口" class="headerlink" title="根据接收端口"></a>根据接收端口</h4><h5 id="从一个接口接收从其他接口发送"><a href="#从一个接口接收从其他接口发送" class="headerlink" title="从一个接口接收从其他接口发送"></a>从一个接口接收从其他接口发送</h5><p>从<code>vnet1</code>接收的数据包经过虚拟机后从<code>vnet2</code>发送出去</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端访问服务端</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,in_port=1 actions=output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,in_port=4 actions=output:2&quot;</span></span><br><span class="line"><span class="comment"># 服务端应答客户端请求</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,in_port=2 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,in_port=3 actions=output:1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="将数据包从接收端口发送"><a href="#将数据包从接收端口发送" class="headerlink" title="将数据包从接收端口发送"></a>将数据包从接收端口发送</h5><p>将从<code>vnet1</code>接收到的数据包从<code>vnet1</code>发送出去</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,in_port=1 actions=in_port&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="根据接收端口及IP信息"><a href="#根据接收端口及IP信息" class="headerlink" title="根据接收端口及IP信息"></a>根据接收端口及IP信息</h4><p>客户端IP地址为：1.1.1.12， 服务端IP地址为1.1.1.13</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端访问服务端</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=1,nw_src=1.1.1.12,nw_dst=1.1.1.13 actions=output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=4,nw_src=1.1.1.12,nw_dst=1.1.1.13 actions=output:2&quot;</span></span><br><span class="line"><span class="comment"># 服务端相应客户端请求</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=2,nw_src=1.1.1.13,nw_dst=1.1.1.12 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=3,nw_src=1.1.1.13,nw_dst=1.1.1.12 actions=output:1&quot;</span></span><br><span class="line"><span class="comment"># 放通arp数据包</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=1 actions=output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=4 actions=output:2&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=2 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=3 actions=output:1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="根据接收端口、VLAN及IP信息"><a href="#根据接收端口、VLAN及IP信息" class="headerlink" title="根据接收端口、VLAN及IP信息"></a>根据接收端口、VLAN及IP信息</h4><p>在将数据包发给虚拟机之前去vlan tag，然后数据包发送出OVS时添加vlan tag</p>
+<p>客户端IP地址为：1.1.1.12， 服务端IP地址为1.1.1.13，vlan为10</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端访问服务端</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=1,dl_vlan=10,nw_src=1.1.1.12,nw_dst=1.1.1.13 actions=strip_vlan,output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=4,nw_src=1.1.1.12,nw_dst=1.1.1.13 actions=mod_vlan_vid:10,output:2&quot;</span></span><br><span class="line"><span class="comment"># 服务端相应客户端请求</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=2,dl_vlan=10,nw_src=1.1.1.13,nw_dst=1.1.1.12 actions=strip_vlan,output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=3,nw_src=1.1.1.13,nw_dst=1.1.1.12 actions=mod_vlan_vid:10,output:1&quot;</span></span><br><span class="line"><span class="comment"># 放通arp数据包</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=1 actions=output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=4 actions=output:2&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=2 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=3 actions=output:1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="根据接收端口及MAC地址信息"><a href="#根据接收端口及MAC地址信息" class="headerlink" title="根据接收端口及MAC地址信息"></a>根据接收端口及MAC地址信息</h4><p>客户端IP地址为：1.1.1.12， 服务端IP地址为1.1.1.13 客户端MAC地址为：01:01:01:01:01:02，服务端MAC地址为：01:01:01:01:01:01</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端访问服务端</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=1,dl_dst=01:01:01:01:01:01 actions=strip_vlan,output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=4,dl_dst=01:01:01:01:01:01 actions=mod_vlan_vid:10,output:2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务端相应客户端请求</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=2,dl_dst=01:01:01:01:01:02 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,ip,in_port=3,dl_dst=01:01:01:01:01:02 actions=output:1&quot;</span></span><br><span class="line"><span class="comment"># 放通arp数据包</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=1 actions=output:3&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=4 actions=output:2&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=2 actions=output:4&quot;</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;cookie=0,priority=40001,arp,in_port=3 actions=output:1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="设置NORMAL转发"><a href="#设置NORMAL转发" class="headerlink" title="设置NORMAL转发"></a>设置NORMAL转发</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flows <span class="string">&quot;priority=0 actions=NORMAL&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="其他形式的流表"><a href="#其他形式的流表" class="headerlink" title="其他形式的流表"></a>其他形式的流表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 丢弃所有port 1上接收的数据包</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;in_port=2 actions=drop&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 丢弃所有port 1上接收的广播报文(此处网上给出的是dl_src，我怎么感觉是dl_dst?)</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;priority=40001,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=drop&quot;</span></span><br><span class="line"><span class="comment"># 丢弃所有STP协议的广播数据包</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;priority=40001,dl_dst=01:80:c2:00:00:00/ff:ff:ff:ff:ff:f0 actions=drop&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改从port 1上接收的数据包的源IP地址为&quot;192.168.13.1&quot;，并从port 2口发送</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;priority=40001,in_port=1 actions=mod_nw_src:192.168.13.1,output:2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将所有port 1接收的ICMP报文发送到port 2上去</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;priority=40001,dl_type=0x0800,in_port=1,nw_proto=1 actions=output:2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将所有port 1接收的TCP目的端口为80的报文发送到port 2口</span></span><br><span class="line">ovs-ofctl add-flow ovsBusiness <span class="string">&quot;priority=4001,dl_type=0x0800,in_port=1,nw_proto=6,tp_dst=80 actions=output:2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="删除流表"><a href="#删除流表" class="headerlink" title="删除流表"></a>删除流表</h2><h3 id="删除全部流表"><a href="#删除全部流表" class="headerlink" title="删除全部流表"></a>删除全部流表</h3><p>删除全部流表的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl del-flows ovsBusiness</span><br></pre></td></tr></table></figure>
+
+<h3 id="按匹配条件删除流表"><a href="#按匹配条件删除流表" class="headerlink" title="按匹配条件删除流表"></a>按匹配条件删除流表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除&quot;in_port=1&quot;的流表</span></span><br><span class="line">ovs-ofctl del-flows ovsBusiness <span class="string">&quot;in_port=1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除匹配条件为&quot;priority=40001&quot;的流表</span></span><br><span class="line">ovs-ofctl del-flows ovsBusiness <span class="string">&quot;priority=40001&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除匹配条件为&quot;priority=4001,ip,in_port=1,nw_src=1.1.1.12&quot;的流表</span></span><br><span class="line">ovs-ofctl del-flows ovsBusiness <span class="string">&quot;priority=4001,ip,in_port=1,nw_src=1.1.1.12&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除匹配条件为&quot;priority=4001,ip,in_port=1,nw_src=1.1.1.12 action=output:2&quot;的流表</span></span><br><span class="line">ovs-ofctl del-flows ovsBusiness <span class="string">&quot;priority=4001,ip,in_port=1,nw_src=1.1.1.12 action=output:2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看流表"><a href="#查看流表" class="headerlink" title="查看流表"></a>查看流表</h2><h3 id="查看配置的所有流表信息"><a href="#查看配置的所有流表信息" class="headerlink" title="查看配置的所有流表信息"></a>查看配置的所有流表信息</h3><p>查看流表命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl dump-flows ovsBusiness</span><br></pre></td></tr></table></figure>
+
+<p>上述命令可以查看现在OVS桥上配置的流表</p>
+<h3 id="查看现在生效的流表信息"><a href="#查看现在生效的流表信息" class="headerlink" title="查看现在生效的流表信息"></a>查看现在生效的流表信息</h3><p>查看现在生效的流表命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看默认的datapath类型的OVS桥的生效流表</span></span><br><span class="line">ovs-appctl dpctl/dump-flows system@ovs-system</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看datapath类型为netdev的OVS桥的生效流表</span></span><br><span class="line">ovs-appctl dpctl/dump-flows netdev@ovs-netdev</span><br></pre></td></tr></table></figure>
+
+<p>上述两条命令显示结果中的<code>in_port(port_num)</code>和<code>actions:port_num,port_num</code>值可能与使用<code>ovs-ofctl</code>命令查看到的不一致，这是因为使用<code>ovs-appctl</code>命令显示的端口号是所有<code>datapath</code>类型的桥下接口的编号，而<code>ovs-ofctl</code>命令下的端口号是此OVS桥下的端口号。 查看完整的<code>datapath</code>类型的接口编号命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前OVS中的datapath类型</span></span><br><span class="line">ovs-appctl dpctl/dump-dps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看默认datapath类型的接口编号</span></span><br><span class="line">ovs-appctl dpctl/show system@ovs-system</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看datapath=netdev类型的接口编号</span></span><br><span class="line">ovs-appctl dpctl/show netdev@ovs-netdev</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前网桥的所有流表"><a href="#查看当前网桥的所有流表" class="headerlink" title="查看当前网桥的所有流表"></a>查看当前网桥的所有流表</h3><p>每个网桥默认情况下会配置有默认流表，查看所有的流表信息的命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-appctl bridge/dump-flows ovsBusiness</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>在配置流表时，如果需要对数据包进行修改，则对数据包的修改动作应该在<code>output</code>动作之前完成，否则会不生效（因为数据包已经发送出去）.</p>
+<p>RYU文档</p>
+<p><a target="_blank" rel="noopener" href="https://ryu.readthedocs.io/en/latest/index.html">https://ryu.readthedocs.io/en/latest/index.html</a></p>
+<p>RYU REST API</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34415266/article/details/92795959">https://blog.csdn.net/qq_34415266/article/details/92795959</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/ovs%E4%BD%BF%E7%94%A8/" data-id="ckmn1ijid000hn8a86c6bd1ul" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E5%B0%8F%E8%AE%BA%E6%96%87Idea/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

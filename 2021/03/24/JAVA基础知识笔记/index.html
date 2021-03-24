@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="java程序运行机制高级语言的运行机制 编译型：使用专门的编译器，针对特定平台将某种高级语言源代码一次新编译成该平台执行的机器码（包括机器指令和操作数），可脱离开发环境独立运行，运行效率高，但可移植性差。例如C&#x2F;C++等。 解释型：使用专门的解释器对源程序逐行解释成特定平台的机器码并立即执行，不会进行整体的编译和链接处理。不能脱离开发环境独立运行，运行效率低，可移植性较好，只需提供特定平台的解释器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="java程序运行机制高级语言的运行机制 编译型：使用专门的编译器，针对特定平台将某种高级语言源代码一次新编译成该平台执行的机器码（包括机器指令和操作数），可脱离开发环境独立运行，运行效率高，但可移植性差。例如C&#x2F;C++等。 解释型：使用专门的解释器对源程序逐行解释成特定平台的机器码并立即执行，不会进行整体的编译和链接处理。不能脱离开发环境独立运行，运行效率低，可移植性较好，只需提供特定平台的解释器">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/JAVA%E5%AD%A6%E4%B9%A0.assets/image-20200924111125099.png">
+<meta property="og:image" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/JAVA%E5%AD%A6%E4%B9%A0.assets/image-20200926203434656.png">
+<meta property="og:image" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/JAVA%E5%AD%A6%E4%B9%A0.assets/image-20201008153116922.png">
+<meta property="og:image" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/JAVA%E5%AD%A6%E4%B9%A0.assets/image-20201013111108706.png">
+<meta property="article:published_time" content="2021-03-24T06:02:27.644Z">
+<meta property="article:modified_time" content="2020-10-22T12:41:57.109Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/JAVA%E5%AD%A6%E4%B9%A0.assets/image-20200924111125099.png">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-JAVA基础知识笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.644Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="java程序运行机制"><a href="#java程序运行机制" class="headerlink" title="java程序运行机制"></a>java程序运行机制</h3><p>高级语言的运行机制</p>
+<p>编译型：使用专门的编译器，针对特定平台将某种高级语言源代码一次新编译成该平台执行的机器码（包括机器指令和操作数），可脱离开发环境独立运行，运行效率高，但可移植性差。例如C/C++等。</p>
+<p>解释型：使用专门的解释器对源程序逐行解释成特定平台的机器码并立即执行，不会进行整体的编译和链接处理。不能脱离开发环境独立运行，运行效率低，可移植性较好，只需提供特定平台的解释器。例如Python等。</p>
+<p>JAVA程序的运行机制和JVM</p>
+<p>JAVA语言编译不生成特定平台的机器码，而是生成一种与平台无关的、不可执行的字节码（.class文件），需要用JAVA解释器来解释执行。</p>
+<p>JVM（Java Virtual Machine）是可运行JAVA字节码的虚拟计算机，所有平台的JVM向编译器提供相同的编程接口，编译器只只需要生成JVM能理解的代码，由JVM解释执行。</p>
+<p>Oracle公司指定的JVM规范具体定义了JVM的1. 指令集 2.寄存器 3.类文件的格式 4.栈 5.垃圾回收堆 6.存储区</p>
+<p>JRE（Kava Runtime Environment）包含JVM、类加载器、字节码校验器、基础类库等。</p>
+<p>javac命令将源文件.java编译成字节码.class</p>
+<p>javac -d destdir srcFile</p>
+<p>java命令解释执行平台无关的字节码程序.class</p>
+<p>java Javal类名</p>
+<p>一个Java源文件可以包含多个类定义，但最多只能包含一个public类定义。如果包含public类定义，则源文件的文件名必须与public类的类名相同。</p>
+<p>public static void main(String[] args)</p>
+<p>JAVA程序的内存分配和回收都是由JRE自动进行，JRE会提供一个后台进程来进行检测和控制不再使用的内存，一般都是在CPU空闲或内存不足时自动进行垃圾回收（Garbage Collection，GC）。</p>
+<p>JAVA的堆内存是一个运行时数据区，用以保存类的实例（对象）。堆内存的回收一般由垃圾回收负责，所有的JVM都有一个由垃圾回收管理器的堆内存。垃圾回收是一种动态存储管理技术，它按照特定的垃圾回收算法自动释放不再被程序引用的对象（垃圾），清除内存碎片（碎片是分配给对象的内存块之间的空闲内存区，碎片整理将碎片所占用的堆内存移到堆的一端）。</p>
+<p>JVM必须跟踪程序中的对象，因此会影响程序性能。同时垃圾回收算法的不完备性，不能保证100%收集到所有的废弃内存。</p>
+<p>垃圾回收的特定：</p>
+<ul>
+<li>回收JVM堆内存中无用对象的内存空间，不能回收物理资源。</li>
+<li>将对象的引用变量设置为null来暗示垃圾回收机制回收该对象。</li>
+<li>程序通过调用Runtime对象的gc()或System.gc()等方法建议系统进行垃圾回收，不能精确控制垃圾回收机制的执行。</li>
+<li>垃圾回收机制要能精确标记活着的对象，并精确定位对象之间的引用关系。</li>
+</ul>
+<p>结构化程序：按照功能分析系统需求，自顶向下、逐步求精、模块化。最小的程序单元是函数。</p>
+<p>程序设计的三种基本结构：顺序结构、选择结构和循环结构。</p>
+<p>面向对象程序设计：从现实世界中客观存在的食物出发来构造系统，将这些食物的本质特点抽象地表示为类，作为系统的基本构成单元。最小程序单元是类，类由成员变量和方法组成。</p>
+<p>面向对象的基本特征</p>
+<p>封装Encapsulation：将对象的实现细节隐藏起来，通过一些公用方法来暴露该对象的功能。</p>
+<p>继承Inheritance：类之间共享属性的和操作的机制，继承具有传递性。</p>
+<p>子类继承父类之后，可以直接获得父类的属性和方法，是实现软件复用的重要手段。</p>
+<p>多态Polymorphism：子类对象可以直接赋值给父类变量，但运行时依然表现出子类的行为特征，意味着同一个类型的对象在执行同一个方法时，可能表现多种行为特征。</p>
+<p>类是具有共同属性、共同方法的一类事物，类是对象的抽象，对象是类的实例。类的封装性提高了类的内聚性，降低了对象之间的耦合性。</p>
+<p>抽象Abstract：忽略一个主题中与当前目标无关的方面，以更充分地注意与当前目标相关的方面。</p>
+<p>面向对象分析OOA对目标系统进行分析，建立分析模型，并将之文档化。</p>
+<p>面向对象设计OOD用面向对象的思想对OOA的结果进行细化，得出设计模式。</p>
+<p>java使用class定义类</p>
+<p>类之间的结构关系有1. 一般到特殊，继承关系，java使用extends表示继承关系，子类是一种特殊的父类，是is a关系。 2.整体到部分，组合关系，java通过在一个类里保存另一个对象的引用来实现组合关系，是has a关系。</p>
+<p>java的参数传递是值传递的形式，而不是引用传递。传递引用对象的时候，本质上是将对象的地址以值的方式传递到形参中。因此在方法中使指针引用其它对象，那么这两个指针此时指向的是完全不同的对象，在一方改变其所指向对象的内容时对另一方没有影响。如果在方法中改变对象的字段值会改变原对象该字段值，因为改变的是同一个地址指向的内容。</p>
+<h3 id="java数据类型和运算符"><a href="#java数据类型和运算符" class="headerlink" title="java数据类型和运算符"></a>java数据类型和运算符</h3><p>java是强类型语言，所有变量必须先声明后使用，指定类型的变量只能接受类型与之匹配的值。意味着每个变量和表达式都有一个在编译时就确定的类型。</p>
+<p>使用//开始单行注释，/*表示多行注释开始，*/b表示多行注释结束。</p>
+<p>javadoc工具用于生产API文档，javadoc只处理类、接口、方法、成员变量、构造器和内部类之前的注释，忽视其他地方的注释，并且默认只处理public或protected修饰的部分。</p>
+<p>文档注释以/**开始，以*/结束，中间部分会提取到API文档中。</p>
+<p>javadoc常用的标记有：@author 指定作者，@version 指定版本，@deprecated 不推荐使用的方法，@param方法的参数说明，@return 方法的返回值说明，@see 参见，用于指定交叉参考的内容，@exception 抛出异常的类型，@throws 与@exception同义。</p>
+<p>java中一个字符串、变量名不能跨行。</p>
+<p>java的标识符支持unicode，区分大小写。</p>
+<p>java的所有关键字都是小写。</p>
+<p>goto和const两个关键字是保留字。</p>
+<p>java 的数据类型分为两种基本类型和引用类型，基本类型包括boolean类型和数值类型，数值类型包括整数类型和浮点类型，整数类型包括byte\short\int\long\char，浮点类型包括float\double。引用类型是指对一个对象的引用，包括类、接口和数组，以及特殊的null类型，实质就是一个指·11针。</p>
+<p>asasafdsadaddsa整型中，byte占8位，short占16位，int占32位，long占64位，都是带符号的，表示范围是-2^(N/2) ~ 2^(N/2)-1，N是位数。</p>
+<p>java中将较小的整数直接赋值给byte或short时，系统自动把该整数当byte或long处理。</p>
+<p>java不会把巨大的整数值当成long型处理，需要在整数值后增加后缀L。</p>
+<p>二进制以0b开头，八进制以0开头，十六进制以0x开头。</p>
+<p>计算机以补码保存所有整数，正数的补码是本身，负数的补码是其反码加1，反码是除最高位符号位不变外，其余位取反。</p>
+<p>给整型变量直接赋值二进制整数时，如果二进制整数位数小于变量位数，则在高位补0.</p>
+<p>java中字符型值必须使用单引号‘括起来，java使用16位的unicode字符集作为编码方式。有三种表现形式1.直接通过单个字符指定，例如‘A’，2. 通过转义字符表示特殊字符型值，例如‘\n’，3. 直接使用unicode值，例如‘\uXXXX’，XXXX是一个十六进制的整数。char类型的值可以直接作为整型值来使用，相当于16位的无符号整数。</p>
+<p>Java使用String类来表示字符串，需要使用双引号括起来。字符串中的单引号、双引号和反斜线\需要使用转义字符表示。</p>
+<p>java的浮点型数值采用二进制数据的科学计数法表示，float型数值第1位是符号位，接下来8位表示指数，再接下来的23位表示尾数，double型数值的第一位是符号位，接下来的11位表示指数，再接下来的52位表示位数。</p>
+<p>浮点型数值不能精确表示一个浮点数，如果需要精确保存需要使用BigDecimal类。两个浮点型数值不能直接使用==判断是否相等。</p>
+<p>java的浮点型默认是double类型，如果需要当成float处理，需要在浮点类型值后紧跟F。例如1.1字面量属于double类型，不能直接将1.1赋值给float变量，因为这是向下转型，java不能隐式执行向下转型，1.1f字面量才是float类型。</p>
+<p>java中+=、-=、*=、/=、++会隐式执行类型转换，例如short s1=1; s1 = s1 + 1中，字面量1是int类型，比short精度要搞，不能隐式地将int类型下转型为short类型，但是可以使用+=、++运算符执行隐式转换。</p>
+<p>浮点型数值除以0得到正无穷大或无穷大（Double或Float类的POSITIVE_INFINITY/NEGATIVE_INFINITY），此时java自动把整数0转换为浮点数0.0处理。整数除以0时会抛出异常。非数通过Double或Float类的NaN表示。</p>
+<p>数值中可以使用下划线_自由分割。</p>
+<p>java语言中boolean类型的数值只能是true或false，不能用0或非0来表示。boolean类型数值只要1位即可存储，但大小没有明确规定，JVM在编译阶段会将boolean型数据转换成int，用1来表示true，0表示false，JVM支持boolean数组，Oracle将boolean数组编译成byte数组，每位占用8位。</p>
+<p>类型转换</p>
+<p>把一个表数范围小的数值或变量直接赋给另一个表数范围大的变量时，系统可以进行自动类型转换，否则需要强制转换。</p>
+<p>任何基本类型的值和字符串进行连接运算（+）时，基本类型的值将自动转换为字符串类型（调用了toString方法）。</p>
+<p>java使用常量池缓存字符串直接量，常量池是指在编译器被确定，被保存在已编译的.class文件中的一些数据，包括类、方法、接口中的常量、字符串直接量。不同String型变量若被赋值同一个字符串，则它们用是相等的（使用==判断时返回true）。java会确保每个字符串常量只有一个，不会产生多个副本。</p>
+<p>java除法运算符的两个操作数都是整数时，计算结果是向下取整的整数，例如19/4=4，如果有一个或两个浮点数，则结果就是浮点数，允许除数是0或0.0，此时结果是负无穷大或正无穷大。</p>
+<p>java支持连续赋值，a=b=c=7。</p>
+<p>java位运算有 &amp;与、|或、~非、^异或、&lt;&lt;左移、&gt;&gt;右移（左边空出来的位以原来的符号位填充），&gt;&gt;&gt;无符号右移（左边总是填充0）。一般只能操作整数类型的变量或值。</p>
+<p>==的两个操作数如果都是数值类型，即使他们数据类型不相同，只要值相等，也会返回true，例如97==‘a’、5.0==5。如果都是引用类型，则只有当两个引用变量的类型具有父子关系时才可以比较，而且只有当两个引用指向同一个对象时才返回true。!=同理。</p>
+<p>&amp;&amp;短路与，若左侧返回false，则不会计算右侧。&amp;不短路与，两侧都计算。同理||短路或，|不短路或。</p>
+<p>！非，^异或，两侧不同时返回true。</p>
+<p>三目运算符（expression）? if-true : if-false。支持嵌套。</p>
+<p>switch语句的控制表达式的数据类型只能是byte、short、char、int、枚举、String。</p>
+<p>swtich的case要使用break跳出，因为case代码块具有明显的开始与结束，可以不是用花括号。</p>
+<p>当型循环while，直到型循环do while；。</p>
+<p>return直接结束方法，return后不跟其他语句时可以结束返回值为void的方法。</p>
+<p>每个方法执行时都会建立自己的内存栈，方法内定义的变量将放入栈内存中，并随着方法结束而销毁。创建对象时，对象被保存到运行时数据区，即堆内存中，不随方法结束而销毁，二十当没有任何引用变量指向它时，被垃圾回收器回收。</p>
+<p>数组元素需要具有相同类型，可以替换成子类（里氏替换原则）。</p>
+<p>数组对象存储在堆heap内存中，如果引用该数组对象的数组引用变量是一个局部变量，则该变量存储在栈stack内存中。如果堆内存中数组不再有任何引用变量指向自己，则这个数组成为垃圾，所占内存将会被垃圾回收机制回收。</p>
+<p>Java 8中提供了工具类java.utils.Arrays，提供了多个静态方法：复制数组copyOf，判断是否相等equals，批量赋值fill，排序sort，转换成字符串toString。</p>
+<h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p>static修饰的成员不能访问非static修饰的成员。</p>
+<p>通过new关键字调用类的构造器，返回该类的实例。</p>
+<p>修饰符：public\protected\private\static\final\abstract，</p>
+<p>java语言中的属性（property）指的是一组setter和getter方法，例如setAge和getAge。</p>
+<p>static修饰的成员表明该成员属于类本身，而不是该类的单个实例，通常称之为类变量、类方法或静态变量、静态方法，可以通过类或实例来调用。非static成员只能通过对象来调用。</p>
+<p>构造器不能定义返回值类型，也不能使用void声明。如果为构造器定义了返回值类型（包括void），java会把它当成普通方法处理，而不是构造器。</p>
+<p>this关键字总是指向调用该方法的对象，static修饰的方法不能使用this。</p>
+<p>java的参数传递只有值传递一种。引用类型的参数也是值传递，此时传递的值是引用变量的值，形参与实参指向同一个对象。</p>
+<p>java在最后一个形参的类型后增加三点...表明该形参可接受多个参数值，多个参数值当成数组传入，数组名即为该形参名。（可变长度参数）</p>
+<p>方法重载是指同一个类中包含多个方法名相同但形参列表不同的方法。</p>
+<p>成员变量是指定义在类里定义的变量，包含实例变量和类变量，存放在堆内存中中，局部变量是指定义在方法里的变量，包含形参、方法局部变量、代码块局部变量，存放在所在方法的栈内存中。</p>
+<p>局部变量可以和成员变量同名，并且局部变量能覆盖成员变量，如果要使用被覆盖的成员变量，可以使用this作为调用者。</p>
+<p>局部变量定义后不会默认初始化，即系统不会为定义的局部变量分配内存空间，而是等到程序为其赋值时才分配内存。</p>
+<p>使用变量时，尽可能缩小变量的作用范围，用于减小内存开销，提高程序的内聚性。</p>
+<h3 id="类的封装"><a href="#类的封装" class="headerlink" title="类的封装"></a>类的封装</h3><p>封装是指将对象的状态信息隐藏在对象内部，不允许外部程序直接访问对象的内部信息，而是通过该类所提供的方法来实现对内部信息的操作和访问。</p>
+<p>封装的目的 1. 隐藏类的实现细节 2. 控制对变量的访问 </p>
+<p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
+<p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
+<p>private：只能被当前类访问。</p>
+<p>defalut：只能被当前包下的类访问。</p>
+<p>protected：可以被同一个包或不同包中的子类访问，通常使用protected修饰希望其子类重写的方法。protect修饰的方法，如果子类不重写则不能直接调用。</p>
+<p>public：可以被所有类访问。</p>
+<p>模块设计追求高内聚（尽可能把模块的内部数据、功能实现细节隐藏在模块内部，不允许外部直接干预），低耦合（仅保留少量的方法给外部使用）。</p>
+<p>类的绝大部分成员变量都应该使用private修饰，只有一些static修饰的、类似全局变量的成员变量才考虑使用public修饰。用于辅助实现其他方法的工具方法应该使用private修饰。</p>
+<p>如果一个类的方法仅希望被其子类重写，而不希望被外界直接调用，则应用protected修饰。</p>
+<p>java的包package机制提供了类的多层命名空间，用于解决类的命名冲突、类文件管理等问题。</p>
+<p>指定包名后，编译时指定生成class文件的保存位置（添加-d选项），javac将自动建立对应的文件结构。否则不会。</p>
+<p>指定包名后，java运行程序时需要在包所在目录（而不是类所在目录）指定完整名字（包名.类名）。同一个包中的类不必位于相同目录下，但建议源文件放在与包名一致的目录结构下，并与生成的class文件分开。</p>
+<p>有了目录结构不等于有了包名，需要在源文件中通过package语句指定，该语句必须作为源文件的第一条非注释性语句，一个源文件只能指定一个包，可以定义多个类。同一个包下（不包括子包）的类可以自由访问，否则需要使用完整类名。</p>
+<p>Oracle建议使用公司域名的倒写作为包名。</p>
+<p>import语句可以向某个java文件中导入指定包层次下某个类或全部类（.*，*仅代表类，不代表子包），import static导入指定类的某个或全部静态变量、方法。</p>
+<p>所有源文件默认导入java.lang下的所有包。</p>
+<p>数值型变量的默认初始值是0，boolean型默认是false，引用类型默认是null。</p>
+<p>:question:在一个构造器中直接使用另一个构造器的初始化代码，应使用this关键字来调用相应的构造器。该方法只能在构造器中使用，且必须作为构造器的第一条语句。</p>
+<h3 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h3><p>java使用extengs关键字实现继承，每个子类只有一个直接父类。</p>
+<p>父类和子类是一般和特殊的关系（is a），子类是一种特殊的父类，父类包含的范围比子类的大。子类是对父类的拓展。</p>
+<p>如果一个类没有显式指定直接父类，则默认父类是java.lang.Object类，即Object类是所有类的父类。</p>
+<p>子类实现了一个与父类在方法声明上完全相同的一个方法的现象称为重写override，也称为方法覆盖，即子类重写/覆盖了父类的方法。</p>
+<p>方法重写要：方法名相同，形参相同。</p>
+<p>覆盖和被覆盖的方法必须都是类方法或都是实例方法。</p>
+<p>父类中private的方法对子类是隐藏的，子类无法访问/覆盖该方法，如果子类中定义一个同名、同形参的方法，依然不是重写，而只是定义了一个新方法。</p>
+<p>重载overload是指同一个类中，存在多个方法名称相同，但是参数类型、个数、顺序至少有一个不同（返回值不同，其它都相同不算是重载。）。重写override是子类和父类的同名方法。如果子类定义了一个与父类方法相同但参数不同的方法，则形成了父类方法和子类方法的重载。</p>
+<p>为了满足里式替换原则，重写有以下三个限制：</p>
+<ol>
+<li><p>子类方法的访问权限必须大于等于父类方法；</p>
+</li>
+<li><p>子类方法的返回类型必须是父类方法返回类型或为其子类型。</p>
+</li>
+<li><p>子类方法抛出的异常类型必须是父类抛出异常类型或为其子类型。</p>
+<p>使用 @Override 注解，可以让编译器帮忙检查是否满足上面的三个限制条件。</p>
+</li>
+</ol>
+<p>使用super在子类方法中调用父类中定义但被隐藏（override）的，而不是在当前类中定义的实例变量或方法，即super用于限定该对象调用它从父类继承得到的实例变量或方法，即如果子类重写了父类的某个方法，可以通过使用 super 关键字来引用父类的方法实现。</p>
+<p>访问没有显示指定调用者的变量，则系统查找顺序：1. 当前方法中的局部变量 2. 当前类的成员变量 3. 直接父类，上溯至所有父类，直到java.lang.Object，如果还未找到则报编译错误。</p>
+<p>子类不能继承父类的构造器，但可以在子类构造器中通过super()方法调用父类构造器，从而委托父类完成一些初始化的工作。与this构造器一样，super方法也需要在子类构造器的第一行。</p>
+<p>调用子类构造器时，总会先调用父类构造器（如果没有super显示调用父类构造器，则隐式调用父类无参构造器），再上溯直至Object类的构造器。</p>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>java引用变量有两个类型：编译时类型，运行时类型。编译时类型由声明该变量时使用的类型决定，运行时类型由实际赋给该变量的对象决定。如果编译时类型和运行时类型不一致，就可能出现多态。</p>
+<p>相同类型的变量、调用同一个方法时呈现出多种不同的行为特征，就是多态。因为子类是一种特殊的父类，因此可以把子类对象直接赋给一个父类引用变量，而子类可以重写父类方法。</p>
+<p>引用变量在编译阶段只能调用其编译时类型所具有的方法，但运行时则执行它所运行时类型所具有的方法，因此java程序中，引用变量只能调用声明该变量时所有类里包含的方法。</p>
+<p>如果需要让引用变量调用它运行时类型的方法，则必须把它强制类型转换成运行时类型，即将一个引用变量转换成其子类类型。</p>
+<p>通过强制转换将父类对象复制给子类引用变量，可能在运行时产生异常，需要先使用instanceof做判断是否能转换成功。</p>
+<p>instanceof的前一个操作数是引用类型变量，后一个操作数是类或接口，用于判断前面的对象是否是后面的类、子类或实现类。</p>
+<h3 id="继承与组合"><a href="#继承与组合" class="headerlink" title="继承与组合"></a>继承与组合</h3><p>继承严重地破坏了父类的封装性，子类和父类存在严重耦合。</p>
+<p>设计父类的规则：1. 尽量将父类的成员变量设置成private类型，不让子类直接访问。 2. 父类中的工具方法使用private修饰，父类中需要被外部调用，但又不希望子类重写的方法，使用public final修饰。父类的某个方法希望被子类重写，但又不希望被其他类自由访问，则使用protected修饰。 3. 尽量不在父类构造器中调用将要被子类重写的方法。</p>
+<p>final修饰的类不能被继承。所有构造器都用private修饰的类不能被继承，也不能直接调用构造器创建对象，可在类中提供另一个用于创建该类实例的静态方法。</p>
+<p>从父类派生子类的规则：1. 子类是一种特殊的父类， 2. 子类需要额外的属性，而不仅仅是属性值的改变， 3. 子类需要增加自己独有的行为方式，包括增加新的方法或重写父类的方法。</p>
+<p>把一个类当成另一个类的组合成分，从而允许另一个类直接复用该类的public方法。</p>
+<p>继承表达的是一种“是（is-a）”的关系，而组合表达的是“有（has-a)”的关系。</p>
+<p>包装类是8种基本类型（byte\short\int\long\double\char\float\boolean）对应的引用类型，分别是Byte、Short、Integer、Long、Double、Character、Float、Boolean。</p>
+<p>自动封箱：把一个基本类型变量直接赋给对应的包装类变量或Object变量。</p>
+<p>自动拆箱：把一个包装类对象直接赋值给一个对应的基本类型变量。</p>
+<p>把字符串类型的值转换为基本类型Xxx可以利用包装类提供的parseXxx(String s)静态方法，或者Xxx(String s)构造器。</p>
+<p>String类的valueOf()方法可以将基本变量转换成字符串，或者直接将基本变量与空字符串“”进行连接运算。</p>
+<p>Obeject类具有toString方法，默认输出“类名@hashcode”，所有对象与字符串进行连接运算时，系统自动调用对象的toString方法。</p>
+<p>==判断两个基本数值型变量时，不要求类型严格相同，只要两个变量的值相等，将返回True，对于引用类型变量，只有当它们只想同一个对象时，才返回True。==不可比较没有父子关系的两个对象。</p>
+<p>java程序直接使用形如“hello”的字符串直接量（包括可以在编译时就计算出来的字符串值）时，JVM将会使用常量池来管理这些字符串。当使用new String(“hello”)时，JVM会先使用常量池来管理“hello”直接量，再调用String类的构造器来创建一个新的String对象，该对象被保存在堆内存中。</p>
+<p>常量池专门用于管理在编译时被确定并被保存在已编译的.class文件中的一些数据，包括类、方法、接口中的常量、字符串常量。JVM常量池保证相同的字符串直接量只有一个，不会产生多个副本。</p>
+<p>####static</p>
+<p>使用static修饰的成员是类成员，属于整个类，而不是单个对象，类所有的实例都共享静态成员。类成员应使用类来调用。类成员不能访问实例成员。</p>
+<p>系统第一次使用一个类时，会在类加载时为该类的静态变量分配内存空间，直到该类被卸载，内存空间被垃圾回收。而实例变量是在创建实例时产生，它与该实例同生共死。</p>
+<p>静态方法不依赖于任何实例，因此必须有实现，不能是抽象方法。静态方法只能访问所属类的静态字段和静态方法，方法中不能有this和super关键字。</p>
+<p>静态语句块在类初始化时运行一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class A &#123;</span><br><span class="line">	static &#123;</span><br><span class="line">		&#x2F;&#x2F; initilization;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非静态内部类依赖于外部类的实例，而静态内部类不需要。静态内部类不能访问外部类的非静态的变量和方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OuterClass</span> </span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticInnerClass</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// InnerClass innerClass = new InnerClass(); // &#x27;OuterClass.this&#x27; cannot be</span></span><br><span class="line">		referenced from a <span class="keyword">static</span> context</span><br><span class="line">		OuterClass outerClass = <span class="keyword">new</span> OuterClass();</span><br><span class="line">		InnerClass innerClass = outerClass.<span class="function">new <span class="title">InnerClass</span><span class="params">()</span></span>;</span><br><span class="line">		StaticInnerClass staticInnerClass = <span class="keyword">new</span> StaticInnerClass();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>静态导包，在使用静态变量和方法时不用再指明 ClassName。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import static com.xxx.ClassName.*</span><br></pre></td></tr></table></figure>
+
+<p>类的初始化顺序为：父类的静态变量和静态语句块、子类的静态变量和静态语句块、父类的实例变量和普通语句块（不使用static修饰）、父类的构造函数、子类的实例变量和普通语句块、子类的构造函数。其中父类一直上溯至Object类，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序</p>
+<p>不可变类immutable是指创建该类的实例后，其实例变量是不可改变的。</p>
+<p>如果采用new构造器创建Integer对象，每次都返回全新的integer对象，如果采用valueOf()方法创建Integer对象，则会缓存创建的对象，如果下次创建值相同的对象，则返回缓存的对象。编译器在自动装箱的过程中会调用valueOf方法，缓冲池的大小默认是-128~127，boolean的true和false值、所有byte值、-128~127以内的short和int值、\u0000~\u007F以内的char值都会使用缓冲池。Integer的缓冲池上界是可调的，在启动jvm的时候通过 -XX:AutoBoxCacheMax=&lt;size&gt; 来指定这个缓冲池的大小，该选项在 JVM 初始化的时候会设定一个名为 java.lang.IntegerCache.high 系统属性，然后 IntegerCache 初始化的时候就会读取该系统属性来决定上界。</p>
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><p>抽象方法指只有方法签名，而没有方法实现的方法。抽象方法和抽象类必须使用abstract修饰符来定义。</p>
+<p>抽象类不能被实例化，即使抽象类里没有抽象方法。抽象类可以包含各种成分（成员变量、普通方法或抽象方法、构造器、初始化块、内部类（接口、枚举）），构造器不能用于创建实例，主要用于被其子类调用。</p>
+<p>含有抽象方法的类，包括直接定义了一个抽象方法，或继承了抽象父类但没有完全实现父类包含的抽象方法，或实现了一个接口但没有完全实现接口包含的抽象方法。只能定义成抽象类。抽象类只能被继承。</p>
+<p>抽象方法使用abstract修饰，并去掉方法体（包括括号），增加分号。</p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口不能包含普通方法，接口里的所有方法都是抽象方法。Java 8允许在接口中定义默认方法（使用default修饰），默认方法可以提供实现。</p>
+<p>接口是从多个相思类中抽象出来的规范，定义了某一批类所需要遵守的规范，体现了规范和实现分离的设计哲学，可以让软件系统的各组件之间面向接口耦合，是一种松耦合设计，降低了各模块之间的耦合，为系统提供了更好的可拓展性和可维护性。</p>
+<p>接口使用interface关键字，可以继承父接口，不能继承类。接口不包含构造器和初始化块定义，只能包含静态常量，抽象实例方法、类方法或默认方法，内部类（包括内部接口、枚举）定义。接口内部的所有成员都是默认public访问权限，并且不允许定义为 private 或者 protected。</p>
+<p>接口里的成员变量总是使用public static final修饰，只能在定义时指定默认值。</p>
+<p>接口里的普通方法总是使用public abstract修饰，没有方法实现。默认方法和类方法都必须要方法实现，默认方法使用public default修饰。类方法、内部类都采用public static修饰。</p>
+<p>接口支持多继承（extends后接多个接口，逗号分割），一个类可以实现一个或多个接口（implements关键字）。implements部分必须放在extends部分后面。一个类实现一个或多个接口后，必须完全实现这些接口里多定义的全部抽象方法，否则将保留从父接口继承得到的抽象方法，该类也必须定义成抽象类。</p>
+<p>接口不能用于创建实例，但接口可以用于声明引用类型变量，该变量必须引用到其实现类的对象。</p>
+<p>接口相当于整个系统的总纲，制定了系统各模块应该遵循的标准，不应该经常改变。抽象类作为系统中多个子类的共同父类，体现的是一种模板设计，是系统实现过程中已经实现部分功能但不完善的中间产品。从设计层面上看，抽象类提供了一种 IS-A 关系，那么就必须满足里式替换原则，即子类对象必须能够替换掉所有父类对象。而接口更像是一种 LIKE-A 关系，它只是提供一种方法实现契约，并不要求接口和实现接口的类具有 IS-A 关系。从使用上来看，一个类可以实现多个接口，但是不能继承多个抽象类。接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。</p>
+<p>充分利用接口可以极好地降低程序各模块之间的耦合，从而提高系统的可拓展性和可维护性。很多软件架构设计理论都倡导面向接口编程。</p>
+<p>使用接口：需要让不相关的类都实现一个方法，例如不相关的类都可以实现 Compareable 接口中的 compareTo() 方法；需要使用多重继承。</p>
+<p>使用抽象类：需要在几个相关的类中共享代码。需要能控制继承来的成员的访问权限，而不是都为 public。需要继承非静态和非常量字段。</p>
+<p>在很多情况下，接口优先于抽象类。因为接口没有抽象类严格的类层次结构要求，可以灵活地为一个类添加行为。并且从 Java 8 开始，接口也可以有默认的方法实现，使得修改接口的成本也变的很低。</p>
+<h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><p>定义在其他类内部的类成为内部类或嵌套类，包含内部类的类成为外部类或宿主类。内部类可以提供更好的封装、直接访问外部类的私有数据。</p>
+<p>非静态内部类对象必须寄生在外部类对象里，因此内部类可以直接访问外部类的静态成员，反之不行。如果外部类成员变量、内部类成员变量与部内类方法的局部变量同名，可以通过使用this和外部类类名.this作为调用者来区分。</p>
+<p>非静态内部类里不能定义静态成员。</p>
+<p>使用static修饰内部类，则该内部类属于外部类本身，而不属于外部类的某个对象，该内部类成为静态内部类。静态内部类可以包含静态成员。外部类不能直接访问静态内部类的成员，但可以使用静态内部类的类名作为调用者来访问静态内部类的类成员。</p>
+<p>定义在方法里的类成为局部内部类。</p>
+<h3 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h3><p>匿名内部类适合创建那些只需要使用一次的类。</p>
+<p>定义匿名内部类的格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new 实现接口（） | 父类构造器（形参列表）</span><br><span class="line">&#123;</span><br><span class="line"> &#x2F;&#x2F; 匿名内部类的类体部分</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>匿名类不能是抽象类，不能定义构造器，可以定义初始化块。</p>
+<h3 id="Lambada表达式"><a href="#Lambada表达式" class="headerlink" title="Lambada表达式"></a>Lambada表达式</h3><p>Lambda表达式支持将代码块作为方法参数，用来创建只有一个抽象方法的接口的实例，这种接口被称为函数式接口。</p>
+<p>Lambda表达式由形参列表（形参列表允许省略形参类型，如果只有一个参数，可以省略形参的括号）、箭头（-&gt;）、代码块（如果只有一条语句，可以省略花括号，也可以省略return，Lambda表达式会自动返回这条语句的值）。</p>
+<p>函数式接口代表只包含一个抽象方法的接口，可以包含多个默认方法、类方法。Java 8为函数式接口提供了@FunctionalInterface注释，该注释通常放在接口定义前面，用于告诉编译器执行更严格检查，即检查该接口必须是函数式接口，否则报错）。</p>
+<p>Lambda表达式的结果被当成是对象，因此可以使用Lambda表达式进行赋值，Lambda表达式代表的匿名方法实现了函数式接口中唯一的方法。</p>
+<p>Lambda表达式的目标类型必须是明确的函数式接口，只能为只有一个抽象方法的接口（函数式接口）创建对象。可以将Lambda表达式赋值给函数式接口类型的变量，或作为函数式接口类型的参数传给某个方法，或使用函数式接口对Lambda表达式进行强制类型转换。</p>
+<p>Lambda表达式的目标类型完全可能是变化的，只要求Lambda表达式实现的匿名方法与目标类型（函数式接口）中唯一的抽象方法有相同的形参列表。</p>
+<p>java8在java.util.function包下预定义了大量函数式接口，主要有：1. XxxFunction，包含一个apply()抽象方法，用于对参数进行处理转换，然后返回一个新值，通常用于对制定数据进行转换处理。 2. XxxConsumer，包含一个accept()抽象方法，与XxxFunction类似，用于对参数进行处理，但不返回处理结果。 3. XxxPredicate，包含一个test()抽象方法，用于对参数进行判断，返回一个boolean值，通常用于判断参数是否满足特定条件，经常用于进行筛选数据。 4. XxxSupplier，包含一个getAxXxx()抽象方法，该方法不需要参数，通常会返回一个数据。</p>
+<p>如果Lambda表达式的代码块只有一条代码，可以在代码块中使用方法引用和构造器引用。</p>
+<ol>
+<li><p>引用类方法</p>
+<p>类名::类方法，函数式接口中被实现方法的全部参数传给该类方法作为参数，等价于 (a,b,…) -&gt; 类名.类方法(a,b,…)</p>
+<p>例如有接口定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface Converter &#123;</span><br><span class="line">	Integer convert(String from);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Lambda表达式创建一个Convert对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter &#x3D; from -&gt; Integer.valueOf(from)</span><br></pre></td></tr></table></figure>
+
+<p>引用类方法创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter &#x3D; Integer::valueOf;</span><br></pre></td></tr></table></figure>
+
+<p>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">converter.converter(from)</span><br></pre></td></tr></table></figure></li>
+<li><p>引用特定对象的实例方法</p>
+<p>特定对象::实例方法，函数式接口中被实现方法的全部参数传给该类方法作为参数，等价于 (a,b,…) -&gt; 特定对象.实例方法(a,b,…)</p>
+<p>使用Lambda表达式创建对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter &#x3D; from -&gt; &quot;fkit.org&quot;.indexOf(from);</span><br></pre></td></tr></table></figure>
+
+<p>使用引用特定对象的实例方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter &#x3D; &quot;fkit.org&quot;::indexOf</span><br></pre></td></tr></table></figure></li>
+<li><p>使用某类对象的实例方法</p>
+<p>类名::实例方法，函数式接口中被实现方法的第一个参数作为调用者，后面的参数全部传给该方法作为参数，等价于 (a,b,…) -&gt; a.实例方法(b,…)<br>例如有接口定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface Test &#123;</span><br><span class="line">	String test(String a, int b, int c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Lambda表达式创建一个Convert对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Test test &#x3D; (a,b,c) -&gt; a.substring(b,c);</span><br></pre></td></tr></table></figure>
+
+<p>使用某类对象的实例方法创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Test test &#x3D; String::substring;</span><br></pre></td></tr></table></figure>
+
+<p>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test.test(&quot;Java&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><p>引用构造器</p>
+</li>
+</ol>
+<p>  类名::new，函数式接口中被实现方法的全部参数传给该构造器作为参数，等价于(a,b,…) -&gt;new 类名(a,b,…)<br>例如有接口定义：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface Test &#123;</span><br><span class="line">	JFrame win(String a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   使用Lambda表达式创建一个Convert对象：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Test test &#x3D; (String a) -&gt; new JFrame(a);</span><br></pre></td></tr></table></figure>
+
+<p>   引用构造器方法创建</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Test test &#x3D; JFrame::new;</span><br></pre></td></tr></table></figure>
+<p>   调用<br>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test.win(&quot;Java&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>Lambda表达式和匿名内部类都可以直接访问“effectively final”的局部变量，以及外部类的成员变量，两者创建的对象都可以直接调用从接口中继承的默认方法。</p>
+<p>匿名内部类可以为包含多个抽象方法的接口创建实例，只要匿名内部类实现所有抽象方法即可，也可以为抽象类或普通类创建实例，但Lambda表达式只能为函数式接口创建实例。匿名内部类实现的抽象方法可以调用接口中定义的默认方法，但Lambda表达式不可以。</p>
+<h3 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h3><p>使用静态常量（static final）来表示枚举存在以下几个问题：类型不安全，没有命名空间，输出意义不明确。</p>
+<p>使用enum定义枚举类，枚举类默认继承java.lang.Enum，实现了java.lang.Serializable和java.lang.Comparable接口。</p>
+<p>非抽象的枚举类默认使用final修饰，不能派生子类。枚举类的构造器只能使用private访问控制符。枚举类的所有枚举值必须在枚举类的第一行显示列出，各枚举值的索引为其位置，从0开始。多个枚举值使用逗号隔开，分号结束，系统会自动添加public static final修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pubilc <span class="class"><span class="keyword">enum</span> <span class="title">Gender</span> </span>&#123;</span><br><span class="line">	MALE,FEMALE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用EnumClass.variable访问枚举类实例，switch语句的控制表达式可以是枚举类型值，且case表达式中可以直接使用枚举值的名字，无需添加枚举类作为限定。</p>
+<p>枚举类默认有一个values()方法，返回该枚举类的所有实例，</p>
+<p>java.lang.Enum类中有方法：1. compareTo(E o)，用于与指定枚举对象比较顺序。 2. ordinal()，返回枚举值在枚举类中的索引值。 3. toString()，返回枚举常量的名称。 4. valueOf()，静态方法，返回指定枚举类中指定名称的枚举值，即根据名称获取枚举值，Gender g = Enum.valueOf(Gender.class, “FEMALE”);。</p>
+<p>枚举类可以定义成员变量、方法和构造器。枚举类的实例只能是枚举值，不能随意通过new来创建枚举类对象。</p>
+<p>建议枚举类的成员变量都是用private final修饰，在构造器中为这些成员变量指定初值，即为枚举类显示定义带参数的构造器，此时列出枚举值必须对应地传入参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Gender</span> </span>&#123;</span><br><span class="line">  MALE(<span class="string">&quot;男&quot;</span>),FEMALE(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">Gender</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>枚举类可以实现一个或多个接口，与普通类一致。不同的枚举值可以对接口中的方法有不同实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public interface GenderDesc &#123;</span><br><span class="line">	void info();</span><br><span class="line">&#125;</span><br><span class="line">public enum Gender implements GenderDesc &#123;</span><br><span class="line">	MALE(&quot;男&quot;) &#123;</span><br><span class="line">		public void info() &#123;</span><br><span class="line">			&#x2F;&#x2F; do some things;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	FEMALE(&quot;女&quot;) &#123;</span><br><span class="line">		public void info() &#123;</span><br><span class="line">		 &#x2F;&#x2F; do other things;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以在枚举类包含抽象方法，每个实例提供方法的实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Gender</span>  </span>&#123;</span><br><span class="line">	MALE &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="comment">// do some things;</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	FEMALE &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		 <span class="comment">// do other things;</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Gender.MALE.info();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象与垃圾回收"><a href="#对象与垃圾回收" class="headerlink" title="对象与垃圾回收"></a>对象与垃圾回收</h3><p>程序创建对象、数组等引用类型实体时，系统会在堆内存中为之分配一块内存区，根据它配引用变量所引用的状态，可以分为三种状态：1. 可达状态，有一个以上引用变量引用它。 2. 可恢复状态，不再有任何引用变量引用它，系统准备进行垃圾回收，在回收之前，系统会调用对象的finalize()方法进行资源清理，如果此时重新让一个引用变量引用该对象，则该对象再次成为可达状态，否则进入不可达状态。 3. 不可达状态，调用finalize()方法后，仍没有引用变量引用该对象，此时对象永久失去引用，变成不可达状态，系统真正回收该对象所占用的资源。</p>
+<p>程序无法精确控制java垃圾回收的时机，但可以通知系统进行垃圾回收：1. 调用System类的gc静态方法，System.gc()。2. 调用Runtime对象的gc实例方法，Runtime.getRuntime().gc()。</p>
+<p>垃圾回收机制在回收某个对象之前，通常要求程序调用适当的方法来清理资源，默认使用finalize()方法，在方法定义在Object类里。执行完finalize()方法后，对象消失，垃圾回收机制开始执行。</p>
+<p>不要主动调用finalize()方法，finalize()方法何时调用、是否调用具有不确定性，JVM执行该方法时，可能使该对象或系统中其他对象重新变成可达状态。JVM执行该方法出现异常时，垃圾回收机制不会报告错误。</p>
+<p>JAR Java Archive File，包含名为META-INF/MANIFEST.MF的清单文件。使用jar命令创建<code>jar cf test.jar test</code>。</p>
+<p>使用jar命令的-e选项创建可执行的jar包<code>jar cvfe test.jar test.Test test</code>，该选项指定JAR包中作为程序入口的主类的类名（test.Test），如果主类带包名则必须指定完成类名。运行可执行jar包可使用<code>java -jar test.jar</code>或<code>javaw test.jar</code>。创建jar包时，所有的类都必须放在与包结构对应的目录结构中。</p>
+<h3 id="java基础类库"><a href="#java基础类库" class="headerlink" title="java基础类库"></a>java基础类库</h3><p><code>public static void main(String[] args)</code></p>
+<p>public：Java类由系统调用，为使JVM可以自由调用main()方法，使用public暴露该方法。</p>
+<p>static：JVM调用main方法时，不会先创建该主类的对象，而是直接通过该类调用main方法，因此使用static修饰。</p>
+<p>void：main方法被JVM调用，返回值将返回给JVM，这没有意义，因此main方法没有返回值。</p>
+<p>String[] args：谁调用方法，谁负责为形参赋值，因此JVM负责为args赋值。JVM会把运行程序时，类名后的一个或多个由空格隔开的字符串以此赋值给args的数组元素，如果某个参数本身包含空格，则应该将该参数用双引号括起来。</p>
+<p>Scanner类可以从文件、输入流、字符串中解析出基本类型值和字符串值，有两个方法扫描输入：</p>
+<ol>
+<li>hasNextXxx()，是否还有下一个输入项，其中Xxx是Int、Long等基本数据类型，如果是字符串，则直接使用hasNext()。</li>
+<li>nextXxx()，获取下一个输入项。</li>
+</ol>
+<p>Scanner默认使用空白（空格、tab、回车）作为多个输入项之间的分隔符，可以使用useDelimiter()方法指定分隔符。</p>
+<p>Scanner类提供多个构造器，不同构造器用于选择不同数据源，例如<code>new Scanner(new File(&quot;...&quot;))</code>将读取指定文件的内容。</p>
+<p>System类代表当前java程序的运行平台。程序不能创建System类的对象，可以直接访问其类变量和类方法。System提供了代表标准输入、标准输出和错误输出的类变量，用于访问环境变量、系统属性的方法，加载文件和动态链接库的方法等。</p>
+<p>对于一些特殊功能，例如访问操作系统底层硬件设备等，Java无法实现，需要借助C语言为Java方法提供实现，步骤如下：</p>
+<ol>
+<li>在java程序中声明native修饰的方法，并编译等到class文件。native修饰的方法与abstract方法类似，只有方法签名，没有实现。</li>
+<li>使用javah编译1中生成的class文件，得到.h文件。</li>
+<li>编写.cpp文件，包含2中得到的.h文件，实现native方法。</li>
+<li>将3中的.cpp文件编译成动态链接库文件。</li>
+<li>在java程序中使用System类的loadLibrary()方法或Runtime类的loadLibrary()方法加载4得到的动态链接库文件，然后java程序就可以调用该native方法。</li>
+</ol>
+<p>System类有两个获取系统当前时间的方法：currentTimeMillis()和nanoTime()，都返回long型整数，表示当前时间与UTC 1970.1.1的时间差，前者以毫秒为单位，后者一纳秒为单位。两者的时间粒度取决于底层操作系统，可能操作系统不支持以毫秒、纳秒为计时单位，因此返回值可能不精确。</p>
+<p>System类提供identityHashCode(Object x)方法，返回指定对象的精确hashCode值，即根据该对象的地址计算得到的hashCode值。因为某个类的hashCode方法被重写后，该类实例的hashCode()方法不能唯一地标识该对象。</p>
+<p>System类提供了通知系统进行垃圾回收的gc()方法，通知系统进行资源清理的runFinalization()方法。</p>
+<p>Runtime类代表java程序的运行时环境，可以访问JVM的相关信息，如处理器数量、内存信息等。每个java程序都有一个与之对应的Runtime实例，应用程序不能创建自己的Runtime实例，但可以通过getRuntime()方法获取与之关联的Runtime对象。</p>
+<p>Runtime类提供load(String filename)和loadLibrary(String libname)方法来加载文件和动态链接库。</p>
+<p>Runtime类的exec(String cmd)方法可以单独启动一个进程来运行操作系统的命令。</p>
+<h3 id="Object类"><a href="#Object类" class="headerlink" title="Object类"></a>Object类</h3><p>所有类、数组、枚举类的父类，任何类型的对象都可以赋值给Object类型的变量。定义一个类时没有使用extends显式指定父类，则默认继承Object父类。</p>
+<p>任何Java对象都可以调用Object类的方法，几个常用方法：</p>
+<ol>
+<li><p>equals()，判断两个对象是否相等。</p>
+</li>
+<li><p>hashCode()，返回对象的hash值。</p>
+</li>
+<li><p>finalize()，垃圾回收器调用此方法来清理该对象的资源。</p>
+</li>
+<li><p>getClass()，返回该对象的运行时类。</p>
+</li>
+<li><p>toString()，返回该对象的字符串表示。</p>
+</li>
+<li><p>wait、notify、notifyAll方法，由于控制线程的暂停和运行。</p>
+</li>
+<li><p>clone()，用于实现对象的自我克隆，即得到当前对象的副本，且二者之间完全隔离，该方法使用protected修饰，只能被子类重写或调用，clone() 是 Object 的protected 方法，它不是 public，一个类不显式去重写 clone()，其它类就不能直接去调用该类实例的 clone() 方法。实现步骤如下：</p>
+<ol>
+<li>自定义类实现Cloneable接口，这是一个标志性接口，没有定义任何方法。如果一个类没有实现 Cloneable 接口又调用了 clone() 方法，就会抛出 CloneNotSupportedException。</li>
+<li>自定义类实现自己的clone()方法。</li>
+<li>实现clone()方法时通过super.clone()调用Object实现的clone()方法来得到该对象的副本，并返回。</li>
+</ol>
+<p>Object类提供的clone()方法属于浅克隆，它只克隆该对象的所有成员变量值，不会对引用类型的成员变量值所引用的对象进行克隆，拷贝对象和原始对象的引用类型引用同一个对象。使用 clone() 方法来拷贝一个对象即复杂又有风险，它会抛出异常，并且还需要类型转换。最好不要去使用 clone()，可以使用拷贝构造函数或者拷贝工厂来拷贝一个对象。</p>
+</li>
+</ol>
+<p>Object类的equals方法用于判断两个引用变量是否相等，默认和==一致（即比较对象地址是否相等），需要子类根据自定义的相等标准重写该方法，</p>
+<p>正确地重写equals方法应满足 1. 自反性，x.equals(x)一定返回True，2. 对称性，y.equals(x)返回True，则x.euqals(y)也返回True， 3. 传递性，x.equals(y)和y.equals(z)返回True，则x.equals(z)也返回True。 4.若x不是null，则x.equals(null)一定返回false。5. 一致性，多次调用equals方法结果不变。</p>
+<p>对于基本类型，== 判断两个值是否相等，基本类型没有 equals() 方法。对于引用类型，== 判断两个变量是否引用同一个对象，而 equals() 判断引用的对象是否等价。</p>
+<p>equals方法实现：</p>
+<ol>
+<li><p>检查是否为同一个对象的引用，如果是直接返回 true；</p>
+</li>
+<li><p>检查是否是同一个类型，如果不是，直接返回 false；</p>
+</li>
+<li><p>将 Object 对象进行转型；</p>
+</li>
+<li><p>判断每个关键域是否相等。</p>
+</li>
+</ol>
+<p>hashCode() 返回散列值，而 equals() 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。在覆盖 equals() 方法时应当总是覆盖 hashCode() 方法，保证等价的两个对象散列值也相等。</p>
+<p>java为工具类的命名习惯是添加一个字母s，例如操作数组的工具类是Arrays，操作集合的工具类是Collections，操作Object的工具类Objects。</p>
+<h3 id="String类"><a href="#String类" class="headerlink" title="String类"></a>String类</h3><p>String类是不可变类，创建后的对象的字符序列是不可改变的，直至对象被销毁。StringBuffer是字符序列可变的字符串，创建后可以通过append()、insert()等方法改变字符序列，可以通过toString转换为String对象，内部使用synchronized进行同步，是线程安全的，。StringBuilder类与StringBuffer类似，但没有实现线程安全，因此性能略高。</p>
+<p>String类声明为final，不可继承。java8中String内部使用char数组value存储数据，java9之后使用byte数组value存储，并使用一个变量表示使用的编码。String中的value数组用final修饰，且没有提供改变value数组的方法，保证String不可变。</p>
+<p>String不可变的好处：</p>
+<ol>
+<li><p>如果String对象已被创建，则再次创建相同对象时会从String Pool中取得引用。</p>
+<ol start="3">
+<li>String经常用做参数，不可变性保证了参数不可变。</li>
+<li>不可变性天生具有线程安全。</li>
+</ol>
+</li>
+</ol>
+<p>字符串常量池String Pool保存着所有字符串字面量literal strings（直接通过“”定义的字符串），这些字符串在编译时期就确定。java 7之前，String Pool被放在运行时常量池中，属于永久代，java7中String Pool被移到堆中，这是因为永久代的空间有限，在大量使用字符串的场景下会导致OutOfMemoryError。</p>
+<p>String的intern方法在运行中将字符串添加到String Pool中，如果已存在（使用equals方法进行确定）则返回已存在字符串的引用，否则添加一个新的字符串并返回其引用。</p>
+<p>使用new String(“abc”)会创建两个字符串（前提是String Pool中还没有“abc”对象）: “abc”属于字符串字面量，在编译时期会在String Pool中创建一个字符串对象，指向“abc”字符串字面量，使用new则再在堆中使用String Pool中的对象作为构造器的参数，创建一个新的字符串对象。将一个字符串对象作为另一个字符串对象的构造函数参数时，并不会完全复制 value 数组内容，而是都会指向同一个 value 数组。</p>
+<p>Math类不能创建对象，其构造器是private，其中的所有方法都是类方法，通过类名直接调用。提供了两个PI和E两个类变量。</p>
+<p>Random类和ThreadLocalRandom类都是用来生成伪随机数，Random类的无参构造器使用当前时间做种子，或显式传入long型整数做种子。ThreadLocalRandom提供了current()静态方法来获取ThreadLocalRandom对象。之后两者都通过nextXxx方法获取伪随机数。</p>
+<p>如果两个Randowm对象的种子相同，且方法的调用顺序也相同，会产生相同的数字序列。</p>
+<p>BigDecimal类用于创建精确的浮点数。</p>
+<p>不应该将double类型值作为构造器参数来创建BigDecimal对象，因为double不能精确表示浮点数，应该使用基于String的构造器，如果必须使用浮点数来构造BigDecimal对象，应该通过BigDeciaml.valueOf(double value)来创建。</p>
+<p>BigDeciaml类提供了add()、subtract()等方法对精确浮点数进行常规算术运算，提供了doubleValue()方法将BigDecimal对象转换为double浮点数。</p>
+<p>Java提供了Date类（java.util.Date，而不是java.sql.Date）来处理时间，但大部分构造器和方法都已经过时，不再推荐使用。Java提供了Calendar类来处理日期和时间，Calendar类是一个抽象类，是所有日历类的模板，不能直接实例化，Java本身提供了GregorianCalendar类，表示公历。</p>
+<p>Java 8新增了java.time包，包含多个类：用于获取指定时区的当前日期、时间的Clock、表示持续时间的Duration、表示具体时刻的Instant、不带时区的日期LocalDate、不带时区的时间LocalTime、不带时区的日期与时间LocalDateTime等。</p>
+<p>###接口</p>
+<p>java.io.Serilizable, Comparable, CharSequence, Cloneable，Iterator，Iterable，Comparator</p>
+<p>Iterator接口提供了遍历Collection集合元素的统一编程接口，定义了四个方法：hasNext() next() remove() forEachReamining(Comsumer action)。</p>
+<p>Comparable接口定义了一个compareTo(Oject obj)方法，实现该接口的类必须实现该方法，例如obj1.compareTo(obj2)，如果该方法返回0，则两个对象相等，如果返回正整数，则obj1&gt;obj2，如果返回负整数，则obj1&lt;obj2。</p>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><p>java提供了集合类，集合类主要负责保存、盛装其他数据，因此也称为容器类，所有集合类都位于java.util包下。java.util.concurrent包下提供了一些多线程支持的集合类。</p>
+<p>数组既可以保存基本类型的值，也可以是对象（实际上保存的是对象的引用变量），而集合里只能保存对象。</p>
+<p>Java集合类主要有两个接口派生而出：Collection和Map，</p>
+<p>Collection接口派生出元素不可重复的无序集合Set接口、队列Queue接口、元素可重复的有序集合List接口。</p>
+<p>​    Set接口派生出EnumSet类、SortedSet接口、HashSet类。</p>
+<p>​        SortedSet接口派生出TreeSet类。HashSet派生出LinkedHashSet类。</p>
+<p>​    Queue接口派生出Deque接口、PriorityQueue类。</p>
+<p>​        Deque接口派生出ArrayDeque类。</p>
+<p>​    List接口派生出ArrayList类、Vector类。</p>
+<p>​        Vector类派生出Stack类。</p>
+<p>​    List接口和Deque接口派生出LinkedList类。</p>
+<ol>
+<li>Set<br>TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。</li>
+</ol>
+<p>  HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作。并且失去了元素的插入顺序信息，也就是说使用 Iterator 遍历 HashSet 得到的结果是不确定的。</p>
+<p>  LinkedHashSet：具有 HashSet 的查找效率，且内部使用双向链表维护元素的插入顺序。</p>
+<ol start="2">
+<li>List<br>ArrayList：基于动态数组实现，支持随机访问。</li>
+</ol>
+<p>  Vector：和 ArrayList 类似，但它是线程安全的。</p>
+<p>  LinkedList：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，</p>
+<p>  LinkedList 还可以用作栈、队列和双向队列。</p>
+<ol start="3">
+<li>Queue<br>LinkedList：可以用它来实现双向队列。<br>PriorityQueue：基于堆结构实现，可以用它来实现优先队列。</li>
+</ol>
+<p><img src="JAVA%E5%AD%A6%E4%B9%A0.assets/image-20200924111125099.png" alt="image-20200924111125099"></p>
+<p>Map实现类用于保存具有映射关系key-value的数据。</p>
+<p>Map接口派生出EnumMap类、IdentityHashMap类、HashMap类、HashTable类、SortedMap类、WeakHashMap类。</p>
+<p>HashMap线程不安全，key、value允许为null，派生出LinkedHashMap类。</p>
+<p>HashTable线程安全，key、value不能为null，派生出Properties类。</p>
+<p>SortedMap派生出TreeMap类。</p>
+<p>TreeMap：基于红黑树实现。</p>
+<p>HashMap：基于哈希表实现。</p>
+<p>HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程可以同时写入 HashTable 并且不会导致数据不一致。它是遗留类，不应该去使用它。现在可以使用 ConcurrentHashMap 来支持线程安全，并且 ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。</p>
+<p>LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。</p>
+<p>常用的集合有HashSet类、TreeSet类、ArrayList类、ArrayDeque类、LinkedList类、HashMap类、TreeMap类。</p>
+<p>####Collection</p>
+<p>Collection接口包含add(Object o) addAll(Collection c) clear() contains(Object o) containsAll(Collection c) isEmpty() iterator() remove(Object o) removeAll(Collection o) size() toArray()方法。</p>
+<p>使用Iterator迭代访问Collecton集合元素时，集合内元素不能被改变，只能通过Iterator的remove()方法删除上一次next()方法返回的集合元素，否则将会引起java.util.ConcurrentModificationException异常。Iterator迭代器采用的是快速失败机制，一旦在迭代过程中检测到集合已经被修改（通常是其他线程修改），程序立即跑出异常，避免共享资源引发的潜在问题。</p>
+<p>使用Iterator的forEachRemaining()方法或foreach循环迭代访问集合元素时，系统只是白集合元素的值赋值给了迭代变量，修改迭代变量的值对集合元素本身没有影响。</p>
+<p>java8中Collecton集合新增了一个removeIf(Predicate filter)方法，该方法将批量删除符合filter条件的所有元素，例如删除集合nums中大于10的元素：nums.removeIf(num -&gt; ((Integer)num) &gt; 10)。</p>
+<p>Java8中新增了Stream、IntStream、LongStrem等流式API，独立使用Stream的步骤是：1. 调用Stream的Builder()类方法创建该Strean对应的Builder。 2. 多次调用Builder的add()方法向该流中添加多个元素。 3. 调用Builder的build()方法获取对应的Stream。 4. 调用Stream的聚集方法。</p>
+<p>Stream提供的聚集操作方法，可以是中间（intermediate）的，即操作之后返回值是另一个流，可以直接调用后续方法，也可以是末端（terminal）的，即操作之后该流会被消耗，且不可再用。常用的中间方法：filter(Predicate predicate)，mapToXxx(ToXxxFunction mapper)，peeek(Consumer action)，distinct()，sorted()等。末端方法：forEach(Consumer action)、toArray()、reduce()、min()、max()、count()、anyMatch(Predicate predicate)等、</p>
+<p>Collection接口提供了一个stream()默认方法，用于可返回集合对应的流，再可以通过流式API来操作集合元素。</p>
+<h4 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h4><ol>
+<li><p>HashSet</p>
+<p>使用Hash算法来存储集合中的元素，具有很好的存取和查找性能。不能保证元素排列顺序，不是同步的，集合元素值可以是null。</p>
+<p>当向HashSet中存入一个元素时，HashSet会调用该对象的hashCode()方法获得该对象的hashCode值，然后根据该值确定对象的存储位置。HashSet集合判断两个元素相等的标准是两个对象的equals()方法比较相等，且hashCode()方法返回值也相等。</p>
+<p>如果需要保存某个类的对象到HashSet集合中，重写这个类的equals()方法和hashCode()方法时，应保证equals()返回true时，hashCode()方法返回值也相等。如果两个对象的hashCode()方法返回的hashCode值相同，但equals()方法返回false，HashSet将使用链式结构这两个对象保存在同一个位置，导致性能下降。</p>
+<p>将可变对象添加至HashSet后尽量不要修改该对象中参与计算hashCode() equals()的实例变量，否则会导致HashSet无法正确操作这些集合元素。</p>
+</li>
+<li><p>LinkedHashSet</p>
+<p>LinkedHashSet根据元素的hashCode值来决定元素的存储位置，但它同时使用链表维护元素的次序，性能略低与HashSet，但在迭代访问中由于又链表维护内部顺序，因此性能更好。</p>
+</li>
+<li><p>TreeSet</p>
+<p>TreeSet可以确保集合元素处于排序状态。因此具有额外的first()、last()、lower()、higher()、subSet()等方法。</p>
+<p>TreeSet采用红黑树的数据结构来存储集合元素，支持自然排序（默认）和定制排序。</p>
+<p>自然排序：TreeSet会调用集合元素的compareTo(Object obj)方法来比较元素之间的大小关系（判断相等时也是通过comparaTo，而不是equals），然后按升序排列。添加到TreeSet的对象的类必须实现Comparable接口，否则程序将会抛出异常。添加到TreeSet中的应该是同一个类的对象。</p>
+<p>定制排序：创建TreeSet集合时提供一个Comparator对象，由该Comparator负责集合元素的排序逻辑。Camparator是一个函数式接口，包含一个int compare(T o1, T o2)方法，如果该方法返回正整数则，o1&gt;o2, 返回0，则o1=o2，返回负整数，则o1&lt;o2。</p>
+</li>
+<li><p>EnumSet</p>
+<p>EnumSet中的所有元素都是指定枚举类型的枚举值。</p>
+<h4 id="List"><a href="#List" class="headerlink" title="List"></a>List</h4><p>List集合代表一个元素有序、可重复的集合，集合中每个元素都有其对应的顺序索引。具有根据索引操作集合元素的方法：add\addAll\get\indexOf\lastIndex\remove\set\subList等。</p>
+<p>List判断两个对象相等的标准是equals()方法返回true。</p>
+<p>java8中List集合增加了sort(Comparator c)方法，用于对List集合的元素排序，replaceAll(UnaryOperator operator)方法，用于重新设置List集合中的元素。UnaryOperator是一个函数式接口，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 指定了替换集合元素的规则，将集合元素的长度作为新的集合元素</span><br><span class="line">books.replaceAll(book -&gt; ((String)book).length());</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="ArrayList和Vector"><a href="#ArrayList和Vector" class="headerlink" title="ArrayList和Vector"></a>ArrayList和Vector</h4><p>ArrayList和Vector都封装了一个动态的、允许再分配的Object[]数组。</p>
+<p>ArrayList线程不安全，Vector线程安全，但Vector类是一个古老的集合，不推荐使用。Vector提供了一个Stack子类，用于模拟栈数据结构，但也因古老而不推荐使用，可以使用ArrayDeque。</p>
+<p>Arrays工具类提供了asList(Object… a)方法，可以把一个数组或指定个数的对象转换成一个Arrays.ArrayList类的List集合，该集合的长度是固定的。</p>
+<h4 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h4><p>Queue用于模拟队列这种数据结构，新元素插入(offer)到队列尾部，访问元素（poll）操作会返回队列头部的元素。</p>
+<p>add/offer将元素加入到队列的尾部，element/peek获取头部元素，但不删除，remove/poll获取头部元素、</p>
+<p>Queue接口具有PriorityQueue实现类，和Deque接口。Deque接口代表双端队列，可以从两端添加、删除元素，因此可以当成队列使用也可以当成栈使用，Deque具有ArrayDeque和LinkedList两个实现类。</p>
+<h4 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h4><p>PriorityQueue按照队列元素的大小进行重新排序，每次调用peak或poll方法取队列元素时，总是取出队列中最小的元素。如TreeSet类似，PriorityQueue支持自然排序和定制排序。</p>
+<h4 id="Deque接口与ArrayDeque实现类"><a href="#Deque接口与ArrayDeque实现类" class="headerlink" title="Deque接口与ArrayDeque实现类"></a>Deque接口与ArrayDeque实现类</h4><p>Deque接口相比与Queue接口，增加了操作双端队列的方法，这类方法添加了后缀First和Last，表示是从队列开头还是末尾操作，例如addFirst/addLast、getFirst/getLast等。同时Deque接口还有具有pop/push方法，因此可以被当成栈来使用。</p>
+<p>ArrayDeque实现了Deque接口，内部如ArrayList类似，采用动态可重分配的Object[]数组保存元素。可以当成栈数据结构来使用。</p>
+<p>ArrrayDeque可以当成队列使用，按照先进先出的方式操作元素。</p>
+<h4 id="LinkedList实现类"><a href="#LinkedList实现类" class="headerlink" title="LinkedList实现类"></a>LinkedList实现类</h4><p>LinkedList类实现了List和Deque接口，因此可以当成List集合、双端队列、栈来使用。</p>
+<p>LinkedList内部以链表的形式来保存集合中的元素，因此随机访问性能较差，但在插入、删除元素时性能比较出色。</p>
+<p>由于数组以一块连续内存区来保存所有的数组元素，因此数组在随机访问时性能最好。所有的内部以数组作为底层实现的集合在随机访问时性能比较好，内部以链表作为底层实现的集合在执行插入、删除操作时有比较好的性能。总的来说，ArrayList的性能比LinkedList的性能要好。如果要在多线程环境中访问List集合中的元素，可以使用Collections将集合包装成线程安全的集合。</p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map接口定义了常用方法：clear() containsKey(Object key) containsValue(Object value) entrySet()（返回Map中包含的key-value对所组成的set集合，每个集合元素都是Map.Entry对象） get(Object key) isEmpty() keySet() put(Object key, Object value) putAll(Map m) remove(Object key) size() values()。</p>
+<p>Map包括一个内部类Entry，该类封装了key-value对，Entry包含getKey() getValue() setValue(V value)三个方法。</p>
+<p>Map的实现类（HashMap、LinkedHashMap、SortedMap、TreeMap、EnumMap）和子接口中key集的存储形式和对应Set集合中元素的存储形式完全相同，实际上Java是先实现了Map，然后通过包装一个所有value都为null的Map就实现了 Set集合。3、</p>
+<p>HashMap中判断两个key相等的标准是equals()方法返回true且hashCode值也相等。containsValue()方法判断value相等是根据对象的equals()方法。</p>
+<p>LinkedHashMap使用双向链表维护key-value对的次序（其实只需考虑key的次序），因此性能略低于HashMap的性能。但在迭代访问时性能较好。</p>
+<p>EnumMap中的所有key都是单个枚举类的枚举值。</p>
+<p>HashMap是为了快速查询而设计的，TreeMap在插入和删除时更慢，因为TreeMap底层使用了红黑树来管理kv对，因此一般的应用场景下使用HashMap，当程序需要一个总是排好序的Map时使用TreeMap。LinkedHashMap比HashMap慢一点，因为它需要链表来保持kv对的添加顺序。</p>
+<p>HashSet和HashMap采用Hash算法来决定集合中元素的存储位置。hash表中可以存储元素的位置被称为桶bucket，通常情况下单个桶里存储一个元素，此时hash算法直接根据hashCode值计算桶的位置，并取出元素，此时具有最好的性能。当发生hash冲突时，单个桶会存储多个元素，这些元素以链表形式存储，必须按顺序搜索。</p>
+<p>HashSet和HashMap的Hash表具有如下属性：1. 容量capacity，hash表中桶的数量。 2. 初始化容量initial capacity，创建hash表时的容量，两者都可以在构造器中指定初始化容量。 3. 尺寸size，当前hash表中的记录。 4.负载因子load factor，即size/capacity，负载越小的hash表的冲突少，适宜插入和查询。 5. 负载极限，当负载因子达到指定的负载极限时，hash表会自动成倍地增加容量，并重新分配原有对象至新的桶内，称为rehashing。</p>
+<h3 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h3><p>Collections是一个操作Set、List和Map等集合的工具类，提供了排序、查询、修改等操作，以及将集合对象设置为不可变、对集合对象实现同步控制等方法。</p>
+<p>排序：reverse sort swap rotate shuffle等。</p>
+<p>查询与替换：binarySearch max min fill frequency replacyAll等。</p>
+<p>同步控制：Collections类提供了多个synchronizedXxx()方法将指定集合Xxx包装成线程同步的集合，解决多线程并发访问集合时的线程安全问题。常用的集合框架的实现类HashSet、TreeSet等都是线程不安全的。</p>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>参数化类型parameterized type允许程序在创建集合时指定集合元素的类型，称为泛型generic。泛型允许在定义类、接口、方法时使用类型形参，这个类型形参在声明变量、创建对象、调用方法时动态指定（即传入实际的类型参数，也可称为类型实参）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(E x)</span></span>;</span><br><span class="line">	<span class="function">Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">	<span class="function">Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">V <span class="title">put</span><span class="params">(K key, V value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用带泛型声明的接口和父类时，接口和父类不能在包含类型形参。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下代码是错误的</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">Apple</span>&lt;<span class="title">T</span>&gt; </span>&#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 派生子类时需要为Apple类的T形参传入类型参数</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">Apple</span>&lt;<span class="title">String</span>&gt; </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从指定了类型形参的父类/接口中派生子类，父类/接口中所有使用类型形参的地方都会被替换成指定的类型实参，例如从Apple&lt;String&gt;派生子类，它的子类会继承到String getInfo()方法（Apple&lt;T&gt;中包含T getInfo()方法）。</p>
+<p>如果在派生子类时没有传入实际的类型参数（public class A extends Apple {}），代码能正确编译，但编译器可能发出泛型检查的警告：使用了未经检查或不安全的操作。</p>
+<p>系统并没有为每个不同类型实参生成新的类（即没有生成新的class文件），因此指定了不同类型实参的同一种类是同一个类，其getClass()方法值相等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l1 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">List&lt;Integer&gt; l1 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">// 以下等式为true</span></span><br><span class="line">l1.getClass() == l2.getClass()			</span><br></pre></td></tr></table></figure>
+
+<p>不管为泛型的类型参数传入哪一种类型实参，java依然把它们当成同一个类处理，在内存中也只占用一块内存空间，因此在静态方法、静态初始化块和静态变量的声明和初始化中不允许使用类型形参。由于系统中并不会真正生成泛型类，所以instanceof运算符后面不能使用泛型类。</p>
+<p>如果Foo是Bar的一个子类型（子类或者子接口），而G是具有泛型声明的类或接口，G&lt;Foo&gt;并不是G&lt;Bar&gt;的子类型，而Foo[]是Bar[]的子类型。</p>
+<p>泛型可以使用类型通配符（一个问号）表示可以匹配任何类型，例如元素类型未知的List可以写作List&lt;?&gt;、但这样使用类型通配符定义的List不能添加对象（null除外），因为List&lt;E&gt;接口定义中，add(E x)方法有类型参数E作为集合元素的元素类型，所以传给add的参数必须是E类的对象或其子类的对象，而此处程序无法确定集合中元素的类型，只能读取元素。</p>
+<p>受限通配符List&lt;? extends C&gt; list表示此处的未知类型只能匹配C类及其子类，称C为这个通配符的上限。定义类型形参时同样可以设定上限Apple&lt;T extends Number&gt;，类型形参只能有一个父类上限，可以有多个接口上限，表明该类型形参必须是其父类的子类或父类，并且实现多个上限接口，例如Apple&lt;T extends Number &amp; java.io.Serializable&gt;。与类同时继承父类、实现接口类似，接口上限必须位于类上限之后，及类上限必须位于第一位。</p>
+<p>受限通配符&lt;? super Type&gt;表示此处的未知类型只能匹配Type本身或其父类。</p>
+<h4 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h4><p>泛型方法是指在声明方法是定义一个或多个类型形参，用法如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修饰符 &lt;T,S&gt; 返回值类型 方法名(形参列表) &#123;</span></span><br><span class="line"><span class="comment">//  </span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// 例如</span></span><br><span class="line"><span class="keyword">static</span> &lt;T, E&gt; <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T[] a, List&lt;E&gt; c)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在声明时定义T类型形参后，这个T类型形参就可以在方法内当成普通类型使用。与类、接口中使用的泛型参数不同的是，方法中的泛型参数无须显式传入实际类型参数，编译器会根据实参推断出类型形参的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> &lt;T extends E&gt; <span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(List&lt;? extends T&gt; from, List&lt;T&gt; to)</span> </span>&#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上述copy方法将from列表中的元素复制到to列表中，只要from列表中的元素类型是to列表中的元素类型的子类或同类即可。</p>
+<p>如果类型形参用来表示多个参数之间、方法返回值与参数之间的类型依赖关系，则使用泛型方法，否则使用类型通配符。</p>
+<p>泛型构造器是指在构造器签名中声明类型形参，一旦定义了泛型构造器，则在调用该构造器时，可以让java根据数据参数的类型来推断类型参数的类型<code>new foo(1)</code>，也可以由程序员显式地为构造器中的类型参数指定实际类型<code>new &lt;Integer&gt; foo(1)</code>。</p>
+<p>使用带泛型声明的类时可以不指定实际的类型参数，则该类型参数被称作raw type，默认是声明该类型参数时指定的第一个上限类型（如果是&lt;T extends E&gt;，则不指定&lt;T&gt;参数时默认是E，如果是&lt;T&gt;，则不指定时是Object。</p>
+<p>当把一个具有泛型信息的对象赋给一个没有泛型信息的变量时，会丢失泛型信息，例如把List&lt;String&gt;类型转换成List时，List对集合元素的类型检查变成了类型参数的上限（即Object），此即擦除。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>java的异常处理机制依赖于try catch finally throw throws关键字，try关键字后紧跟一个花括号括起来的代码块，用于放置可能引发异常的代码，catch后对应异常类型和一个代码块，用于表明该catch块用于处理这种异常类型的代码块，多个catch块后跟一个finally块，异常机制保证finally块总被执行，可用于回收try块中打开的物理资源等。throws用于在方法签名中声明该方法可能会抛出的异常。throw用于抛出一个实际的异常，即具体的异常对象。</p>
+<p>java将异常分为Checked异常和Runtime异常，Checked异常都可以在编译阶段被处理，所以强制程序处理。</p>
+<p>运行时异常，例如用户输入错误、操作系统故障、硬件故障、网络故障等在编写代码时不可预估的错误。</p>
+<p>异常处理机制将业务功能实现代码和错误处理代码分离，提供更好的可读性。</p>
+<p>系统在执行任何代码块时出现异常，总会自动生成一个异常对象，该异常对象被提交给java运行时环境，称为抛出throw异常。java运行时环境收到异常对象后，会寻找处理该异常对象的catch块，如果找到则把该异常对象交给该catch块处理，称为捕获catch异常。如果找不到捕获异常的catch块，则运行时环境终止，java程序退出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  statement1</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (ExceptionClass1 e1) &#123;</span><br><span class="line">  exception handler statement1</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (ExceptionClass2 e2) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>java运行时环境接收到异常对象后，会依次判断异常对象是否是catch块后异常类或其子类的实例，如果是，则调用该catch块处理异常，否则再继续与后一个catch块进行判断。进入catch块时，系统自动生成的异常对象ex将会传给catch块后的异常类型形参，从而允许catch块通过该对象获得异常的详细信息。进入catch块后不会再继续向下执行其他catch块。</p>
+<p>多个catch块可以避免使用if switch判断异常类型，但依然可以针对不同的异常类型提供响应的处理逻辑。</p>
+<p>try块和catch块的花括号不能省略，try块中定义的变量属于代码块内局部变量，只在try块内有效。</p>
+<p>java提供的异常类有严格的继承关系，java将所有非正常情况分为异常Exception和错误Error，两者都继承自Throwable父类，Error是指与虚拟机相关的问题，例如系统奔溃、虚拟机错误、动态连接失败等，这类错误不可恢复或者不可能被捕获，将导致程序退出。</p>
+<img src="JAVA%E5%AD%A6%E4%B9%A0.assets/image-20200926203434656.png" alt="image-20200926203434656" style="zoom:80%;" />
+
+<p>异常捕获时，所有父类异常的catch块都应该排在子类异常的catch块前，即先捕获小异常，再捕获大异常。</p>
+<p>java7开始支持多异常捕获，一个catch块可以捕获多种类型的一场，多种异常类型之间用竖线|分隔<code>catch (ExceptionA | ExceptionB e)</code>，异常变量e隐式使用final修饰。</p>
+<p>所有异常对象提供了如下几个常用方法：getMessage()返回该一场的详细描述字符串，printStackTrace()将该一场的跟踪栈信息输出到标准错误输出，getStackTrace()返回该异常的跟踪栈信息。</p>
+<p>java的垃圾回收机制不会回收任何物理资源。</p>
+<p>在try或catch块中执行return语句后，依然会执行finally块，但调用System.exit(1)语句退出虚拟机则不会执行finally块。</p>
+<p>Java程序执行到try或catch块中的return或throw语句时，并不会马上执行而结束该方法，而是去寻找该异常处理流程中是否包含finally块，如果没有则立即执行return语句或throw语句，方法终止，否则执行finally块，当finally块执行完成后再执行try或catch块中的return或throw方法。如果finally块中使用了return或throw等导致方法终止的语句，则直接结束方法，而不会再执行try或catch块中的任何代码，因此要尽量在finally块中使用return或throw语句。</p>
+<p>异常处理流程代码可以在任何可执行代码的代码，因此异常处理支持嵌套。</p>
+<p>java7之后，try后紧跟一对圆括号，圆括号内可声明、初始化一个或多个必须在程序结束时显示关闭的资源，例如数据库连接和网络链接等，try语句在结束时将自动关闭这些资源。要实现自动关闭，这些资源实现类必须实现AutoCloseable或Closeable接口，这两个接口中定义了close()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (</span><br><span class="line">	BufferedReader bf = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="string">&quot;a.java&quot;</span>));</span><br><span class="line">	PrintStream ps = ....</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Closeable是AutoCloseable的子接口，Closeable接口的close()方法声明抛出了IOException，因此它的实现类实现该方法时只能抛出IOException或其子类，而AutoCloseable接口的close()方法声明抛出了Exception。</p>
+<p>由于自动关闭资源的try块隐式包含了用于关闭资源的finally快，因此该try块可以没有catch块和finally块。java7几乎所有资源类都实现了AutoCloseable或Closeable接口。</p>
+<p>java的异常分为Checked异常（其他异常）和Runtime异常（RuntimeException类及其子类），java程序必须显式处理Checked异常，否则编译器报错。Checked异常的处理方式有两种：使用try\catch块处理异常，在定义该方法时声明抛出异常。</p>
+<p>当前方法不知道如何处理这种类型的异常，该异常应该由上一级调用者处理，即调用该方法时要么放在try块中显式捕获该异常，要么放在另一个带throws声明的抛出的方法中。如果main方法也不知道如何处理，则交给JVM处理。JVM处理一场的方法是：打印异常的跟踪栈信息，并中止程序运行。</p>
+<p>方法签名中使用throws声明抛出多个异常类，多个异常类之间以逗号隔开。一旦使用throws抛出异常，程序就无须使用try/catch块来捕获该异常。</p>
+<p>子类方法声明抛出的异常类型应该是父类方法声明抛出的异常类型的子类或相同，并且子类方法声明抛出的异常不允许比父类方法声明抛出的异常多。</p>
+<p>使用throw主动抛出异常，每次只能抛出一个异常实例。如果throw抛出的异常是Checked异常，则该throw语句要么处于try块里，显式捕获该异常，要么放在一个带有throws声明的方法中，由该方法的调用者处理异常。如果throw语句抛出的是Runtime异常，则没有限制。</p>
+<p>用户自定义异常类需要继承Exception基类或其子类，并且需要提供一个无参数的构造器和一个带有字符串参数的构造器，这个字符串将作为该异常对象的描述信息，也就是异常对象的getMessage()方法的返回值。通常，自定义异常类可如下定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionA</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ExceptionA</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ExceptionA</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(msg)</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">// 所有Throwable的子类在构造器中都可以接收一个原始异常对象作为参数，从而把原始异常传递给新的异常。</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ExceptionA</span><span class="params">(Throwable t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(t)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在异常出现的当前方法中，程序只在catch块中对异常进行部分处理，并使用throw语句再次抛出异常，让该方法的调用者进行进一步的处理。</p>
+<p>把底层的原始错误直接传给用户是一种不负责任的表现，通常程序先捕获原始异常，然后抛出一个包含对用户的提示信息的新的业务异常，这称为异常转译。把原始异常隐藏起来，仅向上提供必要的异常提示信息的处理方式，保证底层异常不会向上扩散，避免向上暴露太多实现西昌，符合面向对象的封装原则。这种把捕获一个异常然后抛出另一个异常，并把原始异常信息保存下来是一种典型的链式处理，也称为异常链。</p>
+<p>成功的异常处理应该实现：使代码混乱最小、捕获并保留诊断信息、通知合适人员，采用合适的方式结束异常。异常处理的基本准则：</p>
+<ol>
+<li>异常处理机制的初衷是将不可预期异常的处理代码和正常的业务逻辑处理代码分离，对于完全可与之而处理方式清楚的错误，应该提供相应的错误处理代码。</li>
+<li>不要在try块中放置大量的代码。</li>
+<li>避免在一个catch块中处理所有可能异常。</li>
+<li>捕获到异常后应该采取适当措施，例如：在catch块中对异常进行修复，使程序继续运行。或者在catch块中重新抛出新的异常，由上层调用者处理。或者不适用catch块，直接使用thorws声明抛出该异常，由上层调用者负责处理。</li>
+</ol>
+<p>###注释</p>
+<p>Annotation注释，其实就是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注释，程序开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充信息。代码分析工具、开发工具和部署工具可以通过这些补充信息进行验证或进行部署。</p>
+<p>Annotation能被用来为程序元素（包、类、构造器、方法、成员变量、参数、局部变量）设置元数据，不影响程序代码的执行。</p>
+<p>@Override用来指定方法覆盖，它可以强制一个子类必须覆盖父类的方法，作用是告诉编译器检查这个方法，保证父类要包含一个被该方法重写的方法，否则会编译出错。</p>
+<p>@Deprecated用于表示某个程序元素（类、方法等）已经过时，当其他程序使用已过时的类、方法时，编译器将会给出警告。</p>
+<p>@SuppressWarnigs指示被该注释修饰的程序元素以及该程序元素中的所有子元素取消显示指定的编译器警告。</p>
+<p>@SafeVarargs：把一个带泛型的对象赋给一个不带泛型的变量，或反之，都会产生堆污染警告，@SafeVarargs用于抑制这种警告。</p>
+<p>@FunctionalInterface用来指定某个接口必须是函数式接口，否则报错。</p>
+<h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p>java的IO是通过java.io包下的类和接口来支持，主要包括输入、输出两种IO流，每种流又可以分为字节流和字符流，其中字节流以字节为单位来处理，字符流以字符来处理。JAVA的IO流使用一种装饰器设计模式，它将IO流分为底层节点流和上层处理流，其中节点流用于和底层的物理存储节点直接关联，不同的物理节点获取字节流的方式可能存在一定的差异，但程序可以把不同的物理节点流包装成统一的处理流，从而隐藏底层设备上节点流的差异，允许程序使用统一的输入、输出代码来读取不同物理存储节点的资源。</p>
+<p>File类是java.io包下代表与平台无关的文件和目录，File类不能访问文件内容本身，需要使用输入/输出流访问。File类可以使用文件路径字符串来创建File实例，路径可以是绝对路径，也可以是相对于用户工作路径（通常是java虚拟机所在路径）的相对路径。</p>
+<p>java中把不同的输入/输出源（键盘、文件、网络连接等）抽象表述为流stream，通过流的方式允许java使用相同的方式来访问不同的输入/输出源，stream是从起源source到接收sink的有序数据。</p>
+<p>读取数据的称为输入流，写入数据的称为输出流。划分输入/输出流是从程序运行所在的内存的角度来考虑的。</p>
+<p>字节流操作的数据单元是8位字节，主要由InputStream和OutputStream作为基类，字符流操作的数据单元是16位字符，主要由Reader和Writer作为基类。这些基类是抽象基类，无法直接创建实例。</p>
+<p>InputStrem和Reader包含方法：int read()从输入流中读取单个字节或字符，返回所读取的字节或字符数据, int read(byte[] b/char[] cbuf)从输入流中最多读取数组b或cbuf长度个字节或字符的数据，并存储在数组b或cbuf中，返回实际读取的字节或字符数, int read(byte[] b/char[] cbuf, int off, int len)从输入流中最多读取len个字节或字符的的数据，并将其存储在数组b或cbuf off位置处，返回实际读取的字节或字符数。</p>
+<p>OutputStrem和Writer包含的方法与上面的几乎一致。void write(int c), void write(byte[]/char[] buf), void write(byte[]/char[] buf, int off, int len), void write(String str), void write(String str, int off, int len).</p>
+<p>从/向一个特定的IO设备（磁盘、网络等）读写数据的流，称为节点流，程序直接连接到实际的数据源，和实际的输入/输出节点连接。处理流则用于对一个已存在的流进行链接或封装，通过封装后的流来实现数据读写功能，不会直接连接到实际的数据源，没有和实际的输入/输出节点连接。这是一种装饰器设计模式，通过使用处理流来包装不同的节点流，可以消除不同节点流的实现差异。</p>
+<p>JAVA7之后的所有IO资源类都实现了AutoCloseable接口，可以通过自动关闭资源的try语句来关闭这些IO流。</p>
+<p>使用处理流的典型思路是：使用处理流来包装节点流，程序通过处理流来执行输入/输出功能，让节点流与底层的IO设备/文件交互。以物理IO节点作为构造器参数的流属于节点流，以已存在的流作为构造器参数的是处理流。关闭最上层的处理流时，系统会自动关闭被该处理流包装的节点流。</p>
+<p><img src="JAVA%E5%AD%A6%E4%B9%A0.assets/image-20201008153116922.png" alt="image-20201008153116922"></p>
+<p>访问数组时有一种以数组为物理节点的节点流，字节流/字符流分别以字节/字符数组为节点，在创建这类节点流时，需要传入一个字节或字符数组，其他用法与文件节点流完全相似。字符流还可以使用字符串作为物理节点，或将内容写入字符串（StringBuffer充当字符串）。</p>
+<p>创建StringReader和StringWriter对象时传入的是字符串节点，而不是文件节点，由于String是不可变的字符串对象，所以StringWriter使用StringBuffer作为输出节点，调用StringWriter的toString()方法得到输出字符串。</p>
+<p>访问管道的流用于实现进程间通信。</p>
+<p>缓冲流增加了缓冲功能，可以提高输入、输出的效率，增加缓冲功能后需要使用flush()才可以将缓冲区的内容写入实际的物理节点。</p>
+<p>对象流主要用于实现对象的序列化。</p>
+<p>转换流主要用于将字节流转换为字符流，InputStreamReader将字节输入流转换为字符输出流，OutputStreamWriter将字节输出流转换为字符输出流。</p>
+<p>java使用System.in代表标准输入，即键盘输入，这个标准输入流是InputStream的实例，可以使用InputStreamReader将其转换为字符输入流，再使用BufferReader将其转换为带缓冲的流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">InputStreamReader reader = <span class="keyword">new</span> InputStreamReader(System.in);</span><br><span class="line">BufferedRead br = <span class="keyword">new</span> BufferedReader(reader);</span><br><span class="line">line = br.readLine()</span><br></pre></td></tr></table></figure>
+
+<p>推回输入流PushBackInputStream和PushBackReader提供了unread(byte[]/char[] buf)将一个字节/字符数组中的内容推回到缓冲区，从而允许重复读取。unread(byte[]/char[] b, int off, int len)将一个字节/字符数组里从off开始，长度为len字节/字符的内容推回到缓冲区里，从而允许重复读取。unread(int b)将一个字节/字符推回缓冲区，从而允许重复读取。</p>
+<p>推回输入流带有一个推回缓冲区，推回输入流每次调用read()方法是总是先从推回缓冲区读取，不够时再从原始输入流中读取。调用unread()方法时，系统会把指定数组的内容推回到该缓冲区里。</p>
+<p>通常如果输出文本内容，都应该将输出流包装成PrintStream后进行输出。</p>
+<p>Java的标准输入和输出分别通过System.in和System.out来代表，默认情况下代表键盘和显示器。通过System.in来获取输入时，实际上是从键盘读取输入，通过System.out执行输出时，程序总是输出到屏幕。可以通过setErr/setIn/setOut来重定向标准错误输出流、标准输入流、标准输出流。</p>
+<p>RandomAccessFile支持自由定位文件记录指针来访问文件的任意位置，可以读取文件内容，也可以向文件输出数据（在文件尾部追加内容，而不能直接在文件的指定位置插入内容，这样新的内容会覆盖文件中原有的内容，一个解决办法是将插入点后面的内容读入缓冲区，插入完数据后再将缓冲区中的内容追加到文件后面）。</p>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>对象序列化机制允许把内存中的java对象转换成平台无关的二进制流。从而允许把这种二进制流持久地保存在磁盘上，或通过网络进行传输。其他程序一旦获得这种二进制流，都可以将其恢复成原来的java对象。</p>
+<p>对象的序列化Serialize指将一个java对象写入IO流，对象的反序列化Deserialize则指从IO流中恢复该JAVA对象。</p>
+<p>为了让某个类是可序列化的，则该类必须实现Serializable或Externalizable接口。Serializable接口是一个标记接口，实现该接口无须实现任何方法。</p>
+<p>序列化对象步骤：创建一个ObjectOutputStream，这是一个处理流，必须建立在其他节点流的基础上。调用ObjectOutputStream对象的writeObject()方法输出可序列化对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">Person per = <span class="keyword">new</span> Person(<span class="string">&quot;foo&quot;</span>);</span><br><span class="line"><span class="comment">// 序列化</span></span><br><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStrem(<span class="keyword">new</span> FileOutputStrem(<span class="string">&quot;object.txt&quot;</span>));</span><br><span class="line">oos.write(person);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 反序列化</span></span><br><span class="line">ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;object.txt&quot;</span>));</span><br><span class="line">Person p = (Person)ois.readObject();</span><br></pre></td></tr></table></figure>
+
+<p>反序列化读取的仅仅是Java对象的数据，而不是Java类，因此采用反序列化恢复Java对象时，必须提供该Java对象所属类的class文件，否则会引发ClassNotFoundException异常。</p>
+<p>反序列化机制无需通过构造器来初始化Java对象。</p>
+<p>用序列化机制向一个文件中写入多个Java对象，使用反序列化机制恢复对象时必须按实际写入的顺序读取。</p>
+<p>当一个可序列化类有多个父类（直接父类或间接父类），这些父类要么有无参数的构造器，要么也是可序列化的，否则反序列化时将抛出InvalidClassException异常。如果父类不可序列化，但带有无参数的构造器，则该父类中定义的成员变量值不会序列化到二进制流中。</p>
+<p>如果某个类的成员变量是引用类型，那么这个引用类型必须是可序列化的，否则拥有该类型成员变量的类也是不可序列化的。</p>
+<p> Java序列化机制采用了一种特殊的算法：所有序列化的对象都有一个序列化编号，当程序试图序列化一个对象时，会先检查是否已经序列化过，如果从未被序列化过，则系统将该对象转换成字节序列并输出，否则系统只是直接输出一个序列化编号，而不是再次重新序列化该对象。</p>
+<p>java序列化机制序列化可变对象时，只有第一次调用writeObject()方法时才会将对象转换成字节序列，并写入到ObjectOutputStream，后续即使该对象的实例变量发生改变，再次调用writeObject()方法时，改变后的实例变量也不会被输出。</p>
+<h3 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h3><p>java.io下输入流、输出流都是阻塞式的输入输出，并且都是通过字节移动来处理，一次只能处理一个字节，效率不高。</p>
+<p>NIO采用内存映射的方式来处理输入输出，将文件或文件的一段区域映射到内存中，从而像访问内存一样来访问文件。</p>
+<p>java.nio包含各种与Buffer相关的类，java.nio.channels包含与Channel和Selector相关的类，java.nio.charset包含与字符集相关的类。</p>
+<p>Channel和Buffer是NIO中的两个核心对象，Channel是对传统的输入输出流的模拟，NIO中的所有数据都需要通过Channel传输，Channel与Stream的区别在于它提供了一个map方法，将一块数据映射到内存中。传统的输入输出是面向流的，则NIO是面向块的处理。Buffer可以被理解为一个容器，本质是一个数组，发送至Channel或从Channel中读取的数据都必须先放到Buffer中。可以从Channel中单个字节的读取，也可以直接使用Channel直接将文件的某块数据映射成Buffer。</p>
+<p>####Buffer</p>
+<p>Buffer有ByteBuffer、CharBuffer、ShortBuffer等，Buffer没有提供构造器，只能通过static XxxBuffer.allocate(int capacity)创建一个容量为capacity的XxxBuffer对象。ByteBUffer的一个子类MappedByteBuffer用于表示Channel将文件的部分或全部内容映射到内存中后得到的结果，通常由Channel的map()方法返回。</p>
+<p>Buffer中的容量capacity表示该Buffer可存储的最大数据量，界限limit表示该Buffer中limit后的数据既不可读也不可写，位置position用于指明该Buffer中下一个可读或可写的位置索引。buffer的主要作用是装入、输出数据。初始时，positon为0，limit为capacity，程序通过put()方法向buffer中放入一些数据，或者从Channel中获取，每放入一些数据，position相应的向后移动。装入数据结束后，调用buffer的flip()方法，将limit设为当前position的位置，并将position设置为0，为输出数据做好准备。数据数据结束后，调用buffer的clear()方法，将position设置为0，limit设置为capacity，为再次装入数据做准备。</p>
+<p>Buffer提供put()和get()方法，用于向Buffer中放入、读取数据，可以单个访问，也可以通过数组批量访问。可以采取相对Relative访问方式，该方式从position处开始读取或写入数据，并将position按处理元素的个数增加，也可以采取绝对Absolute访问方式，直接根据索引向buffer中读取或写入数据，不影响position的值。</p>
+<p>ByteBuffer还提供了allocateDirect()方法来创建直接Buffer，直接Buffer的创建成本比普通Buffer创建成本更高，但读取效率更高，适用于长生存期的Buffer。</p>
+<h4 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h4><p>Channel可以直接将指定文件的部分或全部直接映射成Buffer，程序不能直接访问Channel中的数据，必须通过Buffer，即读取时，先用Buffer从Channel取出一些数据，然后从Buffer读取数据，写入时，先将数据放入Buffer，在将Buffer中的数据写入Channel。</p>
+<p>Channel接口有DatagramChannel、FileChannel、Pipe.SinkChannel、ServerSocketChannel、SocketChannel等实现类。所有Channel都不应该通过构造器直接创建，而是通过传统节点InputStream、OutputStream的getChannel()方法返回对应的Channel。</p>
+<p>Channel中常用的方法是map()、read()和write()，MappedByteBuffer map(FileChannel.MapMode mode, long position, long size)用于将Channel对应的数据（position开始，长度为size）映射成ByteBuffer，mode参数便是映射时的模式，有只读、读写等模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">File f = <span class="keyword">new</span> File(<span class="string">&quot;a.txt&quot;</span>);</span><br><span class="line">FileInputStream fis = <span class="keyword">new</span> FileInputStrem(f);</span><br><span class="line">FileChannel inChannel = fis.getChannel();</span><br><span class="line">MappedByteBuffer buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, <span class="number">0</span>, f.length());</span><br><span class="line">FileChannel outChannel = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;b.txt&quot;</span>).getChannel();</span><br><span class="line">outChannel.write(buffer)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>将字符序列转换成二进制序列称为编码Encode，将二进制序列转换成字符序列成为解码Decode。</p>
+<p>使用文件锁可以有效阻止多个进程并发修改同一个文件。</p>
+<p>NIO中的FileChannel提供了lock()/tryLock()方法，lock()方法是阻塞式的，如果无法得到文件锁，则程序将一直阻塞，tryLock()是尝试锁定文件，如果获得文件锁则返回该文件锁FileLock，否则返回null。两种方法中有share参数，为true时表示该锁是一个共享锁，允许多个进程读取该文件，但阻止其他进程获得对该文件的排他锁，为false时表示该锁是一个排他锁，它将锁住对该文件的读写。处理完文件后可通过FileLock的release()方法释放文件锁。</p>
+<p>NIO.2</p>
+<p>NIO.2提供了全面的文件IO和文件系统访问支持，表现为新增的java.nio.file包及各个子包。还提供了基于异步Channel的IO，表现为在java.nio.channels包下增加了多个以Asynchronous开头的Channel接口和类。</p>
+<p>NIO.2引入了代表一个平台无关的平台路径的Path接口，提供了Files\Paths两个工具类，Files包含大量静态的工具方法来操作文件，大大地简化了文件IO。</p>
+<h3 id="类的加载、连接和初始化"><a href="#类的加载、连接和初始化" class="headerlink" title="类的加载、连接和初始化"></a>类的加载、连接和初始化</h3><p>使用java命令运行某个java程序时，系统会启动一个java虚拟机进程，同一个JVM的所有线程和变量都处于同一个进程里，都使用该JVM进程的内存区。当系统遇到：1. 程序正常结束， 2. 程序调用System.exit()或Runtime.getRuntime.exit()结束程序， 3. 程序遇到未捕获的异常或错误而结束， 4. JVM进程被强制结束时，JVM进程被终止。</p>
+<h4 id="类的加载"><a href="#类的加载" class="headerlink" title="类的加载"></a>类的加载</h4><p>类的加载是将类的class文件读入内存，并创建一个java.lang.Class对象。类的加载由类加载器完成，JVM提供的类加载器通常成为系统类加载器，开发者可以通过继承ClassLoader基类来创建自己的类加载器。通过使用不同的类加载器可以从不同来源加载类的二进制数据：本地文件系统加载class文件、从JAR包中加载class文件，通过网络加载class文件，动态编译Java源文件并加载。</p>
+<p>java虚拟机规范允许系统预先加载某些类。</p>
+<h4 id="类的连接"><a href="#类的连接" class="headerlink" title="类的连接"></a>类的连接</h4><p>类被加载之后便就进入连接阶段，连接阶段负责把类的二进制数据合并到JRE中，类连接又可以分为：</p>
+<p>验证： 验证加载的类是否有正确的内部结构，并和其他类协调一致。</p>
+<p>准备：为类的类变量分配内存，并设置默认初始值。</p>
+<p>解析：将类的二进制数据中的符号引用替换成直接引用。</p>
+<h4 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h4><p>类的初始化阶段，虚拟机对类进行初始化，主要是对类变量进行初始化：声明类变量时指定初始值，或使用静态初始化块为类变量指定初始值。这两种方式都是类的初始化语句，JVM按这些语句在程序中的排列顺序依次执行它们。</p>
+<p>JVM初始化一个类包含如下几个阶段：</p>
+<p>1， 如果类还没被加载和连接，则先加载并连接该类。</p>
+<ol start="2">
+<li>如果该类的直接父类还没有被初始化，则先初始化其直接父类（继续上溯直接父类的直接父类，直至该类的直接父类和所有间接父类都被初始化，因此最先初始化的总是java.lang.Object类）。</li>
+<li>如果该类有初始化语句，则执行初始化语句。</li>
+</ol>
+<p>当java程序首次通过以下方式使用某个类或接口时，系统就会初始化该类或接口：</p>
+<ol>
+<li>通过new操作符、反射、反序列化来创建类的实例。</li>
+<li>调用某个类的类方法（静态方法）。</li>
+<li>访问某个类或接口的类变量，或为该类变量赋值。</li>
+<li>使用反射强制创建某个类或接口对应的java.lang.Class对象。</li>
+<li>初始化某个类的子类。</li>
+<li>直接使用java.exe命令运行某个主类。</li>
+</ol>
+<p>final类型的类变量的值如果在编译时就可以确定，则该类变量相当于宏变量，java编译器会在编译时直接把这个类变量出现的地方替换成它的值，因此即使程序使用该静态类变量，也不会导致该类的初始化。</p>
+<p>ClassLoad的loadClass()方法只加载某个类，不会执行该类的初始化，使用Class的forName方法时才会导致强制初始化该类。</p>
+<h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p>类加载器负责加载所有类，每一个被载入内存中的类都会生成一个java.lang.Class实例，一个类只会加载一次。在JVM中一个类用其全限定类名（包括包名和类名）和其类加载器作为其唯一标识。</p>
+<p>JVM启动时会形成由三个类加载器组成的初始类加载器层次结构（父子关系）：</p>
+<ol>
+<li>Bootstrap ClassLoader：根类加载器，也称为引导、原始或根类加载器，负载加载Java的核心类。它并不是java.lang.ClassLoader的子类，而是由JVM自身实现。</li>
+<li>Extension ClassLoader：扩展类加载器，负责加载JRE的拓展目录。</li>
+<li>System ClassLoader：系统类加载器，负载在JVM启动时加载来自java命令的的classpath选项、java.class.path系统属性、CLASSPATH环境变量所指定的JAR包和类路径。默认情况下，用户自定义的类加载器都以系统类加载器作为父加载器。</li>
+<li>用户类加载器</li>
+</ol>
+<p>JVM中除根类加载器之外的所有类加载器都是ClassLoader子类的实例，开发者可以通过拓展ClassLoader的子类，并重写该ClassLoader所包含的方法来实现自定义的类加载器。</p>
+<p>JVM的类加载器机制有三种：</p>
+<ol>
+<li>全盘负责，由同一个类加载器负责加载某个类及其所依赖和引用的其他类。</li>
+<li>父类委托，先由父类加载器尝试加载，加载失败时才尝试从自己的类路径中加载。</li>
+<li>缓冲机制，缓冲所有加载过的Class，当程序需要使用时，类加载器先从缓冲区中搜寻，搜寻不到时再读取该类对应的二进制数据，并将其转换为Class对象。</li>
+</ol>
+<p>类加载器加载Class大致要经过如下8个步骤：</p>
+<ol>
+<li>检测此Class是否被载入过，即在缓冲区中是否有此Class，如果有则进入第8步，否则继续。</li>
+<li>如果父类加载器不存在（此时，要么parent一定是根类加载器，要么本身就是根类加载器），则执行第4步，否则继续。</li>
+<li>请求父类加载器加载，如果成功则进入第8步，否则执行第5步。</li>
+<li>请求根类加载器加载，如果成功则进入第8步，否则执行第7步。</li>
+<li>当前类加载器尝试寻找Class文件，如果找到则执行第6步， 否则执行第7步。</li>
+<li>从文件中载入Class，成功后执行第8步。</li>
+<li>抛出ClassNotFoundException异常。</li>
+<li>返回对应的java.lang.Class对象。</li>
+</ol>
+<p>其中第5、6步允许重写ClassLoader的findClass()方法来实现自己的载入策略，甚至重写loadClass()方法来实现自己的载入过程。通常推荐重写findClass()方法。findClass()方法根据指定名称来查找类，loadClass()方法是ClassLoader的入口点，根据指定名称来加载类，系统就是调用该方法来获取指定类对应的Class对象。</p>
+<p>ClassLoader下的Class defineClass(String name, byte[] b, int off, int len)方法用于将指定类的字节码文件（Class文件，可来源于文件、网络等）读入字节数组b内，并将字节码分析成运行时数据结构、校验有效性等，最终返回对应的Class对象。该方法由final修饰，不可重写。</p>
+<h3 id="反射-1"><a href="#反射-1" class="headerlink" title="反射"></a>反射</h3><p>java程序中的对象在运行时会出现两种类型：编译时类型和运行时类型。</p>
+<p>每个类被加载后，系统会为该类生成一个Class对象，通过该Class对象就可以访问到JVM中的这个类，java程序获得Class对象通常有如下三种方式：</p>
+<ol>
+<li>使用Class类的forName(String clazzName)静态方法，clazzName的值是某个类的全限定类名。</li>
+<li>调用某个类的class属性来获取该类对应的Class对象，例如Person.class。</li>
+<li>调用某个对象的getClass()方法，返回该对象所属类对应的Class对象。</li>
+</ol>
+<p>Class类提供了大量方法来获取该Class对象所对应类的详细信息，例如通过getConstructors\getMethods\getFields等来得到Method\Constructor\Field等对象，分别代表方法、构造器和成员变量。再通过这些对象来执行实际的功能，例如调用方法、创建实例。</p>
+<p>java8在java.lang.reflect包下新增了一个代表可执行的类成员的Executable抽象基类，该类派生出Constructor、Method子类，该类提供了大量方法来获取相关信息。</p>
+<p>javac命令编译java源程序时，默认生成的class文件并不包含方法的形参名信息，可以在编译程序时为javac命令添加-parameters选项来保留形参信息。</p>
+<h4 id="使用反射操作对象"><a href="#使用反射操作对象" class="headerlink" title="使用反射操作对象"></a>使用反射操作对象</h4><p>通过反射来生成对象有如下两种方式：</p>
+<ol>
+<li><p>使用Class对象的newInstance()方法来创建该Class对象的实例，该方法利用默认构造器来创建对象实例。</p>
+</li>
+<li><p>使用Class对象的getConstructor()方法获取指定的Constructor构造器对象，再调用Constructor对象的newInstance()方法来创建该Class对象的实例。该方法能使用指定的构造器来创建实例。</p>
+</li>
+</ol>
+<p>通过Class对象的getMethod/getMethods方法获取该类所包含的指定或全部成员方法，即Method对象，每个Method对象对应一个方法，程序通过该Method对象的invoke(Object obj, Object… args)来调用它对应的方法，其中obj是执行该方法的主调，args是执行该方法时传入的实参。</p>
+<p>通过Method的invoke()方法调用对应方法时，java要求程序必须要有调用该方法的权限。如果需要调用某个对象的private方法，则先调用Method对象的setAccessible(boolean flag)方法将该Method对象的accessible设置为指定的布尔值，flag为true时指示该Method在使用时应该取消java语言的访问权限检查。</p>
+<p>setAccessible()方法属于Method、Constructor、Field的父类AccessibleObject类，因此通过该方法可以取消访问权限检查，实现通过反射访问private成员。</p>
+<p>通过Class对象的getField/getFields方法获取该类所包含的指定或全部成员变量，即Field对象，并提供如下方法来读取或设置成员变量值：</p>
+<ol>
+<li>getXxx(Object obj)：获取obj对象的该成员变量值，Xxx对应8种基本类型，成员变量为引用类型时则直接使用get。</li>
+<li>setXxx(Object obj, Xxx val)：将obj对象的该成员变量设置为val值，Xxx对应8种基本类型，成员变量为引用类型时则直接使用set。</li>
+</ol>
+<p>java.lang.reflect包下提供了Array类，程序可以通过使用Array来动态创建数组、操作数据元素。包含如下几类方法：</p>
+<ol>
+<li>static Object newInstance(Class&lt;?&gt; componentType, int… length)：创建一个具有指定的元素类型和维度的新数组。</li>
+<li>static Xxx getXxx(Object array, int index)：返回array数据中第index个元素，Xxx对应8种基本类型，数组元素为引用类型时则直接使用get。</li>
+<li>static void setXxx(Object array, int index, Xxx val)：将array数组中第index个元素的值设置为val，Xxx对应8种基本类型，数组元素为引用类型时则直接使用set。</li>
+</ol>
+<p>获得成员变量对应的Field对象后，使用如下代码获得指定成员变量的类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; a = f.getType();</span><br></pre></td></tr></table></figure>
+
+<p>该方式不能得到泛型参数，需要使用以下方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; <span class="keyword">var</span>;</span><br><span class="line"><span class="comment">// 获得成员变量f的泛型类型</span></span><br><span class="line">Type gType = f.getGenericType();</span><br><span class="line"><span class="comment">// 将Type对象强制类型转换为ParameterizedType对象，该对象代表被参数化的类型，即增加了泛型限制的类型。</span></span><br><span class="line">ParameterizedType pType = (ParameterizedType) gType;</span><br><span class="line"><span class="comment">// 获取原始类型</span></span><br><span class="line">Type rType = pType.getRawType();</span><br><span class="line"><span class="comment">// rType  interface java.util.Map</span></span><br><span class="line"><span class="comment">// 取得泛型类型的泛型参数</span></span><br><span class="line">Type[] tArgs = pType.getActualTypeArguments();</span><br><span class="line"><span class="comment">// tArgs[0] class java.lang.String,</span></span><br><span class="line"><span class="comment">// tArgs[1] class java.lang.Integer</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>每个运行中的程序就是一个进程process，一个进程内部可能包含多个顺序执行流，每个顺序执行流就是一个线程thread。</p>
+<p>进程是系统进行资源分配和调度的一个独立单位。</p>
+<p>进程包含如下三个特征：1. 独立性，每个进程都拥有独立的资源和自己私有的地址空间。 2. 动态性，程序只是一个静态的指令集合，进程是一个正在系统中活动的指令集合。进程具有自己的生命周期和各种不同的状态。 3. 多个进程可以在单个处理器上并发执行，多个进程之间不会互相影响。</p>
+<p>并发性concurrency是指在同一时刻只能有一条指令执行，但多个进程指令被快速轮换执行，使得在宏观上具有多个进程同时执行的效果。并发性parallel是指在同一个时刻，有多条指令在多个处理器上同时执行。</p>
+<p>现在的操作系统都支持多进程的并发，常用的方式有共用式多任务操作策略、抢占式多任务操作策略。</p>
+<p>多线程使得一个进程可以同时并发处理多个任务，线程Thread也被称为轻量级进程Lightweight Process。线程是进程的执行单元，线程在程序中是独立、并发的执行流。一个进程可以拥有多个线程，一个线程必须有一个父进程。线程可以拥有自己的堆栈、程序计数器和局部变量，但不拥有系统资源，它与父进程的其他线程共享该进程所拥有的全部资源。</p>
+<p>线程是独立运行的，线程的执行是抢占式的，当前运行的线程在任何时候都可能被挂起，以便另外一个线程可以运行。一个线程可以创建可撤销另一个线程，同一个进程中的多个线程之间可以并发执行。</p>
+<p>系统对多线程实现调度和管理以及资源分配，线程的调度和管理由进程本身负责完成。</p>
+<p>线程比进程具有更高的性能，多个线程共享同一个进程虚拟空间（共享内存、文件句柄和其他进程应有的状态等），共享的环境包括：进程代码段、进程的共有数据等，利用这些共享数据，线程很容易实现相互之间的通信。</p>
+<p>线程的划分尺度小于进程，操作系统创建一个进程时需要为该进程分配独立的内存空间，并分配大量的相关资源，但创建线程时则更简单，代价更小，因此使用多线程来实现并发比使用多进程实现并发的性能要高得多。</p>
+<p>####线程的创建与使用</p>
+<p>Java使用Thread类代表线程，程序通过继承Thread类来创建并启动多线程：</p>
+<ol>
+<li>定义Thread类的子类，并重写该类的run()方法，该方法代表了线程需要完成的任务，称为该线程的线程执行体。</li>
+<li>创建Thread子类的实例，即创建了线程对象。</li>
+<li>调用线程对象的start()方法来启动线程。</li>
+</ol>
+<p>java程序至少会创建一个主线程，主线程的线程执行体是main()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> ThreadA.start()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用继承Thread类的方法来创建线程类时，多个线程之间无法共享线程类的实例变量。</p>
+<p>实现Runable接口来创建并启动多线程：</p>
+<ol>
+<li>定义Runable接口的实现类，并重写该接口的run()方法，该方法为线程执行体。</li>
+<li>创建Runable实现类的实例，并以该实例作为Thread的target来创建Thread对象，该Thread对象才是真正的线程对象。</li>
+<li>调用该线程对象的start()方法来启动线程。</li>
+</ol>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">implements</span> <span class="title">Runable</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ThreadA t = <span class="keyword">new</span> ThreadA();</span><br><span class="line">    <span class="keyword">new</span> Thread(t, <span class="string">&quot;Thread A&quot;</span>).start();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Runable对象仅作为Thread对象的target，其包含的run()方法仅作为线程执行体，而真正的线程对象依然是Thread实例，即该Thread对象调用runable对象的run()方法。而使用继承Thread类的方式中，线程对象即是包含run()方法的Thread类的子类实例。</p>
+<p>Runable接口是函数式接口，可以使用Lambda表达式创建Runable对象。</p>
+<p>使用Runable接口的方式创建的多个线程可以共享线程类的实例变量。</p>
+<p>使用Thread的方式创建的多线程执行体不能带返回值。</p>
+<p>java提供了Callable接口，该接口提供了call()方法作为线程执行体，call()方法可以有返回值，可以声明抛出异常。</p>
+<p>Callable()接口不是Runable接口的子接口，不能直接作为Thread的target。call()方法不是直接调用，而是作为线程执行体被调用（与继承Thread方式中的run()方法一致，而实现Runable接口方式中，run()方法是由Thread直接调用）。</p>
+<p>Java5的FutureTask实现类实现了Future接口，并实现了Runable接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用lambda表达式创建Callable&lt;Integer&gt;对象，并使用FutureTask来包装Callable对象。</span></span><br><span class="line">FutureTask&lt;Integer&gt; task = <span class="keyword">new</span> FutureTask&lt;Integer&gt;((Callable&lt;Integer&gt;) () -&gt; &#123; <span class="keyword">int</span> i= <span class="number">0</span>; <span class="keyword">return</span> i&#125;);</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line"><span class="keyword">new</span> Thread(task, <span class="string">&quot;Thread with return&quot;</span>).start();</span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">task.get()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>实现Runable、Callable接口创建多线程的优缺点：</p>
+<ol>
+<li>线程只是实现了两个接口，还可以继承其他类。</li>
+<li>多个线程可以共享同一个target对象，适合多个相同线程来处理同一份资源的情况。</li>
+<li>需要使用Thread.currentThread()方法来访问当前线程。</li>
+</ol>
+<p>采用继承Thread类来创建多线程的优缺点：</p>
+<ol>
+<li>不能继承其他父类。</li>
+<li>可以直接使用this获得当前线程。</li>
+</ol>
+<p>一般推荐使用实现Runable、Callable接口来创建多线程。</p>
+<h4 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h4><p>线程具有五种状态：新建new、就绪runable、运行running、阻塞blocked、死亡dead。</p>
+<p>新建状态：使用new关键字创建一个线程后，该线程就处于新建状态，仅仅由java虚拟机为其分配内存，并初始化其成员变量值，不会被执行。</p>
+<p>就绪状态：当线程对象调用start()方法之后，线程处于就绪状态。JVM为其创建方法调用栈和程序计数器，但并没有开始运行，仅表示可以运行，至于程序何时运行，取决于JVM线程调度器的调度。</p>
+<p>启动线程应使用start()方法，而不是直接调用run()方法。直接调用run()方法时，系统会把线程对象当成普通对象，run()方法当初普通方法，run()方法会立即执行，而不是作为线程执行体。</p>
+<p>运行状态：处于就绪状态的线程获得CPU，开始执行run()方法的线程处于运行状态。线程在运行过程中可能会被中断，以使其他线程获得执行的机会，线程调度取决与底层平台所采用的策略（抢占式策略下，系统给每个可执行的线程一个小时间片段来处理任务，当该时间段用完后，系统会剥夺该线程所占用的资源，以让其他线程获得执行的机会，在选择下个线程时，会考虑线程的优先级。协作式策略：由线程主动放弃所占用的资源）。就绪状态和运行状态之间的转换通常不受程序控制（运行状态时可以调用Thread.yield()方法时当前线程进入就绪状态），而是由系统线程调度所决定。</p>
+<p>发生如下情况时，线程将会进入阻塞状态：</p>
+<ol>
+<li>线程调用sleep()方法主动放弃所占用的处理器资源。</li>
+<li>线程调用一个阻塞式IO方法，在该方法返回前，该线程被阻塞。</li>
+<li>线程尝试获得一个正被其他线程所持有的同步监视器。</li>
+<li>线程在等待某个通知notify。</li>
+<li>程序调用了线程的suspend()方法将该线程挂起。</li>
+</ol>
+<p>当前正在执行的线程被阻塞之后，其他线程就可以获得执行的机会。被阻塞线程的阻塞解除后进入就绪状态，等待线程调度器再次调度。解除阻塞的情况：</p>
+<ol>
+<li>调用sleep方法的线程经过了指定时间。</li>
+<li>线程调用的阻塞式IO方法已经返回。</li>
+<li>线程成功获得了同步监视器。</li>
+<li>线程等待的通知被发出。</li>
+<li>线程的resume()方法被调用。</li>
+</ol>
+<p>发生如下情况时，线程处于死亡状态：</p>
+<ol>
+<li>run()方法或call()方法执行完成，线程正常结束。</li>
+<li>线程抛出一个未捕获的Exception或Error。</li>
+<li>直接调用该线程的stop()方法来结束该线程。</li>
+</ol>
+<p>死亡后的线程不可再次调用start()方法使它重新启动，程序只能对处于新建状态的线程调用start()方法。</p>
+<p>当主线程结束时，其他线程不受任何影响，并不会随之结束。子线程启动后拥有与主线程相同的地位。</p>
+<p>在某个程序中调用其他线程的join()方法时，调用线程将被阻塞，直到被join的线程执行完成或超时。</p>
+<p>调用Thread对象的setDaemon(true)方法将指定线程设为为后台线程（守护线程），后台线程的任务是为其他线程提供服务，如果所有前台线程死亡，后台线程自动死亡。主线程默认是前台线程，前台线程创建的子线程默认是前台线程，后台线程创建的子线程默认是后台线程。</p>
+<p>Thread类的静态方法sleep()用于让当前正在执行的线程睡眠（暂停）一会儿，并进入阻塞状态，此时线程不会获得执行的机会，即使系统中没有其他可执行的线程。</p>
+<p>Thread类的静态方法yield()用于让当前正在执行的线程进入就绪状态，让系统的线程调度器重新调度一次。</p>
+<p>每个线程都具有一定的优先级，优先级高的线程获得较多的执行机会。每个线程默认的优先级与创建它的父线程的优先级相同，默认情况下main线程具有普通优先级。Thread类提供了setPriority(int newPriority)方法设置指定线程的优先级，Thread类提供了MAX_PRIORITY\MIN_PRIORITY\NORM_PRIORITY静态常量，值分别是10、1、5。由于优先级操作需要操作系统支持，不同操作系统支持的优先级并不相同，因此尽量避免直接为线程指定优先级，而是使用上述三个静态常量。</p>
+<h4 id="线程的同步"><a href="#线程的同步" class="headerlink" title="线程的同步"></a>线程的同步</h4><p>多个线程并发修改同一个共享资源时会产生安全问题，java多线程引入了同步监视器来解决多线程安全问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">  <span class="comment">// 同步代码块</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述语句中，synchronized后括号里的obj就是同步监视器，其含义是：线程开始执行同步代码块之前，必须先获得对同步监视器的锁定。任何时刻只能有一个线程可以获得对同步监视器的锁定，当同步代码块执行完成后，该线程会释放对该同步监视器的锁定。</p>
+<p>多线程对共享资源（临界资源）的操作应该符合“加锁-修改-释放锁”的逻辑，任何线程在修改资源之前先对该资源加锁，在加锁期间其他线程无法修改改资源。当该线程修改完成后，释放对该资源的锁定。从而保证并发线程在任一时刻只有一个线程可以就如修改共享资源的代码区（临界区）。</p>
+<p>使用synchronized关键字修饰的方法称为同步方法，此时无须显式指定同步监视器，同步方法的同步监视器是this，即调用该方法的对象。</p>
+<p>线程安全的类具有如下特征：</p>
+<ol>
+<li>该类的对象可以被多个线程安全地访问。</li>
+<li>每个线程调用该对象的任意方法之后都将得到正确结果，且该对象状态依然保持合理状态。</li>
+</ol>
+<p>不可变类总是线程安全的，因为它的对象状态不可改变。</p>
+<p>synchronized关键字可以修饰方法、代码块，不能修饰构造器、成员变量等。</p>
+<p>保证可变类的线程安全会降低程序的运行效率，因此采取如下策略较少线程安全带来的负面影响：</p>
+<ol>
+<li>只对会修改共享资源的方法进行同步，而不是所有方法。</li>
+<li>为单线程环境和多线程环境分别提供线程不安全和线程安全版本（例如StringBuilder和StringBuffer）。</li>
+</ol>
+<p>任何线程进入同步代码块、同步方法之前，必须先获得对同步监视器的锁定，程序无法显式释放对同步监视器的锁定，会在如下几种情况释放对同步监视器的锁定：</p>
+<ol>
+<li>代码正常执行结束。</li>
+<li>出现了未处理的Error或Exception。</li>
+<li>程序执行了同步监视器对象的wait()方法（该方法在Object类中定义），当前线程暂停并释放同步监视器。</li>
+</ol>
+<p>如下情况不会释放同步监视器：</p>
+<ol>
+<li>调用sleep()\yield()方法暂停当前线程的执行。</li>
+<li>其他线程调用了该线程的suspend()方法将该线程挂起。</li>
+</ol>
+<p>Java5开始，java可以通过显式定义同步锁对象来实现同步，同步锁由Lock对象充当。</p>
+<p>Lock、ReadWriteLock（允许对共享资源的并发访问）是java5提供的两个根接口，并分别提供了ReentrantLock（可重入锁，即一个线程可以对已被加锁的ReentrantLock锁再次加锁，ReentrantLock对象会维持一个计数器来追踪lock()方法的嵌套调用，线程每次调用lock()加锁后必须显示调用unlock()来释放锁）、ReentrantReadWriteLock（为读写操作提供了三种锁模式，writing、ReadingOptimistic、Reading）实现类。java8新增了StampedLock，可替代传统的ReentrantReadWriteLock。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">x</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">  <span class="function"><span class="keyword">public</span> vod <span class="title">m</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 加锁</span></span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">finally</span> &#123;</span><br><span class="line">      lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当两个线程互相等待对方释放同步监视器时就会发生死锁。出现死锁的线程处于阻塞状态，无法继续，且程序不会发生任何异常，也不会给出任何提示。</p>
+<h4 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h4><p>线程的调度具有一定的透明性，程序通常无法控制线程的轮换执行。</p>
+<p>Object类提供了wait()\notify()notifyAll()方法，这三个方法必须由同步监视器调用：</p>
+<ol>
+<li>使用synchronized修饰的同步方法，this就是同步监视器，因此可以直接调用这三个方法。</li>
+<li>使用synchronized修饰的同步代码块，synchronized后括号的对象是同步监视器，因此必须使用该对象调用这三个方法。</li>
+</ol>
+<p>这三个方法：</p>
+<ol>
+<li>wait()：导致当前线程等待，并释放对同步监视器的锁定，直到到达指定等待时间后自动苏醒或其他线程调用该同步监视器的nofity()\notifyAll()方法唤醒。</li>
+<li>notify()：唤醒在此同步监视器上等待的单个线程，如果有多个线程等待，则随机唤醒一个。只有当前线程放弃对该同步监视器的锁定后，被唤醒的线程才能被执行。</li>
+<li>nofityAll()：唤醒在此同步监视器上等待的所有线程。只有当前线程放弃对该同步监视器的锁定后，被唤醒的线程才能被执行。</li>
+</ol>
+<p>如果程序直接使用Lock对象来保证同步，则系统中不存在隐式的同步监视器，因此不能使用wait()..方法进行进程间通信，此时可以使用Condition类，对应于wait\nofity\notifyAll，condition类提供了await\signal\signalAll。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition cond = lock.newCondition();</span><br><span class="line"></span><br><span class="line">cond.await();</span><br><span class="line">cond.signalAll();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>BlockingQueue是Queue的子接口，但它不是作为容器，而是作为线程同步的工具，其特征是：当生产者线程试图向其中放入元素（put(E e))时，如果该队列已满，则该线程被阻塞。当消费者线程试图从其中取出元素(take())时，如果该队列已空，则该线程被阻塞。其常用的实现类有：ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue、SynchronousQueue（对该队列的存取操作必须交替进行）等。</p>
+<p>Java使用ThreadGroup表示线程组，线程组可以对一批线程进行分类管理，对线程组进行控制相当于同时控制这批线程。创建线程时没有显式指定线程组则属于默认线程组，默认情况下子线程和创建它的父线程属于同一个线程组。一旦线程加入指定线程组后，运行过程中可不能改变它所属的线程组。</p>
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><p>系统启动一个新线程的成本具有较高的成本，使用线程池可以提高性能，尤其是程序中需要创建大量生存期很短暂的线程时，并且线程池的最大线程参数可以控制系统中的并发线程数。</p>
+<p>线程池在系统启动时创建大量空闲线程，程序将一个Runable对象或Callable对象传递给线程池时，线程池就会使用一个线程来执行他们的run或call方法，当执行结束后，线程不会死亡，而是再次返回线程池中成为空闲状态，等待下一次执行。</p>
+<p>java的Excutors工厂类用于产生线程池，包含如下几个静态工厂方法来创建线程池：</p>
+<ol>
+<li>newCachedThreadPool(): 创建具有缓存功能的线程池，系统根据需要创建缓存在线程池中的线程。</li>
+<li>newFixedThreadPool(int nThreads)：创建一个可重用的、具有固定线程数的线程池。</li>
+<li>newWorkStealingPool(int parallelism)：创建足够大小的后台线程池（所有前台线程都死亡后，池中的线程自动死亡）来支持指定的并行级别，不提供parallelisem参数时，其默认值是Runtime.availableProcessors()方法的返回值，即系统可用的处理器个数。</li>
+<li>newScheduledThread(int corePoolSize)：创建具有指定线程数的线程池，在指定延迟后执行线程任务。</li>
+</ol>
+<p>前三个返回一个ExcutorService对象，代表一个线程池，可以执行Runable或Callable对象所代表的线程。最后一个返回ScheduledExecutorService对象。</p>
+<p>ExcutorService代表尽快执行线程的线程池，只要线程池中有空闲线程，就立即执行线程任务。提供如下三种方法：</p>
+<ol>
+<li>Future&lt;?&gt; submit(Runable task)：将一个Runable对象提交给指定的线程池，线程池将在有空闲线程时执行Runable对象代表的任务。其中Future对象代表Runable任务的返回值，由于run()方法没有返回值，因此Future对象将在run方法执行结束后返回null，但可以调用Future的isDone等方法来获得Runable对象的执行状态。</li>
+<li>&lt;T&gt; Future&lt;T&gt; submit(Runable task, T result)，与上个方法类似，但result显示指定了线程执行结束后的返回值，即Future在run方法执行结束后返回result。</li>
+<li>&lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task)：将一个Callable对象提交给指定的线程池，Future代表Callable对象里call方法的返回值。</li>
+</ol>
+<p>用完线程池后调用该线程池的shutdown方法将启动线程池的关闭序列：不在接收新任务，但会将以前所有已提交的任务执行完成，之后池中的所有线程死亡。也可以调用shutdownNow方法关闭线程池，该方法试图停止所有正在执行的活动任务，暂停处理正在等待的任务，并返回等待执行的任务列表。</p>
+<p>使用线程池执行线程任务的步骤如下：</p>
+<ol>
+<li>调用Executors类的静态工厂方法来创建一个ExecutorService对象，该对象代表一个线程池。</li>
+<li>创建Runable实现类或Callable实现类的实例，作为线程执行任务。</li>
+<li>调用ExcutorService对象的submit方法来提交Runable或Callable实例。</li>
+<li>调用ExecutorService对象的shutdown方法来关闭线程池。</li>
+</ol>
+<p>ForkJoinPool类支持将一个任务拆分为多个小任务并行计算，再把多个小任务的结果合并成总的计算结果，是ExecutorService的实现类。可以使用ForkJoinPool的submit(ForkJoinTask task)或invoke(ForkJoinTask task)方法来执行指定任务，ForkJoinTask代表一个可以并行、合并（即可分解）的任务，具有两个抽象子类，分别是代表有返回值的任务RecursiveTask和没有返回值的任务RecursiveAction。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可分解的任务, 不带返回值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskA</span> <span class="keyword">extends</span> <span class="title">RecursiveAction</span> </span>&#123;</span><br><span class="line">  <span class="meta">@OverRide</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (...) &#123;</span><br><span class="line">      <span class="comment">// 小任务直接执行</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 拆分</span></span><br><span class="line">    	TaskA task1 = <span class="keyword">new</span> TaskA();</span><br><span class="line">    	TaskA task2 = <span class="keyword">new</span> TaskA();</span><br><span class="line">    	task1.fork();</span><br><span class="line">    	task2.fork();      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  ForkJoinPool pool = <span class="keyword">new</span> ForkJoinPool();</span><br><span class="line">  pool.sumbit(<span class="keyword">new</span> TaskA());</span><br><span class="line">  pool.shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可分解的任务, 带返回值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskA</span> <span class="keyword">extends</span> <span class="title">RecursiveTask</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@OverRide</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (...) &#123;</span><br><span class="line">      <span class="comment">// 小任务直接执行</span></span><br><span class="line">      <span class="keyword">return</span> ;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 拆分</span></span><br><span class="line">    	TaskA task1 = <span class="keyword">new</span> TaskA();</span><br><span class="line">    	TaskA task2 = <span class="keyword">new</span> TaskA();</span><br><span class="line">    	task1.fork();</span><br><span class="line">    	task2.fork();  </span><br><span class="line">      <span class="keyword">return</span> task1.join() + task2.join();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  ForkJoinPool pool = <span class="keyword">new</span> ForkJoinPool.commonPool();</span><br><span class="line">  Future&lt;Integer&gt; future = pool.sumbit(<span class="keyword">new</span> TaskA());</span><br><span class="line">  future.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ThreadLocal类代表一个线程局部变量，通过把数据放在ThreadLocal中可以让每个线程创建一个该变量的副本，从而避免并发访问的线程安全问题，提供了：T get()、remove()、set(T value)三个方法，分别是返回、删除、设置此线程局部变量中当前线程副本中的值。如果多个线程之间需要共享资源，以达到线程之间的通信功能，就使用同步机制；如果仅仅需要隔离多个线程之间的共享冲突，则使用ThreadLocal。</p>
+<h4 id="包装线程不安全的集合"><a href="#包装线程不安全的集合" class="headerlink" title="包装线程不安全的集合"></a>包装线程不安全的集合</h4><p>Java集合中的ArrayList、LinkedList、HashSet等都是线程不安全的，可以使用Collections工具类中的类方法将这些集合包装成线程安全的集合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;T&gt; Collection&lt;T&gt; synchronizedCollection(Collection&lt;T&gt; c);</span><br><span class="line">static &lt;T&gt; List&#x2F;Set&#x2F;SortedSet&lt;T&gt; synchronizedList&#x2F;Set&#x2F;SortedSet(List&#x2F;Set&#x2F;SortedSet&lt;T&gt; list&#x2F;s&#x2F;s)</span><br><span class="line">static &lt;K,V&gt; Map&#x2F;SortedMap&lt;K,V&gt; synchronizedMap&#x2F;SortedMap(Map&#x2F;SortedMap&lt;K,V&gt; m)</span><br></pre></td></tr></table></figure>
+
+<p>需要在某个集合创建后立即将其包装成线程安全的集合。</p>
+<p>java.util.concurrent下提供了大量支持高效并发访问的集合接口和实现类。</p>
+<img src="JAVA%E5%AD%A6%E4%B9%A0.assets/image-20201013111108706.png" alt="image-20201013111108706" style="zoom:40%;" />
+
+<p>上述线程安全的集合类可分为如下两类：</p>
+<ol>
+<li>以Concurrent开头的集合，例如ConcurrentHashMap/LinkedQueue/LinkedDeque等，这类集合支持多个线程并发写入访问。</li>
+<li>以CopyOnWrite开头的集合，例如CopyOnWriteArrayList/Set等，这类集合采用复制底层数组的方式来实现写操作，当对这类集合执行读取操作时，线程将会直接读取集合本身，无需加锁与阻塞。当执行写入操作（add\remove\set等方法）时，该集合会在底层复制一份新的数组，并对新数组执行写入操作，因此是线程安全的。但由于执行写入操作时需要频繁地复制数组，性能比较差，适合用在读取操作远远大于写入操作的场景中，例如缓存等。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/JAVA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" data-id="ckmn1ijin000tn8a8b3y6d1sx" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/ClassLoader%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Tofino Architecture Model当前TNA模型拥有六个可编程模块和三个固定功能模块( Phase-0 and Intrinsic Metadata (PIM) engine, the Packet buffer and Replication Engine (PRE) and the Buffer Queuing Engine (BQE) )。  交换机将接收到的数据包缓存在输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/TNA%20model/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="Tofino Architecture Model当前TNA模型拥有六个可编程模块和三个固定功能模块( Phase-0 and Intrinsic Metadata (PIM) engine, the Packet buffer and Replication Engine (PRE) and the Buffer Queuing Engine (BQE) )。  交换机将接收到的数据包缓存在输入">
+<meta property="og:locale">
+<meta property="og:image" content="c:/Users/xbo/AppData/Roaming/Typora/typora-user-images/1568098562988.png">
+<meta property="article:published_time" content="2021-03-24T06:02:27.893Z">
+<meta property="article:modified_time" content="2019-09-11T04:54:14.000Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/xbo/AppData/Roaming/Typora/typora-user-images/1568098562988.png">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-TNA model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/TNA%20model/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.893Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Tofino-Architecture-Model"><a href="#Tofino-Architecture-Model" class="headerlink" title="Tofino Architecture Model"></a>Tofino Architecture Model</h2><p>当前TNA模型拥有六个可编程模块和三个固定功能模块( Phase-0 and Intrinsic Metadata (PIM) engine, the Packet buffer and Replication Engine (PRE) and the Buffer Queuing Engine (BQE) )。</p>
+<p><img src="C:\Users\xbo\AppData\Roaming\Typora\typora-user-images\1568098562988.png" alt="1568098562988"></p>
+<p>交换机将接收到的数据包缓存在输入缓存器中（未在图中画出），PIM引擎属于输入缓存器的一部分，用于在接收到的数据包开始处添加额外的元数据（metadata），包括intrinsic metadata and phase-0 or resubmit metadata， intrinsic metadata的结构和大小是固定的，结构定义为结构体ingress_intrinsic_metadata_t，大小为8 bytes，Phase-0 and resubmit metadata的结构和大小取决于应用程序，程序可以使用8 bytes或更少，没用使用的数据将被0填充。</p>
+<p>TNA中数据包的处理流程的第一步是ingress处理，进入交换机的数据包首先被parser块解析，然后被ingress control块处理。从parser角度来看，交换机接收的原始数据包经过PIM引擎后会添加 intrinsic and phase-0 metadata，因此parser必须在解析真实数据包之前解析或者跳过PIM添加的PORT_METADATA bytes (16 bytes for TNA, 24 bytes for T2NA)大小的元数据。</p>
+<p>在Tofino中，ingress control块可以执行一系列的匹配和动作操作（Match-Action，MA），每个MA操作由一个表查找和根据查找结果修改数据包包头（header）或元数据操作组成。在P4-16中动作可以在有或者没有任何表查找的情况下执行。<strong>能够匹配和修改任意数据包包头和元数据是P4可编程性的关键</strong> 。</p>
+<p>在ingress control块之后，数据包在deparser control块中被重新组装，然后发送至PRE中。PRE执行多种固定功能分组交换功能，例如，PRE可以将单播包定向到某个给定的端口并缓存等待egress处理。PRE也可以丢弃数据包，或者是创建一个额外的包副本实现克隆功能，创建多个包副本实现多播。</p>
+<p>在PRE之后，数据包和复制后的副本进入可选的egress处理阶段（egress pipeline）。通过在ingress处理阶段中设置intrinsic metadata中的bypass_egress标志位，可以跳过egress处理，但是镜像或多播产生的数据包副本不能跳过egress处理。在egress处理阶段，原始数据包和镜像产生的数据包副本可以被进一步修改。deparser以程序中指定的顺序提交（emit）需要的包头来构造数据包字节流。</p>
+<p>TNA中可编程块的定义是根据一组用户定义的参数进行模板化的，这些参数必须由用户在control块实例化时提供。ingress pipeline和egress pipeline的类型参数不同，因此与P4-14不同，在ingress pipeline和egress pipeline中都没有全局元数据。所有对ingress pipeline中包头的修改必须由ingress deparser合并，并由egress parser解析。任何对ingress metadata的使用都必须通过在包中创建额外的桥接元数据头来手动传递(桥接)到egress pipeline。需要注意的是，即使用户可以为ingress control块和egress control块定义一个元数据类型，也不意味着这个元数据可以在ingress control块和egress control块之间共享。</p>
+<p>在顶层，每个可编程块实例作为参数传递给主包块（ main package block），以实例化顶层包（ top-level package）。编译器假设存在一个名为main的顶级实例。如果没有在P4程序的定义‘main’实例会产生编译错误。</p>
+<h2 id="命名规格"><a href="#命名规格" class="headerlink" title="命名规格"></a>命名规格</h2><p>在本文档中，我们使用以下命名约定:</p>
+<ol>
+<li>类型使用CamelCase命名法则，并后跟_t。例如，PortId_t。</li>
+<li>Control类型和外部对象类型使用CamelCase命名法则。</li>
+<li>结构类型的名称使用小写单词，并用_分隔，后跟_t。</li>
+<li>Actions、外部方法、外部函数、包头、结构体和Control的实例的名称以小写字母开始，并用_进行分割。</li>
+<li>Enum成员、Const定义和#define常量的名称全部使用大写字母，单词之间用_分隔。</li>
+</ol>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型定义"><a href="#类型定义" class="headerlink" title="类型定义"></a>类型定义</h2><p>TNA使用固定的、特定于体系架构的位宽定义以下类型，这些位宽定义在架构文件中，在P4程序中建议使用这些类型来定义变量，而不是使用硬编码的位宽值。</p>
+<p>typedef bit&lt;9&gt; PortId_t; // Port id – ingress or egress<br>typedef bit&lt;16&gt; MulticastGroupId_t; // Multicast group id<br>typedef bit&lt;5&gt; QueueId_t; // Queue id<br>typedef bit&lt;10&gt; MirrorId_t; // Mirror id<br>typedef bit&lt;16&gt; ReplicationId_t; // Replication id</p>
+<h2 id="元数据类型"><a href="#元数据类型" class="headerlink" title="元数据类型"></a>元数据类型</h2><p>TNA中有两种元数据类型: 内部元数据（intrinsic metadata）和用户定义的元数据。内部元数据是基于硬件实现定义的，用户定义的元数据是基于P4应用程序定义的。在TNA中，根据元数据的来源和目标，将内部元数据分为若干组。例如，来自ingress parser的元数据命名为ingress_intrinsic_metadata_from_parser_t。类似地，目标为流量管理器(PRE的一部分)的元数据命名为ingress_intrinsic_metadata_for_tm_t。</p>
+<p>ingress parser或egress parser接收的数据包的前缀是来自输入缓冲区的内部元数据：ingress intrinsic metadata, phase-0 and resubmit metadata。Phase-0 和resubmit metadata是互斥的，因为包只能是正常提交或重新提交，不能同时是两者。</p>
+<p>header ingress_intrinsic_metadata_t {<br>bit&lt;1&gt; resubmit_flag; // Flag distinguishing original  packets from resubmitted packets.<br>bit&lt;1&gt; _pad1;<br>bit&lt;2&gt; packet_version; // Read-only Packet version.<br>bit&lt;3&gt; _pad2;<br>PortId_t ingress_port; // Ingress physical port id.<br>bit&lt;48&gt; ingress_mac_tstamp; // Ingress IEEE 1588 timestamp (in ns)  </p>
+<p>}</p>
+<p>来自输入缓冲区的ingress_intrinsic_metadata_t包含一个1位字段来区分正常和重新提交的数据包，一个9位字段用于表示ingress端口，一个48位字段用于表示ingress MAC时间戳。TNA程序应该始终提取 ingress intrinsic metadata。如果提取的内部元数据没有在ingress control块中使用，则提取不会产生任何硬件成本。类似地，TNA程序应该始终提取phase-0 或者 resubmit metadata。ingress_intrinsic_metadata_t在ingress parser中编写，在ingress control中读写。</p>
+<p>struct ingress_intrinsic_metadata_from_parser_t {<br>bit&lt;48&gt; global_tstamp; // Global timestamp (ns) taken upon arrival at ingress.<br>bit&lt;32&gt; global_ver; // Global version number taken upon arrival at ingress, wired to 0.<br>bit&lt;16&gt; parser_err; // Error flags indicating error(s)  encountered at ingress parser.<br>}</p>
+<p>ingress_intrinsic_metadata_from_parser_t结构中时间戳对于ingress control块是只读的。该结构包含两个元数据字段:global_timestamp字段，表示数据包进入ingress control块时的时间戳；parser_error字段，表示发生在parser中的任何错误代码。</p>
+<p>PRE由在ingress control块中设置的，名为ingress_intrinsic_metadata_for_tm_t的内部元数据控制，</p>
+<p>struct ingress_intrinsic_metadata_for_tm_t {<br>PortId_t ucast_egress_port; // Egress port for unicast packets. must be presented to TM for unicast.<br>bool bypass_egress; // Request flag for the warp mode (egress bypass).<br>bool deflect_on_drop; // Request for deflect on drop. must be presented to TM to enable deflection upon drop.<br>bit&lt;3&gt; ingress_cos; // Ingress cos (iCoS) for PG mapping, ingress admission control, PFC, etc.<br>QueueId_t qid; // Egress (logical) queue id into which this packet will be deposited.<br>bit&lt;3&gt; icos_for_copy_to_cpu; // Ingress cos for the copy to CPU. must be presented to TM if copy_to_cpu == 1.<br>bool copy_to_cpu; // Request for copy to cpu.<br>bit&lt;2&gt; packet_color; // Packet color (G,Y,R) that is typically derived from meters and used for color-based tail dropping.<br>bool disable_ucast_cutthru;  // Disable cut-through forwarding for unicast.<br>bool enable_mcast_cutthru; // Enable cut-through forwarding for multicast.<br>MulticastGroupId_t mcast_grp_a;// 1st multicast group (i.e., tree) id; a tree can have two levels. must be presented to TM for multicast.<br>MulticastGroupId_t mcast_grp_b;// 2nd multicast group (i.e., tree) id; a tree can have two levels.<br>bit&lt;13&gt; level1_mcast_hash; // Source of entropy for multicast replication-tree level1 (i.e., L3 replication). must be presented to TM for L3 dynamic member selection (e.g., ECMP) for multicast.<br>bit&lt;13&gt; level2_mcast_hash; // Source of entropy for multicast replication-tree level2 (i.e., L2 replication). must be presented to TM for L2 dynamic member selection (e.g., LAG) for nested multicast.<br>bit&lt;16&gt; level1_exclusion_id;  // Exclusion id for multicast replication-tree level1. used for pruning.<br>bit&lt;9&gt; level2_exclusion_id; // Exclusion id for multicast replication-tree level2. used for pruning.<br>ReplicationId_t rid; // L3 replication id for multicast.<br>}</p>
+<p>在egress处理之前，数据包由PRE处理。与输入缓存器在输入数据包前添加元数据类似，PRE在数据包出PRE时添加额外的元数据egress_intrinsic_metadata_t ，该元数据在egress parser中被提取，并在egress control块中使用。</p>
+<p>header egress_intrinsic_metadata_t {<br>bit&lt;7&gt; _pad0;<br>PortId_t egress_port; // Egress port id<br>bit&lt;5&gt; _pad1;<br>bit&lt;19&gt; enq_qdepth; // Queue depth at the packet enqueue time.<br>bit&lt;6&gt; _pad2;<br>bit&lt;2&gt; enq_congest_state; // Queue congestion state at the packet// enqueue time.<br>bit&lt;14&gt; _pad3;<br>bit&lt;18&gt; enq_tstamp; // Time when the packet is enqueued (in nsec).<br>bit&lt;5&gt; _pad4;<br>bit&lt;19&gt; deq_qdepth; ​// Queue depth at the packet dequeue time.<br>bit&lt;6&gt; _pad5;<br>bit&lt;2&gt; deq_congest_state; ​// Queue congestion state at the packet<br>​// dequeue time.<br>bit&lt;8&gt; app_pool_congest_state; ​// Dequeue-time application-pool<br>​// congestion state. 2 bits per pool.<br>bit&lt;14&gt; _pad6;<br>bit&lt;18&gt; deq_timedelta; ​// Time delta between the packet’s<br>​// enqueue and dequeue time.<br>ReplicationId_t egress_rid; ​// Replication id for multicast packets. <br>bit&lt;7&gt; _pad7;<br>bit&lt;1&gt; egress_rid_first; ​// Flag indicating the first replica for<br>// the given multicast group.<br>bit&lt;3&gt; _pad8; <br>QueueId_t egress_qid; ​// Egress (physical) queue id via<br>// which this packet was served.<br>bit&lt;5&gt; _pad9;<br>bit&lt;3&gt; egress_cos; ​// Egress cos (eCoS) value.<br>bit&lt;7&gt; _pad10;<br>bit&lt;1&gt; deflection_flag; ​// Flag indicating whether a packet is<br>// deflected due to deflect_on_drop.<br>bit&lt;2&gt; _pad11;<br>bit&lt;14&gt; pkt_length; ​// Packet length, in bytes<br>}</p>
+<p>所有egress intrinsic metadata都是只读字段。不能在egress中进行修改。</p>
+<h3 id="Unicast"><a href="#Unicast" class="headerlink" title="Unicast"></a>Unicast</h3><p>egress_port字段指定包的输出端口。由于该字段是只读的，因此egress不能通过修改该字段将包重定向到另一个端口。由于deparser使用该字段，因此该字段必须由egress parser提取，无法提取该字段将导致数据包丢失。</p>
+<h3 id="Buffer-Queueing"><a href="#Buffer-Queueing" class="headerlink" title="Buffer Queueing"></a>Buffer Queueing</h3><p>在Tofino中，每个出端口最多可以有8个FIFO队列，一个数据包可以加入8个FIFO队列之一。此外，Tofino PRE buffer被划分为最多4个应用程序池，这为不同的应用程序流量提供了隔离。队列可以属于且只能属于一个应用程序池。enq_qdepth、enq_congest_state、enq_tstamp、deq_qdepth、deq_congest_state和deq_timedelta字段提供关于包当前所在队列的信息。所有队列深度计数器的单位都是80字节。拥塞状态来自队列深度与队列颜色限制(由驱动程序设置)的比较。编码如下</p>
+<p>![1568107064901](E:\Desktop\笔记\TNA model\1568107064901.png)</p>
+<p>enq_tstamp捕获包进入队列时的时间戳，以纳秒为单位。deq_timedelta捕获包在PRE中进入队列与离开队列之间的时间差，以纳秒为单位。</p>
+<h3 id="Packet-Replication"><a href="#Packet-Replication" class="headerlink" title="Packet Replication"></a>Packet Replication</h3><p>数据包可能需要复制到相同的物理出端口。例如，当多个多播组共享同一个物理端口时，就会发生这种情况。Replication ID (RID)与包的每个副本相关联，以便交换机能够区分多播包的不同实例。一个{RID, egress port}的元组惟一地标识每个多播实例。</p>
+<h3 id="Output-Queue"><a href="#Output-Queue" class="headerlink" title="Output Queue"></a>Output Queue</h3><p>Tofino MAC支持高达100 Gbps的数据速率和多达32个硬件队列。每个MAC可以进一步划分为4个通道，每个通道运行速度为25 Gbps。32个硬件队列可以配置并分配给4个通道中的任何一个。分配不必是统一的。例如，将4个队列分配给一个通道，将12个队列分配给另一个通道都是有效的。5位的egress_qid表示数据包所使用的32个硬件队列中的哪一个。每个硬件队列都可以配置一个3位服务等级(Class Of Service, COS)值。优先流控制(Priority Flow Control, PFC)使用COS实现来自下游端口的反压力，以限制上游端口中某些类的流量。每个硬件队列属于8个服务类中的一个。每个硬件队列的COS配置由驱动程序执行。PRE给出egress COS值，egress control块可以使用该值判断数据包属于哪一类服务。</p>
+<h3 id="Packet-Length"><a href="#Packet-Length" class="headerlink" title="Packet Length"></a>Packet Length</h3><p>该字段的意义取决于包的类型。对于从ingress到egress的普通数据包，数据包长度是在ingress处理前的传入数据包的长度。对于从ingress镜像到egress的数据包，包长度是ingress处理前的包长度+附加镜像头的大小+ CRC的4字节。对于从egress镜像到egress的数据包，包长度为经过egress pipeline修改后的包的长度+额外镜像头的大小+ CRC的4字节。长度以字节计算。</p>
+<h3 id="Match-types"><a href="#Match-types" class="headerlink" title="Match types"></a>Match types</h3><p>TNA在标准P4 16 match_kind类型的基础上支持另外两个match_kind类型。</p>
+<p>match_kind {<br>range, // Used to represent min..max intervals<br>selector // Used for implementing ActionSelection<br>}</p>
+<p>在TNA中，表键可以匹配范围(start, end)内的值，包括开始值，不包括结束值，这意味着start、start + 1、end - 1之间的任何值都将可以匹配。每个范围匹配条目使用多个TCAM条目。默认情况下，编译器假设表中25%的条目是范围条目。因此，范围匹配类型的表所消耗的TCAM条目的总数等于</p>
+<p>75% × table size + 25% × table size × number of TCAM entries per range entry</p>
+<p>每个范围条目最多使用8个TCAM条目，并且特定于实际范围值。某些范围值可能需要较少的TCAM条目来实现。</p>
+<p>可以使用编译指示entries_with_ranges调整同一表中范围条目与非范围条目的比例。编译指示(pragma)指定表中范围条目的数量。如果编译指示指定的值大于表的大小，那么表中的所有条目都假定为范围条目。</p>
+<p>选择器键只能在选择器表中使用。选择器表是一种特殊类型的表，其实现属性附加有操作选择器(请参阅“操作选择器”节)或操作概要文件(请参阅“操作概要文件”节)。选择器表中的键可以是选择器匹配类型和常规匹配类型(精确、三元、范围等)的混合。在匹配操作中使用常规匹配类型。选择器匹配类型用于选择操作概要文件和/或操作选择器中的多个操作之一。如果一个键同时用作常规匹配类型和选择器匹配类型，那么它需要在表键属性中以不同的匹配类型列出两次。</p>
+<h2 id="Parser"><a href="#Parser" class="headerlink" title="Parser"></a>Parser</h2><p>TNA支持单独的入口（ingress）和出口（egress）解析器。入口解析器是入口管道中的第一个可编程块。它从输入包缓冲区接收一个字节流，并将字节流解析为系统定义的或用户定义的头文件。在本文中，系统定义的头也称为内部元数据。用户定义的头来自P4程序。下面声明了P4中入口解析器的顶级接口</p>
+<p>parser IngressParser&lt;H, M&gt;(<br>packet_in pkt,<br>out H hdr,<br>out M ig_md,<br>out ingress_intrinsic_metadata_t ig_intr_md);</p>
+<p>当在P4程序中实例化一个ingress解析器时，用户必须向H和M提供具体的类型。例如，下面的示例将H绑定到headers_t，并将M绑定到metadata_t。</p>
+<p>struct headers_t { … }<br>struct metadata_t { … }<br>parser myIngressParser&lt;headers_t, metadat_t&gt; (<br>packet_in pkt,<br>out headers_t hdr,<br>out metadata_t ig_md,<br>out ingress_intrinsic_metadata_t ig_intr_md) { … }</p>
+<p>注意，在本例中省略了headers_t、metadata_t和myIngressParser的主体，因为它们与讨论无关。用户可以省略类型参数&lt;headers_t, metadata_t&gt;，编译器可以从参数列表中的参数推断这些类型参数的值。因此，下面的代码相当于上面的示例。</p>
+<p>struct headers_t { … }<br>struct metadata_t { … }<br>parser myIngressParser (<br>packet_in pkt,<br>out headers_t hdr,<br>out metadata_t ig_md,<br>out ingress_intrinsic_metadata_t ig_intr_md) { … }</p>
+<p>ingress解析器接受四个参数。第一个参数是名为pkt的packet_in外部类型的无方向实例。从概念上讲，pkt对象提供了从输入缓冲区对原始字节流的访问。用户可以调用pkt对象上的extract或advance方法来将字节流解析为内部元数据或用户定义的头文件。第二个参数是用户定义结构类型，用于表示所有提取的头类型。第三个参数是另一个用户定义的结构类型，用于表示解析器初始化的所有元数据。第四个参数是由TNA体系结构定义的ingress解析器内部元数据类型。我们将在下面详细解释每种结构类型。</p>
+<h3 id="Ingress-Intrinsic-Metadata"><a href="#Ingress-Intrinsic-Metadata" class="headerlink" title="Ingress Intrinsic Metadata"></a>Ingress Intrinsic Metadata</h3><p>TNA在每个包的传入字节流的开始处采用特定的布局。</p>
+<p>![1568174993199](E:\Desktop\笔记\TNA model\1568174993199.png)</p>
+<p>如上图所示，字节流布局取决于传入包的类型。TNA没有假设如何解析字节流，因此，P4程序员有责任实现正确的解析器逻辑来处理这些不同的布局。字节0到7保存着所有包类型所共有的入口固有元数据。建议ingress解析器将ingress内部元数据提取到提供的ingress_intrinsic_metadata_t参数中。</p>
+<p>字节8到15包含phase-0 metadata或resubmit metadata。phase-0 metadata和resubmit metadata的布局由P4程序定义，最大大小为8字节，应用程序可以使用8字节或更少，未使用的字节用零填充。关于phase-0 metadata和resubmit metadata的其他详细信息在前面的元数据类型一节中提供。</p>
+<p>如果一个包是一个再循环的包，那么这个包可能在phase-0头之后有可选的再循环头，并且头必须由入口解析器解析。如果不使用循环头，则循环头的大小为零，不需要解析逻辑。如果包是由内部包生成器生成的，则包可能在阶段0头之后具有可选的pktgen头。如果不使用pktgen头，则pktgen头的大小为零，不需要解析逻辑。最后，字节流的其余部分是从网络接收到的实际字节。</p>
+<p>下图显示了ingress内部元数据的布局。图中显示了按网络顺序排列的布局，即第0位是ingress解析器接收到的第一个位。</p>
+<p>![1568175571848](E:\Desktop\笔记\TNA model\1568175571848.png)</p>
+<p>下面的P4源代码显示了TNA中ingress内部元数据的定义。</p>
+<p>header ingress_intrinsic_metadata_t {<br>bit&lt;1&gt; resubmit_flag; // Flag distinguishing original  packets from resubmitted packets.<br>bit&lt;1&gt; _pad1;<br>bit&lt;2&gt; packet_version; // Read-only Packet version.<br>bit&lt;3&gt; _pad2;<br>PortId_t ingress_port; // Ingress physical port id.<br>bit&lt;48&gt; ingress_mac_tstamp; // Ingress IEEE 1588 timestamp (in ns)<br>}</p>
+<h3 id="Egress-Intrinsic-Metadata"><a href="#Egress-Intrinsic-Metadata" class="headerlink" title="Egress Intrinsic Metadata"></a>Egress Intrinsic Metadata</h3><p>下图显示了在出口解析器中接收到的数据包的布局。包有两种类型:普通包和镜像包。正常数据包是经过ingress处理后的数据包。镜像包是PRE创建的传入包的副本。在TNA中，可以从ingress deparser或egress deparser进行镜像，镜像的流量被发送到egress deparser。关于镜像的详细信息将在后面的“镜像”一节中解释。</p>
+<p>普通包和镜像包都以26个字节的内在元数据开始。出口解析器必须实现提取出口内在元数据的逻辑。在内部元数据之后，普通包包含桥接报头。桥接报头没有大小限制，然而，过多的桥接元数据会损害总体吞吐量。镜像包在内部元数据之后最多可以有32字节的镜像头数据。P4程序的职责是实现提取镜像头部的逻辑。对于小于32字节的镜像头，没有填充。</p>
+<p>![1568176041043](E:\Desktop\笔记\TNA model\1568176041043.png)</p>
+<p>header resubmit_metadata_t {<br>// fields omitted for brevity<br>}<br>header port_metadata_t {<br>// fields omitted for brevity<br>}<br>parser TofinoIngressParser(packet_in pkt, out<br>ingress_intrinsic_metadata_t ig_intr_md) {<br>state start {<br>pkt.extract(ig_intr_md);<br>transition select(ig_intr_md.resubmit_flag) {<br>1 : parse_resubmit;<br>0 : parse_port_metadata;<br>}<br>}<br>state parse_resubmit {<br>pkt.extract<resubmit_metadata_t>(<em>);<br>transition reject;<br>}<br>state parse_port_metadata {<br>pkt.extract<port_metadata_t>(</em>);<br>transition accept;<br>}<br>}<br>parser TofinoEgressParser(packet_in pkt,<br>out egress_intrinsic_metadata_t eg_intr_md) {<br>state start {<br>pkt.extract(eg_intr_md);<br>transition accept;<br>}<br>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/TNA%20model/" data-id="ckmn1ijic000gn8a83oia608f" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/pktgen%E5%8A%9F%E8%83%BD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

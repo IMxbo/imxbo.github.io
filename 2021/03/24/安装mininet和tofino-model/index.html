@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051# ubuntu 16.04 安装BMv2sudo reboot nowmkdir mininet-installsudo apt install openssh-server# 更改apt source.list">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051# ubuntu 16.04 安装BMv2sudo reboot nowmkdir mininet-installsudo apt install openssh-server# 更改apt source.list">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.907Z">
+<meta property="article:modified_time" content="2019-08-14T13:19:04.000Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-安装mininet和tofino-model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.907Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu 16.04 安装BMv2</span></span><br><span class="line">sudo reboot now</span><br><span class="line">mkdir mininet-install</span><br><span class="line">sudo apt install openssh-server</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更改apt source.list</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line">cd mininet-install/tutorials/vm/</span><br><span class="line">chmod u+x root-bootstrap.sh </span><br><span class="line">chmod u+x user-bootstrap.sh </span><br><span class="line">sudo ./root-bootstrap.sh # 注意windows下换行符是CRLF,UNIX下是LF；apt install 中不能用#屏蔽不能安装的软件包，需要直接删除。</span><br><span class="line">mkdir ~/.pip/</span><br><span class="line">cat &gt; ~/.pip/pip.conf &lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">[install]</span><br><span class="line">trusted-host=mirrors.aliyun.com</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash">git proxy</span> </span><br><span class="line">git config --global http.proxy &#x27;socks5://192.168.2.7:1080&#x27;</span><br><span class="line">git config --global https.proxy &#x27;socks5://192.168.2.7:1080&#x27;</span><br><span class="line">./user-bootstrap.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> ubuntu 16.04 安装bf-sde-8.9.1</span></span><br><span class="line">tar xvf bf-sde-8.9.1.tar</span><br><span class="line">cd bf-sde-8.9.1/p4studio_build</span><br><span class="line">python p4studio_build.py --use-profile p416_examples_profile -rb</span><br><span class="line"><span class="meta">#</span><span class="bash"> 注意：保持git处于被代理状态。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> grpc可能无法git <span class="built_in">clone</span>（原因未知），解决办法是：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将安装BMv2时的grpc（/home/xbo/mininet-install/tutorials/vm/grpc）复制至/home/xbo/bfsde-install/bf-sde-8.9.1/p4studio_build/third_party/grpc_protobuf/grpc，屏蔽/home/xbo/bfsde-install/bf-sde-8.9.1/p4studio_build/third_party/install_grpc.py中的line125-128，即：</span></span><br><span class="line"><span class="meta">	#</span><span class="bash">status = utils.exec_cmd(cmd, log_file)</span></span><br><span class="line">    #if status[2] != 0:</span><br><span class="line">    #    return (False, &#x27;Failed to extract GRPC, command - &#x27; + \</span><br><span class="line">    #                   &#x27;%s, error - %s&#x27; % (cmd, status[1]))</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重新安装时可以 使用-rb参数，从上次编译失败的地方重新编译。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在/etc/profile 中添加如下变量</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> SDE=/home/xbo/bfsde-install/bf-sde-8.9.1</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> SDE_INSTALL=<span class="variable">$SDE</span>/install</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$SDE_INSTALL</span>/bin</span></span><br><span class="line"></span><br><span class="line">配置</span><br><span class="line"><span class="meta">$</span><span class="bash">SDE/pkgsrc/p4-build/configure --prefix=<span class="variable">$SDE_INSTALL</span> enable_thrift=yes --with-tofino --with-p4c --with-bf-runtime P4_VERSION=p4-16 P4_ARCHITECTURE=tna P4_NAME=int_tna P4_PATH=/home/xbo/bf-sde-8.9.1-install/int-tna/int-tna.p4 P4JOBS=7</span></span><br><span class="line">编译与安装</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">启动端口</span><br><span class="line">sudo ~/P4/p4train/tools/veth_setup.sh</span><br><span class="line">启动Tofino-model</span><br><span class="line"><span class="meta">$</span><span class="bash">SDE/run_tofino_model.sh -p int_tna</span></span><br><span class="line">启动bfshell</span><br><span class="line"><span class="meta">$</span><span class="bash">SDE/run_switchd.sh -p int_tna</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/" data-id="ckmn1ijg2000bn8a822xd2dqv" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/tofino-command/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/TNA%20model/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

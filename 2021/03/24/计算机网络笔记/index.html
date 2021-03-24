@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="分层：  应用层协议：HTTP、FTP、DNS、SMTP等。  HTTP协议，超文本传输协议，使用TCP协议 无状态协议，客户端和服务端不会保存连接状态，每一次请求都作为新的请求。解决办法是在客户端设置cookies，在服务端设置session，用来表示用户、跟踪会话。 短链接：HTTP&#x2F;1.0的默认连接方式，每一次HTTP操作都会新建一个TCP连接，操作结束后就断开连接。缺点：多个TCP连接会消">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="分层：  应用层协议：HTTP、FTP、DNS、SMTP等。  HTTP协议，超文本传输协议，使用TCP协议 无状态协议，客户端和服务端不会保存连接状态，每一次请求都作为新的请求。解决办法是在客户端设置cookies，在服务端设置session，用来表示用户、跟踪会话。 短链接：HTTP&#x2F;1.0的默认连接方式，每一次HTTP操作都会新建一个TCP连接，操作结束后就断开连接。缺点：多个TCP连接会消">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.539Z">
+<meta property="article:modified_time" content="2021-03-20T13:28:37.625Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计算机网络笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.539Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>分层：</p>
+<ol>
+<li><p>应用层协议：HTTP、FTP、DNS、SMTP等。</p>
+<ol>
+<li><p>HTTP协议，超文本传输协议，使用TCP协议</p>
+<p>无状态协议，客户端和服务端不会保存连接状态，每一次请求都作为新的请求。解决办法是在客户端设置cookies，在服务端设置session，用来表示用户、跟踪会话。</p>
+<p>短链接：HTTP/1.0的默认连接方式，每一次HTTP操作都会新建一个TCP连接，操作结束后就断开连接。缺点：多个TCP连接会消耗更多资源，还会产生更大的延迟。</p>
+<p>长连接：HTTP/1.0的默认连接方式，默认在响应头中设置Connection:keep-alive来使用长连接，多次HTTP操作可以使用同一个TCP连接。</p>
+<p>HTTP操作：</p>
+<p>​    GET：获取URL表示的资源。</p>
+<p>​    POST：向服务器提交信息。</p>
+<p>​    PUT：在URL下存储文件。</p>
+<p>​    DELETE：删除URL表示的资源。</p>
+<p>​    HEAD：获取服务器响应信息。</p>
+<p>HTTP状态码：响应报文中</p>
+<p>​    1xx：通知消息，表示接收的请求正在处理。</p>
+<p>​    2xx：成功，表示请求处理成功。200 OK</p>
+<p>​    3xx：重定向，301 永久重定向，307 临时重定向</p>
+<p>​    4xx：客户端错误，400 请求报文中存在语法错误，401 请求未授权，403 请求被禁止， 404 请求的资源不存在。</p>
+<p>​    5xx：服务端错误，500 服务器内部错误， 503 服务不可用， 502 网关错误</p>
+<p>HTTP的安全问题：1. 明文传输，不加密，内容可能被窃听， 2. 不进行身份验证，可能遭遇伪装， 3. 不保证报文完整性，可能被篡改。</p>
+<p>HTTPS使用TLS传输层安全协议/SSL安全套接字层，S表示security。TLS/SSL可以对HTTP通信进行加密、验证和完整性保护，具体而言，HTTP不直接与TCP通信，而是先与TLS/SSL通信。</p>
+<p>对称加密：双方使用同一个密钥进行加密解密，但安全传送密钥是个问题。</p>
+<p>非对称加密：使用不公开的私钥和公开的公钥，用私钥加密可用公钥解密，反之用公钥加密可用私钥解密。加密解密操作开销较大。</p>
+<p>HTTPS：使用混合加密，先用非对称加密传输对称加密的密钥，随后使用对称加密。</p>
+<p>使用认证中心CA来验证公钥的正确性：用户的公钥由认证中心的私钥进行加密，得到认证证书。对方用户使用认证中心的公钥解密认证证书来验证用户公钥的真实性，并使用用户公钥对报文进行加密。</p>
+<p>HTTP使用80端口，HTTPS使用443端口，HTTPS由于使用了加密手段，因此具有更高的安全性，但会产生更多资源消耗。</p>
+<p>输入url到页面显示的过程：</p>
+<ol>
+<li>浏览器根据输入的URL查找域名对应的IP，该过程使用了DNS协议，DNS使用了缓存技术，会查找浏览器缓存、本地路由器缓存、本地DNS服务器缓存等。</li>
+<li>应用层的DNS报文会使用传输层的UDP协议，再使用网络层的IP协议。</li>
+<li>这期间会使用到ARP协议，根据网络层的IP地址来得到数据链路层的MAC地址。</li>
+<li>如果DNS服务器与主机不在同一个子网，还可能会设计到OSPF开放最短路径优先等路由协议。</li>
+<li>浏览器根据获得的IP地址，向该web服务器发起TCP连接请求，建立连接后发送HTTP请求。</li>
+<li>web服务器响应HTTP请求，并返回一个HTML页面。</li>
+<li>浏览器解析HTML，继续请求HTML页面中的其他资源，最终渲染。</li>
+</ol>
+</li>
+<li><p>DNS:Domain Name System域名系统，将主机名解析为IP。使用UDP:53,</p>
+<p>域名服务器分为根域名服务器、顶级域名服务器和权威域名服务器，每个ISP都有一台本地DNS服务器，</p>
+<p>DNS查询分为递归查询（代替请求方进行查询）和迭代查询（返回给请求方下一个应该查询的DNS服务器，再由请求方进行查询），</p>
+<p>DNS使用缓存技术提高查询效率，会缓存最近查询过的信息，下次遇到相同查询时直接返回。</p>
+</li>
+</ol>
+</li>
+<li><p>传输层协议：TCP、UDP。</p>
+<p>TCP:传输控制协议</p>
+<p>TCP中的确认号表示确认号之前的分组都已经正确接受，对方下一个发送的分组的序列号应该是这个确认号。</p>
+<p>提供面向连接的、保证可靠交付的数据传输服务：应用程序进行通信前需要先建立连接，通信结束后需要断开连接。通过TCP传送的数据不会出现差错和丢失。</p>
+<p>TCP只支持点对点通信，不支持广播和多播通信。</p>
+<p>提供拥塞控制和流量控制机制，</p>
+<p>首部开销大，处理开销大，适用于对数据可靠性要求较高的应用，例如文件传输、邮件传输、远程登陆等。</p>
+<p>TCP是面向字节流的，会将应用交付的数据拆分或合并成大小合适的报文段。</p>
+<p>建立连接：</p>
+<p>发起连接请求的是客户端，接收连接请求的是服务端。</p>
+<ol>
+<li>开始时，客户端和服务端都处于CLOSED状态。</li>
+<li>服务端先创建传输控制快TCB，进入LISTEN监听状态，准备接受客户端的连接请求。</li>
+<li>客户端创建传输控制快TCB，向服务端发起连接请求，请求报文的同步标志位SYN=1，同时选择一个初始序列号seq=x，进入SYN-SENT同步已发送状态。</li>
+<li>服务端接收到请求报文，如果同意连接则发送确认报文，报文中同步标志位SYN=1、确认标志位ACK=1，确认号ack=x+1，同时选择一个初始序列号seq=y，进入SYN-RCVD同步已接收状态。</li>
+<li>客户端收到确认报文后，向服务端发送确认报文，确认标志位ACK=1，确认号ack=y+1，序列号seq=x+1，进入ESTABLISHED连接建立状态。</li>
+<li>服务端收到确认报文后，进入ESTABLISHED连接建立状态。</li>
+</ol>
+<p>为什么需要三次握手？</p>
+<p>​    因为IP协议的分组交换网络是尽力而为的，分组在传输过程中可能会丢失，因此通信双发都要知道双方连接请求的收发是否正常，然后才能确定建立了正确的连接。具体而言，第一次握手，即服务端接收到客户端的连接请求报文，服务端可以知道客户端发送正常，服务端接收正常。第二次握手，即客户端接收到服务端的确认报文，客户端可以知道客户端发送正常，接受正常，服务端接受正常，发送正常，因此可以进入连接状态。第三次握手，即服务端收到客户端的确认报文，服务端可以知道服务端发送正常，客户端接收正常，因此可以进入连接状态，</p>
+<p>​    如果只进行两次握手，则会产生错误情况，例如客户端发送请求报文，但这个报文的分组在网络某处阻塞了，客户端没有收到服务端的确认报文，则会重新发送请求报文，经过两次握手后建立了连接，但先前的请求报文经过长时间阻塞后重新到达了服务端，服务端会认为是一次新的连接请求，会重新建立连接，这造成了不必要的错误和浪费。如果是三次握手的话，客户端不会回复确认报文，服务端就不会建立连接。</p>
+<p>终止连接：</p>
+<p>客户端和服务端都可以主动终止连接，以客户端主动终止连接为例。</p>
+<ol>
+<li>开始时，双方都是ESTABLISHED连接建立状态。</li>
+<li>客户端发送连接终止报文，报文中终止标志位FIN=1，序列号seq=u，进入FIN-WAIT-1终止等待1状态。</li>
+<li>服务端接收到接连终止报文，发出确认报文，报文中确认标志位ACK=1，确认号ack=u+1，序列号seq=u，进入CLOSE-WAIT终止等待状态。此时客户端已不会发送新的数据，但服务端还可以继续发送数据。</li>
+<li>客户端收到确认报文后，进入FIN-WAIT-2终止等待2状态，等待服务器发送连接终止报文。</li>
+<li>服务端发送完数据后，发送连接终止报文，报文中终止标志位FIN=1，确认标志位ACK=1，确认号ack=u+1，序列号seq=w（服务端在CLOSE-WAIT状态发送了数据），进入LAST-ACK最后确认状态。</li>
+<li>客户端收到连接终止报文后，发出确认报文，报文中确认标志位ACK=1，确认号ack=w+1，序列号为u+1，进入TIME-WAIT时间等待状态。此时连接并没有释放，必须结果2*MAL（最长报文段寿命）时间后，客户端撤销TCB，才进入CLOSED状态。</li>
+<li>服务器收到确认报文后，进入CLOSED状态。</li>
+</ol>
+<p>为什么客户端要等待2*MSL？</p>
+<p>为了保证最后一个确认报文能正确达到服务器，使用IP协议的分组交换网是尽力而为的，分组在传输过程中可能会丢失。如果最后一个确认报文丢失，服务器超时未收到确认报文，则会重新发送连接终止报文，如果客户端发送完最后一个确认报文后，直接关闭连接，则服务器重发的连接终止报文不会被处理。因此客户端需要等待2倍的最长报文寿命，从而在这个时间内处理重传的连接终止报文。</p>
+<p>为什么是2倍而不是1倍或3倍？<br>2倍的最长报文寿命，是因为服务端如果在客户端发送最后一个确认报文后的一个最长报文寿命时间内没有收到确认报文，则可认为该报文已丢失，然后会重传终止报文，这个报文最长经过一个最长报文寿命时间到达客户端，因此如果在两个最长报文寿命时间内没有受到重传的连接终止报文，则可认为服务端已经接收到了确认报文，并关闭了连接，因此客户端也可以关闭连接了。</p>
+<p>为什么建立连接需要三次握手，终止连接需要四次挥手呢？</p>
+<p>建立连接时，服务器处于LISTEN状态，收到连接建立请求的SYN报文后，可以将确认报文和连接建立请求合并成一个报文发送给客户端，即同时将SYN标志位和ACK标志位设置1。而终止连接时，收到FIN连接终止报文仅仅表示对方已经不再发送新的报文，但自己的报文可能还没有发送完毕，因此需要先回复一个ACK确认报文，当自己的报文发送完毕后再发送FIN连接终止报文，因此需要多发送一次报文。</p>
+<p>如果已经建立连接，但是一方或者网络发生故障怎么办？</p>
+<p>TCP协议为每个连接维护了一个计时器，每次收到报文后都会复位计时器，如果超时没有收到新的报文，则会发送探测报文，连续多次发送探测包后仍没有收到回复，则认为出现了故障，会关闭连接。</p>
+<p>TCP可靠传输机制：</p>
+<ol>
+<li><p>编号：TCP发送分组时会给每个分组编号，TCP接收到分组后会根据编号进行排序，将有序的数据交付给上层应用。TCP是面向字节流的，编号是按字节大小增加的。</p>
+</li>
+<li><p>确认：接收方接收到报文后，会给发送方返回一个确认。TCP发送完报文段后会保留该报文段，直到收到确认信号，以便超时重传。</p>
+</li>
+<li><p>校验：TCP会对首部和数据进行校验，如果数据有差错，则丢弃，并不确认收到。</p>
+</li>
+<li><p>超时重传：TCP会为每个发送完的报文设置一个超时计时器，如果超时未收到确认报文，则认为报文丢失，会重传该报文。重传等待时间比分组的平均往返时间稍长一点。</p>
+<p>如果确认报文丢失，则发送方会超时重传，接收方会丢弃重复报文，并重传该报文的确认报文。</p>
+<p>如果确认报文迟到，则发送方会超时重传，接收方会丢弃重复报文，并重传该报文的确认报文。接收方会丢弃重复的确认报文。</p>
+</li>
+</ol>
+<p>ARQ自动重传请求：使用了确认和超时机制，发送方超时未收到某个分组的确认，则会自动重传该分组，接收方不需要请求发送方重传某个出错的分组，而是不对该分组进行确认。从而在不可靠的基础上实现了可靠传输。</p>
+<p>停止等待协议：发送方发送完一个分组后会停止发送，并等待接收方确认，收到确认后再发送下一个分组。实现简单，但信道利用率低。</p>
+<p>连续ARQ协议：发送方维持一个发送窗口，位于窗口内的分组可以连续发出，而不需要等待接收方的确认。接收方采用累计确认的方式，即接收方不必对接收到的分组逐个发送确认，而是收到几个分组后，对按序到达的最后一个分组发送确认，表示该分组之前的分组都已经正确接收。发送方收到确认后，会将窗口向后移动，使其不包含已确认的分组。缺点：若窗口内的某个分组丢失，发送方需要重传窗口内该分组及后面的所有分组。</p>
+<p>滑动窗口：</p>
+<p>TCP头部有一个16位的字段是窗口，是指该分组的发送方的接收窗口大小，窗口值表示允许的对方发送窗口大小，即允许对方发送的数据量（以字节为单位），这是因为接收方的数据缓存空间有限，或网络承载能力有限。</p>
+<p>发送窗口的大小不能大于对方接收窗口的大小。</p>
+<p>发送缓存暂时存放：1. 目前尚未发送的数据， 2. 已经发送到未收到确认的数据。</p>
+<p>接收缓存暂时存放：1. 按序到达到应用程序尚未读取的数据， 2. 未按序到达的数据。</p>
+<p>流量控制：使用滑动窗口机制，控制发送方的发送速率，以使得接收方来得及接受。发送方的发送窗口大小不能超过接收方给定的接收窗口的大小，大小以字节为单位。</p>
+<p>拥塞控制：</p>
+<p>对某一网络资源的需求，例如链路带宽、交换节点的交换能力等，超出了可用的网络资源，就会产生拥塞。拥塞会使丢包率、延迟、吞吐量降低。</p>
+<p>拥塞控制是指：防止过多的分组进入网络，超出网络的负载能力。</p>
+<p>与流量控制的区别：流量控制是一个端到端的问题，目的是使发送方的发送速率与接收方的接收速率匹配，而拥塞控制是一个全局性的过程，因为网络中任意一个节点都可能产生拥塞。它们的相似之处在于，部分拥塞控制算法与流量控制一样，都是减小发送方的发送速率，以减小网络负载。</p>
+<p>发送方维持一个拥塞窗口的状态变量，拥塞窗口的大小取决于当前网络的拥塞程度，并且在动态变化，发送方让发送窗口大小等于拥塞窗口大小。</p>
+<p>拥塞控制有四种算法：</p>
+<ol>
+<li>慢开始：主机在发送分组时，不清楚网络状况，因此先将拥塞窗口设置为一个较小值，然后按照指数规律增大拥塞窗口。具体而言，每经过一个传输轮次，拥塞窗口就变为原来的2倍。传输轮次是至将拥塞窗口内的分组全部发送出去，并收到对窗口内最后一个分组的确认。</li>
+<li>拥塞避免：为了避免拥塞窗口太大，造成网络拥塞，当拥塞窗口大于设定的慢开始门限时，开始使用拥塞避免算法，使拥塞窗口按线性规律增大。当网络出现了超时，即发送方超时未收到确认，则发送方认为网络出现了拥塞，于是将慢开始门限减小为原值的一半，并执行满开始。</li>
+<li>快重传：接收方收到报文段后要立即进行确认，以让发送方尽早知道个别报文段发送了丢失。当发送方连续收到3个对同一报文段的重复确认，则立即进行重传，避免发送方因个别报文段丢失，而认为网络出现拥塞，而使用慢开始，导致传输效率降低。</li>
+<li>快恢复：进行快重传时，发送方知道网络并没有拥塞，只是丢失了个别报文，于是执行快恢复算法，即将慢开始门限和拥塞窗口设定为当前拥塞窗口的一半，然后执行拥塞避免算法。</li>
+</ol>
+<p>接收方可以通过TCP头部中的接收窗口大小来控制发送方的发送窗口大小，因此考虑流量控制和拥塞控制后，发送方最终的发送窗口大小为拥塞窗口和接收窗口中的最小值。</p>
+<p>UDP：用户数据报协议</p>
+<p>提供无连接的、不保证可靠交付的数据传输服务，不提供拥塞控制和流量控制机制。适用于对数据可靠性要求不高的应用，例如视频和直播。</p>
+<p>支持一对多、多对多的广播和多播通信，首部开销小，处理开销小，</p>
+<p>UDP通信不需要建立连接，因此不使用套接字。</p>
+<p>UDP是面向报文的，不会对应用交付的报文进行拆分或合并，如果报文太长，由IP层进行分片。</p>
+<p>TCP/UDP的端口号是16位，共有65535个可用端口，0-1023是well-know端口，被一些通用的协议占用，例如使用80端口的http协议，使用443的https协议，使用21端口的ftp协议。同一个主机上的客户进程的占用的端口号是唯一的，用于在网络通信中标识通信进程。  </p>
+</li>
+</ol>
+<ol start="3">
+<li><p>网络层协议：IP、ICMP等。</p>
+<p>网络层向上层提供尽最大努力交付服务，分组可能会丢失。</p>
+<p>网络层提供的是网络中两台主机之间的通信，传输层提供的是应用进程之间的通信。</p>
+<p>IP：网际协议</p>
+<p>IP地址由网络号和主机号构成，共4个字节长，ABC类网络的网络号分别为1、2、3个字节长，主机号全为0的IP地址表示本网络，主机号全为1的IP地址表示该网络上的所有主机。</p>
+<p>IP地址与MAC地址的区别：MAC地址是数据链路层和物理层使用的地址，与硬件绑定，IP地址是网络层及以上使用的地址，是用软件实现的逻辑地址。</p>
+<p>IP协议只对首部进行检验，不对数据进行检验。</p>
+<p>数据链层中一个数据帧的数据字段的最大长度，称为最大传输单元MTU，如果IP数据报封装成数据链路层的帧后的大小超过MTU，则需要进行分片。</p>
+<p>TTL time to live，表示数据报可以经过的最大跳数。</p>
+<p>IP地址与子网掩码进行与操作可以得到子网地址。</p>
+<p>路由表中包含目的网络地址、子网掩码、下一跳端口，路由器收到分组后，将分组中的目的IP与路由表中的各项子网掩码进行与操作，如果结果与目的网络地址一致，则转发至响应的下一跳端口。如果有多个目的网络匹配，则选择子网掩码最长的，因为更长的子网掩码意味着对应网络中的主机数越少，这又称为最长前前缀匹配。</p>
+<p>ARP：地址解析协议</p>
+<p>根据IP地址得到MAC地址。</p>
+<p>ICMP：网际控制报文协议</p>
+<p>ping、traceroute命令使用了ICMP。</p>
+<p>ping命令向目的主机回送请求报文，根据发送和接收报文的时间戳得到往返时间。</p>
+<p>traceroute命令向目的主机发送一系列无使用非法端口而无法交付的UDP数据报，并且每个数据报的TTL从1开始依次递增，数据报每经过一个路由器时，ttl都会减一，当ttl为0时，路由器会返回一个ICMP时间超时的报文，或者到达主机，主机返回一个ICMP终点不可达报文，从而可以跟踪源主机到目的主机的路由信息。</p>
+<p>MPLS：多协议标签交换，在MPLS的入口上打上标签，后续直接在数据链路层根据标签转发，而不用进行查找路由表。</p>
+<p>路由协议：</p>
+<p>内部网关协议：适用于自治系统（路由协议和网络布局等内部统一，但独立于外部，不与外部共享的系统，例如一个大型ISP的网络）内部的协议，例如OSPF最短路径优先。</p>
+<p>外部网关协议：自治系统之间的路由选择协议，例如BGP边界网关协议。</p>
+</li>
+<li><p>数据链路层：ARP等。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/" data-id="ckmn1ijif000kn8a80jxibhr2" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/java%E5%B9%B6%E5%8F%91%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

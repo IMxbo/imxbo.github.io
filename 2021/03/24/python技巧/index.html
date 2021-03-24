@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xbo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="制作Python程序Windows安装包  Pyinstaller：将python文件打包为单个exe文件或者是一个文件夹。 文件夹压缩器NSIS：生成具有NSIS经典界面的自解压文件。 VNISEdit编译器：生成正式的软件安装包。   字符串拼接不采用+，而是采用join函数。  使用元组语法同时赋值。 1a, b, c, d &#x3D; 0, 1, 2, 3 使用序列自动解包。 12ls &#x3D; [1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xbo&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/03/24/python%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="xbo&#39;s Blog">
+<meta property="og:description" content="制作Python程序Windows安装包  Pyinstaller：将python文件打包为单个exe文件或者是一个文件夹。 文件夹压缩器NSIS：生成具有NSIS经典界面的自解压文件。 VNISEdit编译器：生成正式的软件安装包。   字符串拼接不采用+，而是采用join函数。  使用元组语法同时赋值。 1a, b, c, d &#x3D; 0, 1, 2, 3 使用序列自动解包。 12ls &#x3D; [1">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T06:02:27.500Z">
+<meta property="article:modified_time" content="2019-06-17T02:44:37.000Z">
+<meta property="article:author" content="xbo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="xbo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xbo&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-python技巧" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/python%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T06:02:27.500Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>制作Python程序Windows安装包</p>
+<ul>
+<li>Pyinstaller：将python文件打包为单个exe文件或者是一个文件夹。</li>
+<li>文件夹压缩器NSIS：生成具有NSIS经典界面的自解压文件。</li>
+<li>VNISEdit编译器：生成正式的软件安装包。</li>
+</ul>
+</li>
+<li><p>字符串拼接不采用+，而是采用join函数。</p>
+</li>
+<li><p>使用元组语法同时赋值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, b, c, d = <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用序列自动解包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a, b, c = ls</span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>... if ... else ...</code>三目运算符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = x <span class="keyword">if</span> x &gt;= <span class="number">0</span> <span class="keyword">else</span> -x</span><br></pre></td></tr></table></figure></li>
+<li><p>使用链式比较，即使用<code>if 80 &lt; x &lt; 90</code>而不是<code>if x &lt; 90 and x &gt; 80</code>。</p>
+</li>
+<li><p>使用<code>any</code>函数判断诸多条件是否至少有一个成立，使用<code>all</code>函数判断是否所有条件都成立。</p>
+</li>
+<li><p><code>print</code>函数使用参数<code>end=&#39;\r&#39;</code>可以不换行但回车到行数，实现在一行内刷新显示值，可用于显示进度。</p>
+</li>
+<li><p>使用<code>in</code>判断是否为多个取值之一</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> level <span class="keyword">in</span> (<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span><span class="number">1</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>使用隐含类型转换直接判断列表字典字符串等是否为空，因为空字典等等价于None等价于False。</p>
+</li>
+<li><p>使用列表推导式<code>... for ... in ... if ...</code>实现简单的循环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ i <span class="keyword">for</span> i <span class="keyword">in</span> _<span class="built_in">list</span> <span class="keyword">if</span> x &gt; <span class="number">10</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>通过enumerate类使用迭代对象，该类可以返回迭代值和序号，即下标和元素对。</p>
+</li>
+<li><p>通过argparse解析命令行参数。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument()</span><br><span class="line">......</span><br><span class="line">args = parser.parse_args()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用单词做参数默认为必须参数，用单短线(-)指定短参数，双短线(–)指定冲长参数，默认为可选参数。</li>
+<li>用<code>type</code>指定参数类型。</li>
+<li>使用如下语句添加互斥参数。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">group = parser.add_mutually_exclusive_group()</span><br><span class="line">group.add_argument(<span class="string">&quot;-m&quot;</span>, <span class="string">&quot;--male&quot;</span>, action=<span class="string">&quot;store_true&quot;</span>)</span><br><span class="line">group.add_argument(<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;--female&quot;</span>, action=<span class="string">&quot;store_true&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>使用<code>choices</code>选项限制参数值。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(<span class="string">&quot;-g&quot;</span>, <span class="string">&quot;--gender&quot;</span>, default=<span class="string">&#x27;male&#x27;</span>, choices=[<span class="string">&#x27;male&#x27;</span>, <span class="string">&#x27;female&#x27;</span>])</span><br></pre></td></tr></table></figure></li>
+<li>使用如下语句指定文件参数。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(<span class="string">&#x27;--file&#x27;</span>, <span class="string">&#x27;-f&#x27;</span>, action=<span class="string">&#x27;append&#x27;</span>,</span><br><span class="line">                dest=<span class="string">&#x27;files&#x27;</span>,</span><br><span class="line">                <span class="built_in">help</span>=(<span class="string">&#x27;additional yaml configuration files to use&#x27;</span>),</span><br><span class="line">                <span class="built_in">type</span>=argparse.FileType(<span class="string">&#x27;rb&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<code>dest=files</code>: 将命令行中的–file参数值赋值给变量files，程序中使用args.files访问。<br><code>action=append</code>: 指定多个文件，即指定多次<code>--file</code> ，argparse会将其放在一个list里，程序中使用<code>args.files[0].read()</code>访问<br><code>type=argparse.FileType(&#39;rb&#39;)</code>指定打开模式为<code>rb</code>。</li>
+</ul>
+</li>
+<li><p>使用tqdm模块实现进度条。</p>
+</li>
+<li><p>在map和sort等函数中使用lambda定义函数。</p>
+</li>
+<li><p>使用上下文管理，即with语句。</p>
+</li>
+<li><p>使用装饰器，装饰器将下一行的函数作为装饰器函数的参数，可以在多个不同函数调用之前或者之后完成相关的统一操作，比如插入日志，性能测试等非核心功能，实现一次定义，到处装饰。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> ctime</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deco</span>(<span class="params">tag</span>):</span>  </span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;带参数的装饰器函数&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span>(<span class="params">func</span>):</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span>(<span class="params">*args, **kw</span>):</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[%s]  %s() is called, Tag is %s.&#x27;</span> % (ctime(), func.__name__, tag))</span><br><span class="line">            <span class="keyword">return</span> func(*args, **kw)</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deco1</span>(<span class="params">func</span>):</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;不带参数的装饰器函数&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator1</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;[%s]  %s() is called&#x27;</span> % (ctime(), func.__name__))</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> decorator1</span><br><span class="line"></span><br><span class="line"><span class="meta">@deco(<span class="params"><span class="string">&#x27;Python&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Hello, Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@deco(<span class="params"><span class="string">&#x27;Java&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Hello, Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line">foo()</span><br><span class="line">bar()</span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>python-dotenv</code>将配置信息排除在代码之外，例如数据库密码、邮件配置等，避免敏感信息硬编码。将配置信息写入.env文件中，在Python程序中使用dotenv模块的<code>load_dotenv()</code>函数将env文件加载入环境变量，之后通过<code>os.getenv()</code>函数来获取配置信息。或直接使用configparser模块读取配置文件(.conf, .ini)。</p>
+<br>
+  <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Mysql-Database]</span></span><br><span class="line"><span class="attr">host</span> = localhost</span><br><span class="line"><span class="attr">user</span> = root</span><br><span class="line"><span class="attr">password</span> = <span class="number">12345</span></span><br><span class="line"><span class="attr">db</span> = test</span><br><span class="line"><span class="attr">charset</span> = utf-<span class="number">8</span></span><br><span class="line"><span class="section">[Email]</span></span><br><span class="line"><span class="attr">host</span> = mail.qq.com</span><br><span class="line"><span class="attr">address</span> = xx@qq.com</span><br><span class="line"><span class="attr">password</span> = xxxxx</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> configparser</span><br><span class="line">cf = configparser.ConfigParser()</span><br><span class="line">cf.read(<span class="string">&quot;config.ini&quot;</span>)  <span class="comment"># 读取配置文件，如果写文件的绝对路径，就可以不用os模块</span></span><br><span class="line"></span><br><span class="line">secs = cf.sections()  <span class="comment"># 获取文件中所有的section(一个配置文件中可以有多个配置，如数据库相关的配置，邮箱相关的配置，每个section由[]包裹，即[section])，并以列表的形式返回。</span></span><br><span class="line"><span class="built_in">print</span>(secs)</span><br><span class="line"><span class="comment"># [&#x27;Mysql-Database&#x27;, &#x27;Email&#x27;]</span></span><br><span class="line"></span><br><span class="line">options = cf.options(<span class="string">&quot;Mysql-Database&quot;</span>)  <span class="comment"># 获取某个section名为Mysql-Database所对应的键</span></span><br><span class="line"><span class="built_in">print</span>(options)</span><br><span class="line"><span class="comment"># [&#x27;host&#x27;, &#x27;user&#x27;, &#x27;password&#x27;, &#x27;db&#x27;, &#x27;charset&#x27;]</span></span><br><span class="line"></span><br><span class="line">items = cf.items(<span class="string">&quot;Mysql-Database&quot;</span>)  <span class="comment"># 获取section名为Mysql-Database所对应的全部键值对</span></span><br><span class="line"><span class="built_in">print</span>(items)</span><br><span class="line"><span class="comment"># [(&#x27;host&#x27;, &#x27;localhost&#x27;), (&#x27;user&#x27;, &#x27;root&#x27;), (&#x27;password&#x27; = &#x27;12345&#x27;), (&#x27;db&#x27;, &#x27;test&#x27;), (&#x27;charset&#x27;, &#x27;utf-8&#x27;)]</span></span><br><span class="line"></span><br><span class="line">host = cf.get(<span class="string">&quot;Mysql-Database&quot;</span>, <span class="string">&quot;host&quot;</span>)  <span class="comment"># 获取[Mysql-Database]中host对应的值</span></span><br><span class="line"><span class="built_in">print</span>(host)</span><br><span class="line"><span class="comment"># localhost</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li></li>
+<li><p>如果列表元素可以按照某种算法推算出来，则不必创建完整的list，而是在循环的过程中不断推算出后续元素，，从而节省大量的空间。在Python中，这种一边循环一边计算的机制，称为生成器（Generator）。</p>
+<ul>
+<li><strong>生成器表达式</strong>：如下所示，将列表的方括号[]改为圆括号()就变成了生成器表达式，通过调用<code>g.next()</code>访问元素，或通过for循环迭代访问。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g = (x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>))</span><br></pre></td></tr></table></figure></li>
+<li><strong>生成器函数</strong>：在函数中如果出现了yield关键字，那么该函数就不再是普通函数，而是生成器函数。当一个生成器函数调用yield，生成器函数的“状态”会被冻结，所有的变量的值会被保留下来，下一行要执行的代码的位置也会被记录，直到再次调用next()。一旦next()再次被调用，生成器函数会从它上次离开的地方开始。即在每次调用next()时执行，遇到yield语句时返回，再次执行时从上次返回的yield语句处继续执行。  <br></li>
+</ul>
+</li>
+<li><p>函数参数分为四类：</p>
+<ul>
+<li><strong>普通参数</strong>，即在调用函数时必须按照准确的顺序来进行参数传递。</li>
+<li><strong>默认参数</strong>，即参数含有默认值，在调用函数时可以进行参数传递，若没有进行参数传递则使用默认值，要注意，默认参数必须在普通参数的右侧（否则解释器无法解析）。</li>
+<li><strong>元组参数</strong>，即 *args，参数格式化存储在一个元组中，长度没有限制，必须位于普通参数和默认参数之后。</li>
+<li><strong>字典参数</strong>，即 **kwargs，参数格式化存储在一个字典中，必须位于参数列表（包括元组参数）的最后面。</li>
+</ul>
+</li>
+<li><p>程序开始定义编码方式与解释器。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding:utf8</span></span><br></pre></td></tr></table></figure>
+<p>###Python 3.x特性</p>
+</li>
+<li><p>格式化字符串 f-string (python 3.6)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user = <span class="string">&quot;Jane Doe&quot;</span></span><br><span class="line">action = <span class="string">&quot;buy&quot;</span></span><br><span class="line">log_message = <span class="string">f&#x27;User <span class="subst">&#123;user&#125;</span> has logged in and did an action <span class="subst">&#123;action&#125;</span>.&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(log_message)</span><br><span class="line"><span class="comment"># User Jane Doe has logged in and did an action buy.</span></span><br></pre></td></tr></table></figure></li>
+<li><p>路径管理库 Pathlib (python 3.4)：处理文件路径的高级抽象</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line">root = Path(<span class="string">&#x27;post_sub_folder&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(root)</span><br><span class="line"><span class="comment"># post_sub_folder</span></span><br><span class="line">path = root / <span class="string">&#x27;happy_user&#x27;</span></span><br><span class="line"><span class="comment"># Make the path absolute</span></span><br><span class="line"><span class="built_in">print</span>(path.resolve())</span><br><span class="line"><span class="comment"># /home/weenkus/Workspace/Projects/DataWhatNow-Codes/how_your_python3_should_look_like/post_sub_folder/happy_user</span></span><br></pre></td></tr></table></figure></li>
+<li><p>类型提示 (python 3.5)：指定变量类型</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sentence_has_animal</span>(<span class="params">sentence: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;animal&quot;</span> <span class="keyword">in</span> sentence</span><br><span class="line">sentence_has_animal(<span class="string">&quot;Donald had a farm without animals&quot;</span>)</span><br><span class="line"><span class="comment"># True</span></span><br></pre></td></tr></table></figure></li>
+<li><p>枚举 (python 3.4)：封装常量列表</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> enum <span class="keyword">import</span> Enum, auto</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monster</span>(<span class="params">Enum</span>):</span></span><br><span class="line">    ZOMBIE = auto()</span><br><span class="line">    WARRIOR = auto()</span><br><span class="line">    BEAR = auto()</span><br><span class="line"><span class="built_in">print</span>(Monster.ZOMBIE)</span><br><span class="line"><span class="comment"># Monster.ZOMBIE</span></span><br><span class="line"><span class="keyword">for</span> monster <span class="keyword">in</span> Monster:</span><br><span class="line">    <span class="built_in">print</span>(monster)</span><br></pre></td></tr></table></figure></li>
+<li><p>LRU缓存 (python 3.2)：Python将LRU（最近最少算法）封装为一个名为<code>lru_cache</code>的装饰器，优化函数运行。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@lru_cache(<span class="params">maxsize=<span class="number">512</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib_memoization</span>(<span class="params">number: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">    <span class="keyword">if</span> number == <span class="number">0</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> number == <span class="number">1</span>: <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> fib_memoization(number-<span class="number">1</span>) + fib_memoization(number-<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 采用LRU缓存后，计算第40个的斐波拉契数用时从30s降低到70us。</span></span><br></pre></td></tr></table></figure></li>
+<li><p>扩展的可迭代对象解包 (python 3.0)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">head, *body, tail = <span class="built_in">range</span>(<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(head, body, tail)</span><br><span class="line"><span class="comment"># 0 [1, 2, 3] 4</span></span><br><span class="line"></span><br><span class="line">py, filename, *cmds = <span class="string">&quot;python3.7 script.py -n 5 -l 15&quot;</span>.split()</span><br><span class="line"><span class="built_in">print</span>(py)</span><br><span class="line"><span class="built_in">print</span>(filename)</span><br><span class="line"><span class="built_in">print</span>(cmds)</span><br><span class="line"><span class="comment"># python3.7</span></span><br><span class="line"><span class="comment"># script.py</span></span><br><span class="line"><span class="comment"># [&#x27;-n&#x27;, &#x27;5&#x27;, &#x27;-l&#x27;, &#x27;15&#x27;]</span></span><br><span class="line"></span><br><span class="line">first, _, third, *_ = <span class="built_in">range</span>(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(first, third)</span><br><span class="line"><span class="comment"># 0 2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/python%E6%8A%80%E5%B7%A7/" data-id="ckmn1ijg00009n8a8385x1ntb" data-title="" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/hello-My-First-Blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Hello My First Blog</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/24/Python%20Cheatsheet/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/Python%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%85%E5%92%8C%E6%A8%A1%E5%9D%97/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/tofino-command/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/%E5%AE%89%E8%A3%85mininet%E5%92%8Ctofino-model/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/24/TNA%20model/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 xbo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
