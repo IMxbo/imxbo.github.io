@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Docker使用教程 [ xbo&#39;s Blog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/about">About</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Docker使用教程</h1>
+<article class="post markdown-style">
+  <p>#Docker基础使用</p>
+<table>
+<thead>
+<tr>
+<th align="center">Created by</th>
+<th align="center">Created on</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">xbo</td>
+<td align="center">June 8, 2019</td>
+</tr>
+</tbody></table>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh </span><br><span class="line">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io</span><br><span class="line">sudo systemctl restart docker.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p><code>Docker Images</code>：镜像，用于创建Docker容器的模板。<br><code>Docker Container</code>：容器，独立运行的一组应用。</p>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
+<li><p><strong><code>docker run [OPTIONS] IMAGES:TAG [COMMAND] [ARG...]</code></strong> <a id="run"> </a>: 运行一个使用标签为TAG的IMAGES镜像创建的容器，并执行命令COMMAND。Docker首先查找本地镜像仓库，查找不到则自动从Docker Hub中pull镜像。没有指定TAG时，Docker默认使用:latest。</p>
+<ul>
+<li><code>-v HOST_PATH:CONTAINER_PATH</code>: 将主机路径HOST_PATH（文件或目录）挂载到容器里的路径CONTAINER_PATH。</li>
+<li><code>--name=NAME</code>: 指定容器名称为NAME，否则Docker自动确定容器名称。</li>
+<li><code>--net=NET_TYPE</code>: 指定容器的网络连接类型，支持bridge/host/none/container四种。</li>
+<li><code>--expose=[PORTS]</code>: 开放一个或一组端口。</li>
+<li><code>-h HOST_NAME</code>: 指定容器的hostname。</li>
+<li><code>-i</code>: 在新容器内指定一个终端。</li>
+<li><code>-t</code>：对容器内的标准输入（STDIN）进行交互。</li>
+<li><code>-d</code>: 以后台模式运行，返回容器ID（CONTAINER_ID）。</li>
+<li><code>-P</code>: 将容器内部使用的网络端口随机映射到主机的高位端口。</li>
+<li><code>-p [BIND_ADDR:]HOST_PORT:CONTAINER_PORT[/UDP]</code>: 将容器内部的端口号。CONTAINER_PORT映射到主机的端口HOST_PORT，可以指定容器绑定的网络地址BIND_ADDR，默认映射TCP端口，如果要映射UDP端口，需要添加/UDP。</li>
+</ul>
+</li>
+<li><p><strong><code>docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</code></strong>: 在运行的容器中执行命令。</p>
+<ul>
+<li><code>-d</code>: 后台运行。</li>
+<li><code>-i</code>: 在新容器内指定一个终端。</li>
+<li><code>-t</code>：对容器内的标准输入（STDIN）进行交互。</li>
+</ul>
+</li>
+<li><p><strong><code>docker ps [OPTIONS]</code></strong>: 查看运行中的容器。</p>
+<ul>
+<li><code>-a</code>: 查看所有容器，包括已经停止的。</li>
+<li><code>-l</code>: 查看最后一次创建的容器。</li>
+<li><code>-n</code>: 查看最近创建的n个容器。</li>
+<li><code>-s</code>: 显示总的文件大小。</li>
+</ul>
+</li>
+<li><p><strong><code>docker logs [OPTIONS] CONTAINER</code></strong>: 查看容器的日志，比如查看以后台模式运行的容器的标准输出。</p>
+<ul>
+<li><code>-f</code>: 像<code>tail -f</code>动态输出最新内容。</li>
+<li><code>--since=START_TIME</code>: 查看某个时间以来的所有日志，时间格式为<code>YYYY-MM-DD</code>。</li>
+<li><code>-t</code>: 显示时间戳。</li>
+<li><code>--tail=n</code>: 列出最新n条容器日志。</li>
+</ul>
+</li>
+<li><p><strong><code>docker stop CONTAINER [CONTAINER...]</code></strong>: 停止容器。</p>
+</li>
+<li><p><strong><code>docker start CONTAINER [CONTAINER...]</code></strong>: 启动停止的容器。</p>
+</li>
+<li><p><strong><code>docker restart CONTAINER [CONTAINER...]</code></strong>: 重启容器。</p>
+</li>
+<li><p><strong><code>docker COMMAND --help</code></strong>: 查看命令COMMAND的使用方法。</p>
+</li>
+<li><p><strong><code>docker port [CONTAINER] [CONTAINER_PORT[/RPOTO]]</code></strong>: 查看容器的端口映射，可以指定查看的容器和容器内部端口号以及协议类型。</p>
+</li>
+<li><p><strong><code>docker top CONTAINER</code></strong>: 查看容器内部运行的进程。</p>
+</li>
+<li><p><strong><code>docker inspect CONTAINER</code></strong>: 查看容器的配置和状态信息。</p>
+</li>
+<li><p><strong><code>docker rm [OPTIONS] CONTAINER [CONTAINER...]</code></strong>: 删除容器，容器必须使停止状态，否则报错。</p>
+<ul>
+<li><code>-f</code>: 强制删除。</li>
+<li><code>-l</code>: 移除容器间的网络连接，而非容器本身。</li>
+</ul>
+</li>
+<li><p><strong><code>docker rmi [OPTIONS] IMAGE [IMAGE...]</code></strong>: 删除本地镜像。</p>
+<ul>
+<li><code>-f</code>: 强制删除。</li>
+</ul>
+</li>
+<li><p><strong><code>docker images [OPTIONS] [RSPOSITORY[:TAG]]</code></strong>: 查看本地镜像。</p>
+<ul>
+<li><code>-a</code>: 列出本地所有镜像，含中间映像层。</li>
+</ul>
+</li>
+<li><p><strong><code>docker pull IMAGES[:TAG]</code></strong>: 从仓库中拉取镜像，未指定TAG时默认为latest。</p>
+</li>
+<li><p><strong><code>docker search IMAGES</code></strong>: 从仓库中搜索镜像。</p>
+</li>
+<li><p><strong><code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code></strong>: 从容器创建一个新的镜像至本地镜像仓库。</p>
+<ul>
+<li><code>-m</code>: 提交的描述信息。</li>
+<li><code>-a</code>: 镜像作者。</li>
+<li><code>-P</code>: 在commit时暂停容器。</li>
+<li><code>CONTAINER</code>: 容器ID，将该容器打包成一个镜像。</li>
+<li><code>[REPOSITORY[:TAG]]</code>: 镜像源名REPOSITORY和标签TAG。</li>
+<li></li>
+</ul>
+</li>
+<li><p><strong><code>docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</code></strong>: 标记本地镜像，将其归入某一仓库。</p>
+</li>
+<li><p><strong><code>docker cp SRC:DST</code></strong>: 在容器和主机间拷贝文件，容器地址需指定容器ID，即CONTAINER_ID:PATH。</p>
+</li>
+<li><p><strong><code>docker tag [image id] [name]:[版本] </code></strong>:</p>
+</li>
+<li><p><strong><code>docker create  [OPTIONS] IMAGE [COMMAND] [ARG...]</code></strong>: 创建一个容器但不启动，使用方法同<a href="#run" title="jump to docker run"><code>docker run</code></a>。</p>
+</li>
+<li><p><strong><code>docker version</code></strong>: 显示 Docker 版本信息。</p>
+</li>
+<li><p><strong><code>docker info</code></strong>: 显示 Docker 系统信息，包括镜像和容器数。</p>
+</li>
+<li><p><strong><code>docker export [OPTIONS] CONTAINER [&gt; FILE]</code></strong>: 将指定容器导出为一个tar文件，可使用STDOUT(&gt;)或-o指定输出文件名。</p>
+<ul>
+<li><code>-o FILE</code>: 指定导出的文件。</li>
+</ul>
+</li>
+<li><p><strong><code>docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]</code></strong>: 从tar归档文件中创建镜像，可以指定镜像名称。</p>
+</li>
+<li><p><strong><code>docker save [OPTIONS] IMAGE [IMAGE...]</code></strong>: 将指定镜像保存为tar归档文件，若指定的时container，则保存container使用的image。</p>
+<ul>
+<li><p><code>-o FILE</code>: 指定导出的文件</p>
+<p><strong><code>docker save &lt;repository&gt;:&lt;tag&gt; -o &lt;repository&gt;.tar</code></strong></p>
+</li>
+</ul>
+</li>
+<li><p><strong><code>docker load [OPTIONS] [&lt; FILE]</code></strong>: 导入使用<code>docker save</code>命令导出的镜像，不能指定镜像名称。</p>
+<ul>
+<li><code>-i FILE</code>: 指定导入的文件<blockquote>
+<ul>
+<li><code>export</code> 用于持久化容器，将丢失所有的历史纪录和元数据信息（history &amp; layer）无法进行层回滚操作，<code>save</code>用于持久化镜像，不丢失信息。<br> <br></li>
+<li>save-load多用于部署镜像至不能连接外网的服务器上。export-load多用于制作基础镜像，即在容器中执行一定操作后将容器打包成新的镜像分发给他人做进一步开发。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong><code>docker history [OPTIONS] IMAGE</code></strong>: 查看指定镜像的创建历史。</p>
+<ul>
+<li><code>--no-trunc</code>: 显示完整的提交记录；</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="Markdown页面内跳转方法"><a href="#Markdown页面内跳转方法" class="headerlink" title="Markdown页面内跳转方法"></a>Markdown页面内跳转方法</h4><p>要求： 点击文字A后跳转到B处。<br>做法： </p>
+<ul>
+<li>在B<a id="B"></a>处使用<code>HTML</code>语法:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;B&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+可以在a标签中添加文字，也可以不添加。</li>
+<li>在<a href="#B" title="jump to B">A</a>处使用：<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">A</span>](<span class="link">#B &#x27;title&#x27;</span>)</span><br></pre></td></tr></table></figure>
+title为鼠标滑过时显示的提示信息</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2021/03/24/Makefile-tutorial/">prev</a>
+    
+
+    
+    <p>last update time 2021-03-24</p>
+    
+    
+        <a class="extend next post-next" href="/2021/03/24/gitignore%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:1178752402@qq.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/CaiChenghan" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://www.jianshu.com/u/565c8e790605" title="jianshu" target="_self">
+					<i class="fa fa-jianshu"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © xbo 2017 - 2021
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

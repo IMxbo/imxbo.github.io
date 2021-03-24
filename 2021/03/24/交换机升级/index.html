@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Barefoot交换机升级步骤 [ xbo&#39;s Blog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/about">About</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Barefoot交换机升级步骤</h1>
+<article class="post markdown-style">
+  <p>步骤一，连接交换机：</p>
+<ol>
+<li><p>将交换机的console线连接至PC上，并插入交换机mgmt网线。</p>
+</li>
+<li><p>将Firmware解压到U盘并将U盘插到交换机上。</p>
+</li>
+<li><p>安装console驱动和xshell 6。</p>
+</li>
+<li><p>新建串口连接，波特率为9600。</p>
+</li>
+</ol>
+<p>步骤三，升级固件：</p>
+<p>开机进入OpenBMC，用户名root，密码0penBmc，第一个为数字0。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 重启交换机</span></span><br><span class="line">wedge_power.sh reset</span><br><span class="line"><span class="meta">#</span><span class="bash"> 连接交换机输出</span></span><br><span class="line">sol.sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> 按&lt;del&gt; 或 &lt;ESC&gt;进入bios，进入Save&amp;Exit选项卡</span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择 UEFI: Built-in EFI Shell</span></span><br><span class="line">fs1:</span><br><span class="line">cd Firmware</span><br><span class="line">cd BIOS-R1</span><br><span class="line">cd Update</span><br><span class="line">update.efi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 等待BIOS升级完成</span></span><br><span class="line">cd ..</span><br><span class="line">cd ..</span><br><span class="line">cd EC-R04</span><br><span class="line">cd Update</span><br><span class="line">update.efi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 等待升级完成</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ctrl+L+BACKSPACE一起按，返回BMC。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 记录eth0 ip &lt;OPENBMC_IP&gt;</span></span><br><span class="line">ifconfig</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入ONIE，用户名root，密码onl，字母l</span></span><br><span class="line">sol.sh</span><br><span class="line">mkdir usb</span><br><span class="line">mount /dev/sdb1 usb/</span><br><span class="line">cd usb/Firmware</span><br><span class="line">scp -r BMC_1.0.0.14_190422/ root@&lt;OPENBMC_IP&gt;:/home/root</span><br><span class="line"><span class="meta">#</span><span class="bash"> ctrl+L+BACKSPACE一起按，返回BMC。</span> </span><br><span class="line">cd BMC_1.0.0.14_190422/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看版本号</span></span><br><span class="line">cat /etc/issue </span><br><span class="line"><span class="meta">#</span><span class="bash"> 记录<span class="string">&quot;flash0&quot;</span>对应的dev如“mtd5”  &lt;DEV&gt;</span></span><br><span class="line">cat /proc/mtd  </span><br><span class="line">flashcp -v flash-mavericks /dev/&lt;DEV&gt; </span><br><span class="line">reboot</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入OPENBMC,确认 CPLD 版本</span></span><br><span class="line">i2cget -f -y 12 0x31 0x1</span><br><span class="line">i2cget -f -y 12 0x31 0x2</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置 CPLD_UPPER_JTAG_SEL 和 CPLD_JTAG_SEL</span></span><br><span class="line">echo out &gt; /tmp/gpionames/CPLD_JTAG_SEL/direction</span><br><span class="line">echo 1 &gt; /tmp/gpionames/CPLD_JTAG_SEL/value</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入ONIE</span></span><br><span class="line">sol.sh</span><br><span class="line">mount /dev/sdb1 usb/</span><br><span class="line">cd usb/Firmware</span><br><span class="line">scp CPLD/lower_cpld_v10p1.jbc root@&lt;OPENBMC_IP&gt;:/home/root</span><br><span class="line"><span class="meta">#</span><span class="bash"> CTRL+X退出到OPENBMC</span></span><br><span class="line">jbi -r -aPROGRAM -gc102 -gi101 -go103 -gs100 lower_cpld_v10p1.jbc</span><br></pre></td></tr></table></figure>
+<p>步骤三，升级ONL：</p>
+<p>开机进入OpenBMC</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入ONIE</span></span><br><span class="line">sol.sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭ONIE发现模式</span></span><br><span class="line">onie-discovery-stop</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用HFS或其他软件得到ONL安装包的HTTP地址&lt;ONL_URL&gt;</span></span><br><span class="line">onie-nos-install &lt;ONL_URL&gt;</span><br></pre></td></tr></table></figure>
+
+<p>步骤四，安装Docker与stratum：</p>
+<p>通过串口进入ONL</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用dhcp获取ma1（数字1）的ip地址，</span></span><br><span class="line">dhclient ma1</span><br><span class="line"><span class="meta">#</span><span class="bash"> 允许ssh以root登录</span></span><br><span class="line">vi /etc/ssh/sshd_config</span><br><span class="line"><span class="meta">#</span><span class="bash"> vi中用方向键移动光标，x删除光标处字符，i进入插入模式，esc退回</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 命令模式，:输入命令，wq命令为保存后退出，q为退出，!表示强制。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> PermitRootLogin yes</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启ssh服务</span></span><br><span class="line">/etc/init.d/ssh restart</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装Docker</span></span><br><span class="line">apt update</span><br><span class="line">apt install -y git curl</span><br><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装stratum</span></span><br><span class="line">git clone https://github.com/stratum/stratum.git</span><br><span class="line">cd stratum/stratum/hal/bin/barefoot/docker/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置DMA</span></span><br><span class="line">echo &quot;vm.nr_hugepages = 128&quot; &gt;&gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p /etc/sysctl.conf</span><br><span class="line">mkdir /mnt/huge</span><br><span class="line">mount -t hugetlbfs nodev /mnt/huge</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动stratum</span></span><br><span class="line">~/stratum/stratum/hal/bin/barefoot/docker/start-stratum-container.sh --bf_sim</span><br><span class="line"><span class="meta">#</span><span class="bash"> 回车即进入bf-sde</span></span><br><span class="line">pm show</span><br><span class="line">pm port-add -/- 100G NONE</span><br></pre></td></tr></table></figure>
+
+
+
+<p>设置环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd ~/bf-sde-8.9.1</span><br><span class="line">export SDE=~/bf-sde-8.9.1</span><br><span class="line">export SDE_INSTALL=$SDE/install</span><br><span class="line">export PATH=$PATH:$SDE_INSTALL/bin</span><br><span class="line">export LD_LIBRARY_PATH=$SDE_INSTALL/lib/:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
+<p>加载内核模块</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bf_kdrv_mod_load $SDE_INSTALL</span><br></pre></td></tr></table></figure>
+<p>启动switchd</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./run_switchd.sh -p simple_switch</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH&#x3D;$SDE_INSTALL&#x2F;lib&#x2F;:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
+
+
+
+<p> insmod /root/force-rmmod/force_rmmod.ko modname=bf_kdrv</p>
+<p> bf_switchd –conf-file /root/bf-sde-8.9.1/install/test.tofino/test.conf –install-dir=$SDE_INSTALL –p4rt-server=192.168.2.136:50051</p>
+<p>source ~/bf-sde-8.9.1/set_sde.bash</p>
+<p>cp /etc/apt/sources.list.d/multistrap-debian.list /etc/apt/sources.list.d/multistrap-debian.list.bak</p>
+<p>sed -i “s@<a target="_blank" rel="noopener" href="http://deb.debian.org@http//mirrors.aliyun.com@g&quot;">http://deb.debian.org@http://mirrors.aliyun.com@g&quot;</a> /etc/apt/sources.list.d/multistrap-debian.list</p>
+<p>apt update</p>
+<p>apt install pkg-config libjudy-dev libboost-all-dev</p>
+<p>wget <a target="_blank" rel="noopener" href="http://kr.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.0.0_1.0.2g-1ubuntu4.16_amd64.deb">http://kr.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.0.0_1.0.2g-1ubuntu4.16_amd64.deb</a></p>
+<p>dpkg -i libssl1.0.0_1.0.2g-1ubuntu4.16_amd64.deb </p>
+<p>apt install dialog</p>
+<p>dpkg -i onl-kernel-4.14-lts-x86-64-all_1.0.0_amd64.deb</p>
+<p>ln -s /usr/share/onl/packages/amd64/onl-kernel-4.14-lts-x86-64-all/mbuilds/ /lib/modules/4.14.49-OpenNetworkLinux/build</p>
+<p>tar zxvf dependencies.tar.gz</p>
+<p>tar xvf dependencies.tar</p>
+<p>cd dependencies &amp;&amp; ./install.sh</p>
+<p>安装完一次pkg-config-0.28后再次运行时屏蔽以下语句：</p>
+<p># tar -zxvf pkg-config_0.28.orig.tar.gz</p>
+<p># cd pkg-config-0.28</p>
+<p># ./configure –with-internal-glib</p>
+<p># make</p>
+<p># make install</p>
+<p># cd ..</p>
+<p>屏蔽以下语句</p>
+<p># dpkg -i python-pycparser_2.10+dfsg-3_all.deb</p>
+<p># dpkg -i python-cffi_0.8.6-1_amd64.deb</p>
+<p># dpkg -i libbz2-dev_1.0.6-7+b3_amd64.deb</p>
+<p># dpkg -i ed_1.10-2_amd64.deb</p>
+<p># dpkg -i cscope_15.8a-2_amd64.deb</p>
+<p># dpkg -i libnl-route-3-200_3.2.27-2_amd64.deb </p>
+<p># dpkg -i libnl-3-200_3.2.27-2_amd64.deb</p>
+<p># dpkg -i libnl-route-3-200_3.2.27-2_amd64.deb </p>
+<p># dpkg -i libnl-route-3-dev_3.2.27-2_amd64.deb</p>
+<p># dpkg -i python-ipaddress_1.0.16-1~bpo8+1_all.deb</p>
+<p># dpkg -i python-pyparsing_2.0.3+dfsg1-1_all.deb</p>
+<p># dpkg -i libc-ares2_1.10.0-2+deb8u2_amd64.deb </p>
+<p># dpkg -i libc-ares-dev_1.10.0-2+deb8u2_amd64.deb</p>
+<p># dpkg -i libgmp10_6.0.0+dfsg-6_amd64.deb</p>
+<p># dpkg -i libgmpxx4ldbl_6.0.0+dfsg-6_amd64.deb</p>
+<p># dpkg -i libxml-sax-base-perl_1.07-1_all.deb</p>
+<p># dpkg -i libxml-namespacesupport-perl_1.11-1_all.deb </p>
+<p># dpkg -i libxml-sax-perl_0.99+dfsg-2_all.deb</p>
+<p># dpkg -i libxml-libxml-perl_2.0116+dfsg-1+deb8u2_amd64.deb </p>
+<p># dpkg -i libxml-simple-perl_2.20-1_all.deb</p>
+<p># dpkg -i emacsen-common_2.0.8_all.deb </p>
+<p># dpkg -i dictionaries-common_1.23.17_all.deb </p>
+<p># dpkg -i libaspell15_0.60.7~20110707-1.3_amd64.deb </p>
+<p># dpkg -i aspell_0.60.7~20110707-1.3_amd64.deb </p>
+<p># dpkg -i aspell-en_2018.04.16-0-1_all.deb </p>
+<p># dpkg -i libelf1_0.159-4.2_amd64.deb </p>
+<p># dpkg -i libelf-dev_0.159-4.2_amd64.deb</p>
+<p>或者上述依赖直接将usr解压至根目录后，执行：</p>
+<p>echo “export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/“ &gt;&gt; ~/.profile</p>
+<p>export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/</p>
+<p>source  ~/.profile</p>
+<p>再</p>
+<p>source set_sde.sh</p>
+<p>./sde_build.sh -r --no-deps --no-bmv2 --do-not-check-version -c</p>
+<p>libcrypto 需要安装libssl， libssl1.0.0_1.0.2g-1ubuntu4.15_amd64.deb</p>
+<p>apt install libssl1.0-dev</p>
+<p>安装zlib</p>
+<p> ./p4studio_build.py –use-profile p4_runtime_profile –bsp-path /root/bf-reference-bsp-8.9.1 -scl -rb</p>
+<p>安装Thrift的时候，报错：SSLv3_method’ was not declared in this scope </p>
+<p>修改vi lib/cpp/src/thrift/transport/TSSLSocket.cpp 中open /usr/local/src/apche-thrift/lib/cpp/src/thrift/transport/TSSLSocket.cpp with your favorite text editor search for SSLv3 change the second occurrence ctx_ = SSL_CTX_new(SSLv3_method()); by ctx_ = SSL_CTX_new(SSLv23_method()); worked for me</p>
+<p>ONL-onf-ONLPv2_ONL-OS_2020-06-25.1728-2b630f6_AMD64_INSTALLED_INSTALLER 内核是4.14.49，包含docker，可以直接ssh</p>
+<p>下载<a target="_blank" rel="noopener" href="https://github.com/opennetworkinglab/OpenNetworkLinux/tree/onf-ONLPv2">https://github.com/opennetworkinglab/OpenNetworkLinux/tree/onf-ONLPv2</a></p>
+<p>安装升级教程<a target="_blank" rel="noopener" href="https://blog.cmou.io/">https://blog.cmou.io/</a></p>
+<p><a target="_blank" rel="noopener" href="https://edge-core.github.io/">https://edge-core.github.io/</a></p>
+<p>onl预编译<a target="_blank" rel="noopener" href="https://opennetlinux.org/binaries/">https://opennetlinux.org/binaries/</a></p>
+<p>I:\bf-sde-8.9.1\install\share\p4\targets\tofino2\skip_p4.conf</p>
+<p>zlib-1.2.11.tar.xz ./configure make make install</p>
+<p>ONL-bf-9.1.0_ONL-OS9_2020-02-11.1658-3127f40_AMD64_INSTALLED_INSTALLER</p>
+<p>tar xvf dependencies</p>
+<p>遇到问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Processing triggers for mime-support (3.60) ...</span><br><span class="line">+ dpkg -i libcurl3_7.38.0-4+deb8u11_amd64.deb</span><br><span class="line">dpkg: warning: downgrading libcurl3:amd64 from 7.52.1-5+deb9u9 to 7.38.0-4+deb8u11</span><br><span class="line">(Reading database ... 63040 files and directories currently installed.)</span><br><span class="line">Preparing to unpack libcurl3_7.38.0-4+deb8u11_amd64.deb ...</span><br><span class="line">Unpacking libcurl3:amd64 (7.38.0-4+deb8u11) over (7.52.1-5+deb9u9) ...</span><br><span class="line">dpkg: dependency problems prevent configuration of libcurl3:amd64:</span><br><span class="line"> libcurl3:amd64 depends on libssl1.0.0 (&gt;&#x3D; 1.0.1); however:</span><br><span class="line">  Package libssl1.0.0 is not installed.</span><br><span class="line"></span><br><span class="line">dpkg: error processing package libcurl3:amd64 (--install):</span><br><span class="line"> dependency problems - leaving unconfigured</span><br><span class="line">Processing triggers for libc-bin (2.24-11+deb9u4) ...</span><br><span class="line">Errors were encountered while processing:</span><br><span class="line"> libcurl3:amd64</span><br></pre></td></tr></table></figure>
+
+<p>cd dependencies</p>
+<p>tar xvf thrift-0.9.2</p>
+<p><code>./configure --without-lua PY_PREFIX=/usr/local</code></p>
+<p>遇到问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure: error: &quot;Error: libcrypto required.&quot;</span><br></pre></td></tr></table></figure>
+
+<p>解决</p>
+<p>apt update</p>
+<p>apt install libssl1.0-dev</p>
+<p>继续</p>
+<p>make</p>
+<p>出现问题</p>
+<p>src/thrift/transport/TSSLSocket.cpp:146:37: error: ‘SSLv3_method’ was not declared in this scope<br>     ctx_ = SSL_CTX_new(SSLv3_method());<br>                                     ^</p>
+<p>解决</p>
+<p>修改vi lib/cpp/src/thrift/transport/TSSLSocket.cpp 中SSLv3出现第二次的地方的ctx_ = SSL_CTX_new(SSLv3_method())为ctx_ = SSL_CTX_new(SSLv23_method())。</p>
+<p>继续</p>
+<p>make</p>
+<p>make install</p>
+<p>ONL-master_ONL-OS8_2019-02-12.0630-00ecc39_AMD64_INSTALLED_INSTALLER</p>
+<p>./install_min_deps.sh</p>
+<p>./install_p4runtime_deps.sh</p>
+<p>./install_p4c_deps.sh</p>
+<p>./install_grpc_deps.sh</p>
+<p><img src="%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%8D%87%E7%BA%A7.assets/image-20200902110140153.png" alt="image-20200902110140153"></p>
+<p>程序编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p4c -a v1model --p4runtime-files test.p4info.txt test.p4</span><br><span class="line"></span><br><span class="line">p4c -a v1model -b tofino --p4runtime-files test.p4info.txt test.p4</span><br><span class="line">.&#x2F;config_builders&#x2F;tofino.py --ctx-json &lt;path to context JSON&gt; \</span><br><span class="line">  --tofino-bin &lt;path to tofino.bin&gt; -p &lt;program name&gt; -o out.bin</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm --privileged  \</span><br><span class="line">-v &#x2F;dev:&#x2F;dev \</span><br><span class="line">-v &#x2F;sys:&#x2F;sys \</span><br><span class="line">-v &#x2F;lib&#x2F;modules&#x2F;4.14.49-OpenNetworkLinux:&#x2F;lib&#x2F;modules&#x2F;4.14.49-OpenNetworkLinux \</span><br><span class="line">--env PLATFORM&#x3D;x86-64-accton-wedge100bf-32x-r0 \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform-defaults.so:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform-defaults.so \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform-defaults.so.1:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform-defaults.so.1 \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform.so:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform.so \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform.so.1:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-platform.so.1 \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp.so:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp.so \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp.so.1:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp.so.1 \</span><br><span class="line">-v &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-x86-64-accton-wedge100bf-32x.so.1:&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libonlp-x86-64-accton-wedge100bf-32x.so.1 \</span><br><span class="line">-v &#x2F;lib&#x2F;platform-config:&#x2F;lib&#x2F;platform-config \</span><br><span class="line">-v &#x2F;etc&#x2F;onl:&#x2F;etc&#x2F;onl \</span><br><span class="line">-p 28000:28000 \</span><br><span class="line">-p 9339:9339 \</span><br><span class="line">-v &#x2F;var&#x2F;log:&#x2F;var&#x2F;log&#x2F;stratum \</span><br><span class="line">stratumproject&#x2F;stratum-bf:9.0.0-4.14.49-OpenNetworkLinux \</span><br><span class="line">--bf-sim</span><br><span class="line">--external-stratum-urls &quot;0.0.0.0:28000&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Flags from stratum&#x2F;hal&#x2F;lib&#x2F;common&#x2F;hal.cc:</span><br><span class="line">  -external_stratum_urls (Comma-separated list of URLs for server to listen</span><br><span class="line">    to for external calls from SDN controller, etc.) type: string</span><br><span class="line">    default: &quot;0.0.0.0:28000,0.0.0.0:9339&quot;</span><br><span class="line">  -grpc_keepalive_min_ping_interval (grpc keep alive minimum ping interval)</span><br><span class="line">    type: int32 default: 10000</span><br><span class="line">  -grpc_keepalive_permit (grpc keep alive permit) type: int32 default: 1</span><br><span class="line">  -grpc_keepalive_time_ms (grpc keep alive time) type: int32 default: 600000</span><br><span class="line">  -grpc_keepalive_timeout_ms (grpc keep alive timeout period) type: int32</span><br><span class="line">    default: 20000</span><br><span class="line">  -grpc_max_recv_msg_size (grpc server max receive message size in MB)</span><br><span class="line">    type: uint32 default: 256</span><br><span class="line">  -grpc_max_send_msg_size (grpc server max send message size in MB)</span><br><span class="line">    type: uint32 default: 0</span><br><span class="line">  -local_stratum_url (URL for listening to local calls from stratum stub.)</span><br><span class="line">    type: string default: &quot;localhost:28000&quot;</span><br><span class="line">  -persistent_config_dir (The persistent dir where all the config files will</span><br><span class="line">    be stored.) type: string default: &quot;&#x2F;etc&#x2F;stratum&#x2F;&quot;</span><br><span class="line">  -procmon_service_addr (URL of the procmon service to connect to.)</span><br><span class="line">    type: string default: &quot;localhost:28001&quot;</span><br><span class="line">  -warmboot (Determines whether HAL is in warmboot stage.) type: bool</span><br><span class="line">    default: false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可用Open Network Linux OS ONL-onf-ONLPv2, 2019-12-14.01:39-2796867</p>
+<p>bf-sde.pm&gt; show<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>PORT |MAC |D_P|P/PT|SPEED  |FEC |RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>1/0  |23/0|132|2/ 4|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>1/1  |23/1|133|2/ 5|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>1/2  |23/2|134|2/ 6|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>1/3  |23/3|135|2/ 7|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>2/0  |22/0|140|2/12|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>2/1  |22/1|141|2/13|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>2/2  |22/2|142|2/14|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>2/3  |22/3|143|2/15|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>3/0  |21/0|148|2/20|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>3/1  |21/1|149|2/21|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>3/2  |21/2|150|2/22|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>3/3  |21/3|151|2/23|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>4/0  |20/0|156|2/28|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>4/1  |20/1|157|2/29|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>4/2  |20/2|158|2/30|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>4/3  |20/3|159|2/31|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>5/0  |19/0|164|2/36|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>5/1  |19/1|165|2/37|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>5/2  |19/2|166|2/38|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>5/3  |19/3|167|2/39|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>6/0  |18/0|172|2/44|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>6/1  |18/1|173|2/45|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>6/2  |18/2|174|2/46|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>6/3  |18/3|175|2/47|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>7/0  |17/0|180|2/52|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>7/1  |17/1|181|2/53|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>7/2  |17/2|182|2/54|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>7/3  |17/3|183|2/55|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>8/0  |16/0|188|2/60|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>8/1  |16/1|189|2/61|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>8/2  |16/2|190|2/62|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>8/3  |16/3|191|2/63|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>9/0  |15/0| 56|0/56|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>9/1  |15/1| 57|0/57|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>9/2  |15/2| 58|0/58|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>9/3  |15/3| 59|0/59|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>10/0 |14/0| 48|0/48|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>10/1 |14/1| 49|0/49|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>10/2 |14/2| 50|0/50|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>10/3 |14/3| 51|0/51|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>PORT |MAC |D_P|P/PT|SPEED  |FEC |RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>11/0 |13/0| 40|0/40|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>11/1 |13/1| 41|0/41|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>11/2 |13/2| 42|0/42|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>11/3 |13/3| 43|0/43|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>12/0 |12/0| 32|0/32|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>12/1 |12/1| 33|0/33|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>12/2 |12/2| 34|0/34|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>12/3 |12/3| 35|0/35|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>13/0 |11/0| 24|0/24|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>13/1 |11/1| 25|0/25|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>13/2 |11/2| 26|0/26|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>13/3 |11/3| 27|0/27|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>14/0 |10/0| 16|0/16|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>14/1 |10/1| 17|0/17|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>14/2 |10/2| 18|0/18|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>14/3 |10/3| 19|0/19|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>15/0 | 9/0|  8|0/ 8|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>15/1 | 9/1|  9|0/ 9|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>15/2 | 9/2| 10|0/10|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>15/3 | 9/3| 11|0/11|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>16/0 | 8/0|  0|0/ 0|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>16/1 | 8/1|  1|0/ 1|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>16/2 | 8/2|  2|0/ 2|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>16/3 | 8/3|  3|0/ 3|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>17/0 | 7/0|  4|0/ 4|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>17/1 | 7/1|  5|0/ 5|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>17/2 | 7/2|  6|0/ 6|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>17/3 | 7/3|  7|0/ 7|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>18/0 | 6/0| 12|0/12|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>18/1 | 6/1| 13|0/13|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>18/2 | 6/2| 14|0/14|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>18/3 | 6/3| 15|0/15|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>19/0 | 5/0| 20|0/20|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>19/1 | 5/1| 21|0/21|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>19/2 | 5/2| 22|0/22|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>19/3 | 5/3| 23|0/23|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>20/0 | 4/0| 28|0/28|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>20/1 | 4/1| 29|0/29|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>20/2 | 4/2| 30|0/30|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>20/3 | 4/3| 31|0/31|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>PORT |MAC |D_P|P/PT|SPEED  |FEC |RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>21/0 | 3/0| 36|0/36|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>21/1 | 3/1| 37|0/37|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>21/2 | 3/2| 38|0/38|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>21/3 | 3/3| 39|0/39|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>22/0 | 2/0| 44|0/44|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>22/1 | 2/1| 45|0/45|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>22/2 | 2/2| 46|0/46|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>22/3 | 2/3| 47|0/47|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>23/0 | 1/0| 52|0/52|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>23/1 | 1/1| 53|0/53|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>23/2 | 1/2| 54|0/54|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>23/3 | 1/3| 55|0/55|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>24/0 | 0/0| 60|0/60|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>24/1 | 0/1| 61|0/61|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>24/2 | 0/2| 62|0/62|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>24/3 | 0/3| 63|0/63|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>25/0 |31/0|184|2/56|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>25/1 |31/1|185|2/57|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>25/2 |31/2|186|2/58|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>25/3 |31/3|187|2/59|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>26/0 |30/0|176|2/48|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>26/1 |30/1|177|2/49|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>26/2 |30/2|178|2/50|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>26/3 |30/3|179|2/51|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>27/0 |29/0|168|2/40|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>27/1 |29/1|169|2/41|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>27/2 |29/2|170|2/42|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>27/3 |29/3|171|2/43|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>28/0 |28/0|160|2/32|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>28/1 |28/1|161|2/33|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>28/2 |28/2|162|2/34|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>28/3 |28/3|163|2/35|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>29/0 |26/0|144|2/16|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>29/1 |26/1|145|2/17|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>29/2 |26/2|146|2/18|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>29/3 |26/3|147|2/19|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>30/0 |27/0|152|2/24|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>30/1 |27/1|153|2/25|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>30/2 |27/2|154|2/26|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>30/3 |27/3|155|2/27|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>PORT |MAC |D_P|P/PT|SPEED  |FEC |RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E<br>—–+—-+—+—-+——-+—-+—+—+—+——–+—————-+—————-+-<br>31/0 |24/0|128|2/ 0|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>31/1 |24/1|129|2/ 1|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>31/2 |24/2|130|2/ 2|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>31/3 |24/3|131|2/ 3|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>32/0 |25/0|136|2/ 8|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>32/1 |25/1|137|2/ 9|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>32/2 |25/2|138|2/10|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>32/3 |25/3|139|2/11|10G    |NONE|NO |DIS|DWN|  NONE  |               0|               0|<br>33/0 |32/0| 64|0/64|10G    |NONE|YES|DIS|DWN|  NONE  |               0|               0|<br>33/1 |32/1| 65|0/65|10G    |NONE|YES|DIS|DWN|  NONE  |               0|               0|<br>33/2 |32/2| 66|0/66|10G    |NONE|YES|DIS|DWN|  NONE  |               0|               0|<br>33/3 |32/3| 67|0/67|10G    |NONE|YES|DIS|DWN|  NONE  |               0|               0|</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2021/03/24/p4%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91/">prev</a>
+    
+
+    
+    <p>last update time 2021-03-24</p>
+    
+    
+        <a class="extend next post-next" href="/2021/03/24/ONOS%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:1178752402@qq.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/CaiChenghan" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://www.jianshu.com/u/565c8e790605" title="jianshu" target="_self">
+					<i class="fa fa-jianshu"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © xbo 2017 - 2021
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
